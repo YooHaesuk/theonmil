@@ -109,9 +109,9 @@ const ProductFilter = ({
       {/* Active filters indicators */}
       {(selectedCategory || searchQuery) && (
         <div className="flex items-center gap-2 mb-6">
-          <span className="text-sm text-gray-500">활성 필터:</span>
+          <span className="text-sm text-gray-300">활성 필터:</span>
           {selectedCategory && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#D4AF37] text-white">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white">
               {categoryDisplayNames[selectedCategory]}
               <button
                 onClick={() => handleCategoryChange('')}
@@ -122,7 +122,7 @@ const ProductFilter = ({
             </span>
           )}
           {searchQuery && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-[#D4AF37] text-white">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white">
               "{searchQuery}"
               <button
                 onClick={() => setSearchQuery('')}
@@ -139,7 +139,7 @@ const ProductFilter = ({
                 setSearchQuery('');
                 setLocation('/products', { replace: true });
               }}
-              className="text-sm text-[#D4AF37] hover:underline ml-auto"
+              className="text-sm bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-opacity ml-auto"
             >
               모든 필터 지우기
             </button>
