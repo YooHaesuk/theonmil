@@ -4,6 +4,9 @@ import { pageTransition, fadeIn, slideInFromLeft, slideInFromRight } from '@/lib
 import { headingClasses } from '@/lib/fonts';
 import { useToast } from '@/hooks/use-toast';
 
+// 기업 제휴 이미지 임포트
+import partnershipImg from '@/assets/images/about/partnership.png';
+
 const B2B = () => {
   const [formData, setFormData] = useState({
     companyName: '',
@@ -71,7 +74,7 @@ const B2B = () => {
             className="md:w-1/2 mb-12 md:mb-0 md:pr-12"
           >
             <img 
-              src="https://images.unsplash.com/photo-1564844536308-50b114a1d946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80" 
+              src={partnershipImg} 
               alt="기업 제휴" 
               className="rounded-lg shadow-lg w-full"
             />
