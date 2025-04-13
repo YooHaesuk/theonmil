@@ -59,8 +59,8 @@ const B2B = () => {
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4 text-white">
-            <span className="mr-1">기업</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제휴 안내</span>
+          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4">
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">기업 제휴 안내</span>
           </motion.h1>
           <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
             기업 행사, 케이터링, 직원 선물을 위한 대량 주문 및 정기 납품 서비스를 제공합니다.
