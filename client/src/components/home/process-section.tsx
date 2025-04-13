@@ -56,7 +56,7 @@ const ProcessSection = () => {
             우리의 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제조 과정</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg max-w-2xl mx-auto text-gray-300"
+            className="font-pretendard text-lg max-w-2xl mx-auto text-gray-300"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -81,9 +81,7 @@ const ProcessSection = () => {
                 <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white text-2xl font-bold mx-auto">
                   {step.number}
                 </div>
-                {!isMobile && index < processSteps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transform -translate-x-6"></div>
-                )}
+
               </div>
               <h3 className="font-montserrat text-xl font-semibold mb-3 text-white">{step.title}</h3>
               <p className="font-pretendard text-gray-300">{step.description}</p>
