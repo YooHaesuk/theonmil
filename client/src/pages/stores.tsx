@@ -29,7 +29,7 @@ const stores: Store[] = [
     address: '서울특별시 성동구 성수이로 45 1층',
     hours: '오전 9:00 - 오후 8:00 (월-토)',
     phone: '02-456-7890',
-    image: 'https://images.unsplash.com/photo-1591688515877-f6d04f417608?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: 'https://images.unsplash.com/photo-1573125048085-da970a971225?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
   },
   {
     id: 'hongdae',
