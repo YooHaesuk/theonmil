@@ -9,35 +9,35 @@
 
 @layer base {
   :root {
-    --background: 40, 25%, 95%;
-    --foreground: 0, 0%, 11%;
+    --background: 0, 0%, 4%;
+    --foreground: 0, 0%, 98%;
     
-    --card: 0, 0%, 100%;
-    --card-foreground: 0, 0%, 11%;
+    --card: 240, 10%, 7%;
+    --card-foreground: 0, 0%, 98%;
     
-    --popover: 0, 0%, 100%;
-    --popover-foreground: 0, 0%, 11%;
+    --popover: 240, 10%, 7%;
+    --popover-foreground: 0, 0%, 98%;
     
-    --primary: 43, 57%, 53%;
+    --primary: 262, 83%, 76%;
     --primary-foreground: 0, 0%, 100%;
     
-    --secondary: 30, 22%, 96%;
-    --secondary-foreground: 0, 0%, 11%;
+    --secondary: 240, 10%, 14%;
+    --secondary-foreground: 0, 0%, 98%;
     
-    --muted: 60, 5%, 96%;
-    --muted-foreground: 0, 0%, 45%;
+    --muted: 240, 10%, 10%;
+    --muted-foreground: 240, 5%, 65%;
     
-    --accent: 43, 57%, 53%;
+    --accent: 327, 73%, 62%;
     --accent-foreground: 0, 0%, 100%;
     
     --destructive: 0, 84%, 60%;
     --destructive-foreground: 0, 0%, 98%;
 
-    --border: 20, 5%, 90%;
-    --input: 20, 5%, 90%;
-    --ring: 43, 57%, 53%;
+    --border: 240, 10%, 14%;
+    --input: 240, 10%, 14%;
+    --ring: 262, 83%, 76%;
     
-    --radius: 0.5rem;
+    --radius: 0.75rem;
   }
 }
 
@@ -110,7 +110,15 @@
 
 /* Text gradient effect */
 .text-gradient-gold {
-  background: linear-gradient(to right, #FFFFFF, #D4AF37);
+  background: linear-gradient(to right, #A78BFA, #EC4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-fill-color: transparent;
+}
+
+.text-gradient-purple {
+  background: linear-gradient(to right, #A78BFA, #EC4899);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

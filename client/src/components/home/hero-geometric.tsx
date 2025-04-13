@@ -8,8 +8,8 @@ export function BakeryHeroGeometric() {
     <div className="relative h-screen">
       <HeroGeometric 
         badge="프리미엄 베이커리" 
-        title1="Elevate Your" 
-        title2="Digital Vision"
+        title1="빵다운 빵을 만드는" 
+        title2="빵답게"
       />
       
       {/* 버튼 오버레이 */}
