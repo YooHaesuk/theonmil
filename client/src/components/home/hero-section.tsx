@@ -21,42 +21,27 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center text-white overflow-hidden">
-      {/* Background with sparkles effect */}
-      <div className="absolute inset-0">
-        {/* Background image - using inline CSS background for better control */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center z-0"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1586444248902-2981d90cb42d?q=80&w=1964&auto=format&fit=crop')`,
-            filter: 'brightness(0.6)',
-          }}
-        ></div>
-        
+      {/* Background with sparkles effect - pure black background */}
+      <div className="absolute inset-0 bg-black">
         {/* Sparkles effect */}
-        <div className="absolute inset-0 z-10">
+        <div className="absolute inset-0">
           <SparklesCore
             id="bakerySparkles"
             background="transparent"
             minSize={0.4}
-            maxSize={1.0}
-            particleDensity={60}
+            maxSize={1}
+            particleDensity={1200}
             className="w-full h-full"
-            particleColor="#D4AF37"
-            speed={0.3}
+            particleColor="#FFFFFF"
           />
         </div>
         
-        {/* Additional overlays and gradients */}
-        <div className="absolute inset-0 z-20" style={{
-          background: 'linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(0,0,0,0) 50%)',
-        }}></div>
+        {/* Gradients for visual effect */}
+        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent h-[2px] w-3/4 blur-sm"></div>
+        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent h-px w-3/4"></div>
         
-        <div className="absolute top-0 left-0 w-full h-32 z-20" style={{
-          background: 'linear-gradient(to bottom, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
-        }}></div>
-        <div className="absolute bottom-0 left-0 w-full h-40 z-20" style={{
-          background: 'linear-gradient(to top, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
-        }}></div>
+        {/* Radial Gradient to prevent sharp edges */}
+        <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,black)]"></div>
       </div>
       
       {/* Hero content */}
