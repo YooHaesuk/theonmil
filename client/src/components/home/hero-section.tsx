@@ -3,7 +3,11 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { buttonClasses } from '@/lib/fonts';
-import { SparklesCore } from '@/components/ui/sparkles';
+import SparklesCore from '@/components/ui/sparkles';
+
+// Import bakery images
+import croissantImage from '@/assets/images/bakery/croissant-transparent.png';
+import baguetteImage from '@/assets/images/bakery/baguette-transparent.png';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -21,18 +25,18 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center text-white overflow-hidden">
-      {/* Background with sparkles effect - pure black background */}
+      {/* Background with bakery sparkles effect - pure black background */}
       <div className="absolute inset-0 bg-[#0A0A0A]">
-        {/* Sparkles effect */}
+        {/* Bakery sparkles effect */}
         <div className="absolute inset-0">
           <SparklesCore
-            id="bakerySparkles"
-            background="transparent"
-            minSize={0.4}
-            maxSize={1}
-            particleDensity={1200}
             className="w-full h-full"
-            particleColor="#FFFFFF"
+            background="transparent"
+            minSize={80}
+            maxSize={160}
+            speed={0.5}
+            particleCount={isMobile ? 6 : 14}
+            particleImages={[croissantImage, baguetteImage]}
           />
         </div>
         
