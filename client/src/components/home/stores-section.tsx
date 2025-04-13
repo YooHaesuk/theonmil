@@ -35,20 +35,20 @@ const stores: Store[] = [
 
 const StoresSection = () => {
   return (
-    <section id="stores" className="py-20 bg-white">
+    <section id="stores" className="py-20 bg-[#0F0F1A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
-            className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}
+            className="text-4xl font-bold font-montserrat mb-4 text-white"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            오프라인 매장 안내
+            오프라인 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">매장 안내</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-[#333333] max-w-2xl mx-auto"
+            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
@@ -70,29 +70,36 @@ const StoresSection = () => {
           {stores.map((store) => (
             <motion.div
               key={store.id}
-              className="bg-[#F5F3EF] rounded-lg overflow-hidden shadow-md"
+              className="bg-[#111111] rounded-lg overflow-hidden shadow-md border border-[#222222]"
               variants={fadeIn}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
-              <div className="h-64 overflow-hidden">
-                <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
+              <div className="h-64 overflow-hidden relative">
+                <img src={store.image} alt={store.name} className="w-full h-full object-cover brightness-75" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-80"></div>
+                <div className="absolute bottom-0 left-0 p-4">
+                  <h3 className="font-montserrat text-xl font-semibold text-white mb-1">{store.name}</h3>
+                  <p className="font-pretendard text-sm text-gray-300">{store.address}</p>
+                </div>
               </div>
               <div className="p-6">
-                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-2">{store.name}</h3>
-                <p className="font-pretendard text-sm text-gray-600 mb-4">{store.address}</p>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-clock text-[#D4AF37] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-600">{store.hours}</span>
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mr-3">
+                    <i className="fa-solid fa-clock"></i>
+                  </div>
+                  <span className="font-pretendard text-sm text-gray-300">{store.hours}</span>
                 </div>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-phone text-[#D4AF37] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-600">{store.phone}</span>
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mr-3">
+                    <i className="fa-solid fa-phone"></i>
+                  </div>
+                  <span className="font-pretendard text-sm text-gray-300">{store.phone}</span>
                 </div>
                 <a 
                   href={`https://maps.google.com/search?q=${encodeURIComponent(store.address)}`}
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-block text-[#D4AF37] hover:text-[#1B1B1B] transition-colors duration-300"
+                  className="inline-block bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-opacity duration-300"
                 >
                   <i className="fa-solid fa-map-marker-alt mr-1"></i> 지도 보기
                 </a>
@@ -110,7 +117,10 @@ const StoresSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.6 }}
         >
-          <Link href="/stores" className={buttonClasses.secondary}>
+          <Link 
+            href="/stores" 
+            className="px-6 py-3 rounded-full bg-[#11111A] border border-[#ffffff20] text-white text-sm font-medium hover:bg-[#1A1A2A] transition-all duration-300"
+          >
             모든 매장 보기
           </Link>
         </motion.div>

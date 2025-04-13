@@ -52,20 +52,20 @@ const reviews: Review[] = [
 
 const ReviewsSection = () => {
   return (
-    <section id="reviews" className="py-20 bg-white">
+    <section id="reviews" className="py-20 bg-[#0A0A0A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
-            className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}
+            className="text-4xl font-bold font-montserrat mb-4 text-white"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            고객 후기
+            고객 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">후기</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-[#333333] max-w-2xl mx-auto"
+            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
@@ -87,17 +87,17 @@ const ReviewsSection = () => {
           {reviews.map((review) => (
             <motion.div
               key={review.id}
-              className="bg-[#F5F3EF] rounded-lg p-6 shadow-sm"
+              className="bg-[#111111] rounded-lg p-6 shadow-md border border-[#222222]"
               variants={fadeIn}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-4">
+                <div className="w-12 h-12 rounded-full bg-[#222222] overflow-hidden mr-4 border border-[#333333]">
                   <img src={review.profile} alt={`${review.name} 프로필`} />
                 </div>
                 <div>
-                  <h4 className="font-montserrat font-semibold">{review.name}</h4>
-                  <div className="flex text-[#D4AF37]">
+                  <h4 className="font-montserrat font-semibold text-white">{review.name}</h4>
+                  <div className="flex bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
                     {[...Array(Math.floor(review.rating))].map((_, i) => (
                       <i key={i} className="fa-solid fa-star"></i>
                     ))}
@@ -107,16 +107,16 @@ const ReviewsSection = () => {
                   </div>
                 </div>
               </div>
-              <p className="font-pretendard text-[#333333] mb-4">{review.text}</p>
+              <p className="font-pretendard text-gray-300 mb-4">{review.text}</p>
               <div className="flex space-x-2">
                 {review.images.map((image, index) => (
                   <motion.div 
                     key={index}
-                    className="w-16 h-16 rounded object-cover overflow-hidden"
+                    className="w-16 h-16 rounded-md object-cover overflow-hidden border border-[#333333]"
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover" />
+                    <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover brightness-75" />
                   </motion.div>
                 ))}
               </div>
@@ -133,7 +133,10 @@ const ReviewsSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.6 }}
         >
-          <Link href="/reviews" className={buttonClasses.secondary}>
+          <Link 
+            href="/reviews" 
+            className="px-6 py-3 rounded-full bg-[#11111A] border border-[#ffffff20] text-white text-sm font-medium hover:bg-[#1A1A2A] transition-all duration-300"
+          >
             모든 후기 보기
           </Link>
         </motion.div>
