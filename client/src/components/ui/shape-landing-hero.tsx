@@ -15,21 +15,21 @@ interface Shape {
   delay: number;
 }
 
-// 베이커리 아이콘 컴포넌트
+// 베이커리 아이콘 컴포넌트 - 크기 크게 키움
 const BreadIcon = () => (
-  <img src={baguetteImage} alt="Bread" className="w-24 h-24 object-contain" />
+  <img src={baguetteImage} alt="Bread" className="w-48 h-48 object-contain" />
 );
 
 const CroissantIcon = () => (
-  <img src={croissantImage} alt="Croissant" className="w-20 h-20 object-contain" />
+  <img src={croissantImage} alt="Croissant" className="w-40 h-40 object-contain" />
 );
 
 const DonutIcon = () => (
-  <img src={croissantImage} alt="Croissant" className="w-16 h-16 object-contain" />
+  <img src={croissantImage} alt="Croissant" className="w-32 h-32 object-contain" />
 );
 
 const MuffinIcon = () => (
-  <img src={baguetteImage} alt="Bread" className="w-28 h-28 object-contain" />
+  <img src={baguetteImage} alt="Bread" className="w-56 h-56 object-contain" />
 );
 
 // 컴포넌트 맵핑
@@ -82,19 +82,35 @@ export function HeroGeometric({
     if (dimensions.width === 0 || dimensions.height === 0) return;
 
     const types = ["bread", "croissant", "donut", "muffin"];
-
+    
+    // 화면을 3x3 그리드로 나누어 더 균형있는 배치를 만듭니다
+    const gridCols = 3;
+    const gridRows = 3;
+    const colWidth = dimensions.width / gridCols;
+    const rowHeight = dimensions.height / gridRows;
+    
     const newShapes: Shape[] = Array.from(
       { length: getShapeCount() },
-      (_, i) => ({
-        id: i,
-        x: Math.random() * dimensions.width,
-        y: Math.random() * dimensions.height,
-        rotate: Math.random() * 360,
-        opacity: Math.random() * 0.2 + 0.7,
-        scale: Math.random() * 0.4 + 0.6,
-        type: types[Math.floor(Math.random() * types.length)],
-        delay: Math.random() * 2,
-      })
+      (_, i) => {
+        // 그리드 위치 계산
+        const gridCol = i % gridCols;
+        const gridRow = Math.floor((i % (gridCols * gridRows)) / gridCols);
+        
+        // 각 그리드 셀 내에서 랜덤한 위치 (약간의 오프셋 추가)
+        const x = (gridCol * colWidth) + (Math.random() * 0.8 + 0.1) * colWidth;
+        const y = (gridRow * rowHeight) + (Math.random() * 0.8 + 0.1) * rowHeight;
+        
+        return {
+          id: i,
+          x,
+          y,
+          rotate: Math.random() * 360,
+          opacity: 0.95, // 거의 완전 불투명
+          scale: Math.random() * 0.3 + 0.7, // 더 일관된 크기
+          type: types[Math.floor(Math.random() * types.length)],
+          delay: Math.random() * 5, // 더 다양한 시작 시간
+        };
+      }
     );
 
     setShapes(newShapes);
