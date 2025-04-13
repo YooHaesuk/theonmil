@@ -84,7 +84,7 @@ export function HeroGeometric({
         className="absolute left-[5%] bottom-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
         animate={{ 
-          opacity: 0.5, 
+          opacity: [0, 0.5, 0.5, 0], // 서서히 나타났다 서서히 사라짐
           scale: [1, 1.03, 0.98, 1],
           rotate: [-5, -8, -3, -5],
           y: [0, -15, 10, 0],
@@ -94,7 +94,8 @@ export function HeroGeometric({
           duration: 15, 
           ease: "easeInOut", 
           repeat: Infinity,
-          repeatType: "loop"
+          repeatType: "loop",
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
         <img 
@@ -109,7 +110,7 @@ export function HeroGeometric({
         className="absolute right-[10%] top-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
         animate={{ 
-          opacity: 0.5, 
+          opacity: [0, 0.5, 0.5, 0], // 서서히 나타났다 서서히 사라짐
           scale: [1, 1.02, 0.97, 1],
           rotate: [10, 8, 12, 10],
           y: [0, 10, -8, 0],
@@ -120,7 +121,8 @@ export function HeroGeometric({
           ease: "easeInOut", 
           repeat: Infinity,
           repeatType: "loop",
-          delay: 0.2
+          delay: 0.2,
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
         <img 
@@ -135,7 +137,7 @@ export function HeroGeometric({
         className="absolute right-[20%] bottom-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
         animate={{ 
-          opacity: 0.4, 
+          opacity: [0, 0.4, 0.4, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.9, 0.93, 0.88, 0.9],
           rotate: [-5, -3, -8, -5],
           y: [0, -10, 5, 0],
@@ -146,7 +148,8 @@ export function HeroGeometric({
           ease: "easeInOut", 
           repeat: Infinity,
           repeatType: "loop",
-          delay: 0.4
+          delay: 0.4,
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
         <img 
@@ -161,7 +164,7 @@ export function HeroGeometric({
         className="absolute left-[15%] top-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: 20 }}
         animate={{ 
-          opacity: 0.4, 
+          opacity: [0, 0.4, 0.4, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.9, 0.92, 0.87, 0.9],
           rotate: [15, 18, 12, 15],
           y: [0, 8, -12, 0],
@@ -172,13 +175,68 @@ export function HeroGeometric({
           ease: "easeInOut", 
           repeat: Infinity,
           repeatType: "loop",
-          delay: 0.3
+          delay: 0.3,
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
         <img 
           src={baguetteImage} 
           alt="작은 바게트" 
           className="w-[250px] h-[250px] object-contain brightness-75" 
+        />
+      </motion.div>
+      
+      {/* 추가 작은 크로와상 - 중앙 왼쪽 */}
+      <motion.div
+        className="absolute left-[40%] top-[70%] z-10 rotate-12"
+        initial={{ opacity: 0, scale: 0.5, rotate: 25 }}
+        animate={{ 
+          opacity: [0, 0.35, 0.35, 0], // 서서히 나타났다 서서히 사라짐
+          scale: [0.65, 0.68, 0.62, 0.65],
+          rotate: [25, 30, 20, 25],
+          y: [0, -12, 8, 0],
+          x: [0, 15, -10, 0]
+        }}
+        transition={{ 
+          duration: 16, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: 1.2,
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
+        }}
+      >
+        <img 
+          src={croissantImage} 
+          alt="아주 작은 크로와상" 
+          className="w-[150px] h-[150px] object-contain brightness-70" 
+        />
+      </motion.div>
+      
+      {/* 추가 작은 바게트 - 중앙 오른쪽 */}
+      <motion.div
+        className="absolute right-[40%] top-[65%] z-10 rotate-[-5deg]"
+        initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
+        animate={{ 
+          opacity: [0, 0.3, 0.3, 0], // 서서히 나타났다 서서히 사라짐
+          scale: [0.6, 0.63, 0.58, 0.6],
+          rotate: [-20, -25, -15, -20],
+          y: [0, 15, -10, 0],
+          x: [0, -10, 5, 0]
+        }}
+        transition={{ 
+          duration: 14, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: 0.8,
+          times: [0, 0.2, 0.8, 1] // 타이밍 조절
+        }}
+      >
+        <img 
+          src={baguetteImage} 
+          alt="아주 작은 바게트" 
+          className="w-[170px] h-[170px] object-contain brightness-70" 
         />
       </motion.div>
 
