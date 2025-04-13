@@ -40,13 +40,13 @@ const AboutSection = () => {
             <h2 className="text-4xl font-bold font-montserrat mb-6 text-white">
               우리의 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">이야기</span>
             </h2>
-            <p className="font-maruburi text-lg text-gray-300 mb-6">
+            <p className="font-pretendard text-lg text-gray-300 mb-6">
               빵답게는 2008년, 단 하나의 작은 오븐으로 시작했습니다. 처음부터 우리는 '빵다운 빵'이라는 단순한 철학을 고수했습니다.
             </p>
-            <p className="font-maruburi text-lg text-gray-300 mb-6">
+            <p className="font-pretendard text-lg text-gray-300 mb-6">
               국내산 밀가루, 천연 발효종, 그리고 최소한의 첨가물만을 사용해 건강하고 맛있는 빵을 굽는 것. 그 철학은 지금도 변함없이 지켜지고 있습니다.
             </p>
-            <p className="font-maruburi text-lg text-gray-300 mb-8">
+            <p className="font-pretendard text-lg text-gray-300 mb-8">
               대형마트 200여 곳에서 판매되며 많은 분들의 사랑을 받고 있는 빵답게가 이제 온라인에서도 여러분을 찾아갑니다.
             </p>
             

@@ -59,7 +59,7 @@ const B2BSection = () => {
             <h2 className="text-4xl font-bold font-montserrat mb-6 text-white">
               기업 제휴 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">안내</span>
             </h2>
-            <p className="font-maruburi text-lg text-gray-300 mb-6">
+            <p className="font-pretendard text-lg text-gray-300 mb-6">
               기업 행사, 케이터링, 직원 선물을 위한 대량 주문 및 정기 납품 서비스를 제공합니다. 빵답게와 함께 특별한 비즈니스 파트너십을 맺어보세요.
             </p>
             <ul className="space-y-4 mb-8">

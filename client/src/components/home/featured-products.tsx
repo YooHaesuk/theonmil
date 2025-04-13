@@ -22,7 +22,7 @@ const FeaturedProducts = () => {
             대표 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제품</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
+            className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}

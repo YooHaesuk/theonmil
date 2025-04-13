@@ -48,7 +48,7 @@ const ProductCategories = () => {
             제품 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">카테고리</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
+            className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
