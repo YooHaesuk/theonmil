@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { buttonClasses } from '@/lib/fonts';
-import SparklesCore from '@/components/ui/sparkles';
+import { BakerySparkles } from '@/components/ui/bakery-sparkles';
 
 // Import bakery images
 import croissantImage from '@/assets/images/bakery/croissant-transparent.png';
@@ -29,7 +29,7 @@ const HeroSection = () => {
       <div className="absolute inset-0 bg-[#0A0A0A]">
         {/* Bakery sparkles effect */}
         <div className="absolute inset-0">
-          <SparklesCore
+          <BakerySparkles
             className="w-full h-full"
             background="transparent"
             minSize={80}
