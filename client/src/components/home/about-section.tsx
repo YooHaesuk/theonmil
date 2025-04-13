@@ -59,7 +59,7 @@ const AboutSection = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ delay: 0.2 }}
               >
-                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">200+</p>
+                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">120+</p>
                 <p className="font-pretendard text-sm text-gray-400">입점 매장</p>
               </motion.div>
               <motion.div 
@@ -81,7 +81,7 @@ const AboutSection = () => {
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ delay: 0.6 }}
               >
-                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">5,000+</p>
+                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">3,000+</p>
                 <p className="font-pretendard text-sm text-gray-400">일 생산량</p>
               </motion.div>
             </div>
