@@ -4,10 +4,10 @@ import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
 
 // 로컬 이미지 임포트
-import gangnamImg from '@/assets/images/bakery-gangnam.svg';
-import seongsuImg from '@/assets/images/bakery-seongsu.svg';
-import hongdaeImg from '@/assets/images/bakery-hongdae.svg';
-import jamsilImg from '@/assets/images/bakery-jamsil.svg';
+import gangnamImg from '@/assets/images/stores/gangnam-store.png';
+import seongsuImg from '@/assets/images/stores/seongsu-store.png';
+import hongdaeImg from '@/assets/images/stores/hongdae-store.png';
+import jamsilImg from '@/assets/images/stores/jamsil-store.png';
 
 // Store type definition
 interface Store {
@@ -16,7 +16,7 @@ interface Store {
   address: string;
   hours: string;
   phone: string;
-  image: string;
+  image: any; // 이미지 타입을 any로 변경
 }
 
 // Sample store data
