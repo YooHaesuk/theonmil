@@ -75,11 +75,17 @@ const FloatingBakeryItem = ({
         variants={rotationVariants}
         animate="animate"
       >
-        <img 
-          src={src} 
-          alt="Bakery item" 
-          className="w-full h-full object-contain"
-        />
+        {/* Debug the image path */}
+        <div className="relative w-full h-full">
+          <img 
+            src={src} 
+            alt="Bakery item"
+            className="w-full h-full object-contain"
+          />
+          <div className="absolute bottom-0 right-0 text-xs text-white bg-black/50 px-1">
+            {src.split('/').pop()}
+          </div>
+        </div>
       </motion.div>
     </motion.div>
   );
