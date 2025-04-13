@@ -189,7 +189,7 @@ export function HeroGeometric({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 inline-block rounded-full bg-[#11111A] border border-[#ffffff20] px-4 py-1.5 text-xs font-medium text-white"
+          className="mb-8 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
         >
           {badge}
         </motion.div>
