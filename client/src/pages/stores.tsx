@@ -66,29 +66,29 @@ const Stores = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h1 variants={fadeIn} className={headingClasses.h1 + " text-[#1B1B1B] mb-4"}>
-            오프라인 매장 안내
+          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4 text-white">
+            <span className="mr-1">오프라인</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">매장 안내</span>
           </motion.h1>
-          <motion.p variants={fadeIn} className="font-maruburi text-lg max-w-3xl mx-auto text-[#333333]">
+          <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
             빵답게를 직접 보고 맛볼 수 있는 오프라인 매장을 소개합니다.
           </motion.p>
         </div>
         
         {/* Region Filter */}
         <motion.div variants={fadeIn} className="flex justify-center mb-12">
-          <div className="inline-flex bg-[#F5F3EF] rounded-full p-1">
+          <div className="inline-flex bg-[#111111] rounded-full p-1 border border-[#222222]">
             {regions.map(region => (
               <button
                 key={region}
                 onClick={() => setSelectedRegion(region)}
                 className={`px-6 py-2 rounded-full font-montserrat text-sm transition-colors ${
                   selectedRegion === region 
-                    ? 'bg-[#D4AF37] text-white' 
-                    : 'text-[#1B1B1B] hover:bg-[#E5E3DF]'
+                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
+                    : 'text-white hover:bg-[#1A1A2A]'
                 }`}
               >
                 {region}
@@ -108,27 +108,27 @@ const Stores = () => {
             <motion.div
               key={store.id}
               variants={fadeIn}
-              className="bg-white rounded-lg overflow-hidden shadow-md"
+              className="bg-[#111111] rounded-lg overflow-hidden shadow-md border border-[#222222]"
             >
               <div className="h-64 overflow-hidden">
                 <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
-                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-2">{store.name}</h3>
-                <p className="font-pretendard text-sm text-gray-600 mb-4">{store.address}</p>
+                <h3 className="font-montserrat text-xl font-semibold text-white mb-2">{store.name}</h3>
+                <p className="font-pretendard text-sm text-gray-400 mb-4">{store.address}</p>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-clock text-[#D4AF37] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-600">{store.hours}</span>
+                  <i className="fa-solid fa-clock text-[#A78BFA] mr-2"></i>
+                  <span className="font-pretendard text-sm text-gray-300">{store.hours}</span>
                 </div>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-phone text-[#D4AF37] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-600">{store.phone}</span>
+                  <i className="fa-solid fa-phone text-[#A78BFA] mr-2"></i>
+                  <span className="font-pretendard text-sm text-gray-300">{store.phone}</span>
                 </div>
                 <a 
                   href={`https://maps.google.com/search?q=${encodeURIComponent(store.address)}`}
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="inline-block text-[#D4AF37] hover:text-[#1B1B1B] transition-colors duration-300"
+                  className="inline-block bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-all"
                 >
                   <i className="fa-solid fa-map-marker-alt mr-1"></i> 지도 보기
                 </a>
@@ -139,12 +139,12 @@ const Stores = () => {
         
         {/* Store Map */}
         <motion.div variants={fadeIn} className="mt-16">
-          <h2 className={headingClasses.h2 + " text-[#1B1B1B] mb-8 text-center"}>
-            매장 지도
+          <h2 className="text-3xl font-bold font-montserrat mb-8 text-center text-white">
+            매장 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">지도</span>
           </h2>
-          <div className="bg-gray-200 h-96 rounded-lg flex items-center justify-center">
-            <p className="text-gray-600">
-              <i className="fa-solid fa-map-location-dot text-3xl mb-4 block"></i>
+          <div className="bg-[#111111] border border-[#222222] h-96 rounded-lg flex items-center justify-center">
+            <p className="text-gray-400 font-pretendard">
+              <i className="fa-solid fa-map-location-dot text-3xl mb-4 block bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text"></i>
               지도 API가 연동되어 매장 위치를 표시합니다
             </p>
           </div>
