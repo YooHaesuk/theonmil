@@ -22,7 +22,7 @@ const HeroSection = () => {
   return (
     <section className="relative h-screen flex items-center text-white overflow-hidden">
       {/* Background with sparkles effect - pure black background */}
-      <div className="absolute inset-0 bg-black">
+      <div className="absolute inset-0 bg-[#0A0A0A]">
         {/* Sparkles effect */}
         <div className="absolute inset-0">
           <SparklesCore
@@ -37,11 +37,11 @@ const HeroSection = () => {
         </div>
         
         {/* Gradients for visual effect */}
-        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent h-[2px] w-3/4 blur-sm"></div>
-        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent h-px w-3/4"></div>
+        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#A78BFA] to-transparent h-[2px] w-3/4 blur-sm"></div>
+        <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#EC4899] to-transparent h-px w-3/4"></div>
         
         {/* Radial Gradient to prevent sharp edges */}
-        <div className="absolute inset-0 w-full h-full bg-black [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,black)]"></div>
+        <div className="absolute inset-0 w-full h-full bg-[#0A0A0A] [mask-image:radial-gradient(350px_200px_at_top,transparent_20%,black)]"></div>
       </div>
       
       {/* Hero content */}
@@ -55,9 +55,9 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
         >
-          <h1 className="text-4xl md:text-6xl font-playfair font-bold mb-4">
+          <h1 className="text-4xl md:text-6xl font-montserrat font-bold mb-4">
             <motion.span 
-              className="text-[#D4AF37] block"
+              className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text block"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -65,7 +65,7 @@ const HeroSection = () => {
               이 사이트의 브래드는,
             </motion.span>
             <motion.span 
-              className="block"
+              className="block text-white"
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
@@ -74,12 +74,12 @@ const HeroSection = () => {
             </motion.span>
           </h1>
           <motion.p 
-            className="font-pretendard text-base md:text-xl mb-8 text-[#F5F3EF]"
+            className="font-pretendard text-base md:text-xl mb-8 text-gray-300"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            수도권 200여 개 대형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다. 정직한 공정, 현장 기반 신뢰를 만나보세요.
+            수도권 120여 개 지역중형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다. 정직한 공정, 현장 기반 신뢰를 만나보세요.
           </motion.p>
           <motion.div 
             className="flex flex-col sm:flex-row gap-4"
