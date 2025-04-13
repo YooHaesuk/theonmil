@@ -3,12 +3,17 @@ import { Link } from 'wouter';
 import { headingClasses } from '@/lib/fonts';
 import { staggerContainer, fadeIn } from '@/lib/animations';
 
+// 로컬 이미지 임포트
+import regularProductImg from '@/assets/images/products/Classical Croissant.png';
+import customProductImg from '@/assets/images/products/a special chocolate cake.png';
+import giftProductImg from '@/assets/images/products/anniversary gift set.png';
+
 // Category type definition
 interface Category {
   id: string;
   name: string;
   description: string;
-  image: string;
+  image: any; // 이미지 타입을 any로 변경
 }
 
 // Categories data
@@ -17,19 +22,19 @@ const categories: Category[] = [
     id: 'regular',
     name: '상시 운영 제품',
     description: '언제나 만나볼 수 있는 빵답게의 시그니처 제품들',
-    image: 'https://images.unsplash.com/photo-1608198396039-1d45d29c817e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: regularProductImg
   },
   {
     id: 'custom',
     name: '주문 제작 제품',
     description: '특별한 날을 위한 맞춤형 케이크와 디저트',
-    image: 'https://images.unsplash.com/photo-1552689486-f6773047d19f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: customProductImg
   },
   {
     id: 'gift',
     name: '기념일 이벤트 제품',
     description: '꽃과 메시지 카드로 특별함을 더한 선물용 세트',
-    image: 'https://images.unsplash.com/photo-1583217874534-581393fd5325?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: giftProductImg
   }
 ];
 
