@@ -186,9 +186,9 @@ export function HeroGeometric({
         />
       </motion.div>
       
-      {/* 추가 작은 크로와상 - 중앙 왼쪽 */}
+      {/* 추가 작은 크로와상 - 중앙 위쪽 */}
       <motion.div
-        className="absolute left-[40%] top-[70%] z-10 rotate-12"
+        className="absolute left-[45%] top-[20%] z-10 rotate-12"
         initial={{ opacity: 0, scale: 0.5, rotate: 25 }}
         animate={{ 
           opacity: [0, 0.35, 0.35, 0], // 서서히 나타났다 서서히 사라짐
@@ -213,9 +213,9 @@ export function HeroGeometric({
         />
       </motion.div>
       
-      {/* 추가 작은 바게트 - 중앙 오른쪽 */}
+      {/* 추가 작은 바게트 - 중앙 아래쪽 */}
       <motion.div
-        className="absolute right-[40%] top-[65%] z-10 rotate-[-5deg]"
+        className="absolute left-[48%] bottom-[15%] z-10 rotate-[-5deg]"
         initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
         animate={{ 
           opacity: [0, 0.3, 0.3, 0], // 서서히 나타났다 서서히 사라짐
