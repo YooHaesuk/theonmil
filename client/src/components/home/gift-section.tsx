@@ -3,6 +3,11 @@ import { Link } from 'wouter';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { slideInFromLeft, slideInFromRight } from '@/lib/animations';
 
+// 선물 관련 이미지
+import giftSetImg from '@/assets/images/products/anniversary gift set.png';
+import cakeImg from '@/assets/images/products/a special chocolate cake.png';
+import fruitTartImg from '@/assets/images/products/fresh fruit tart.png';
+
 const GiftSection = () => {
   return (
     <section id="gifts" className="py-20 bg-[#0A0A0A] overflow-hidden">
@@ -66,7 +71,7 @@ const GiftSection = () => {
           >
             <div className="rounded-lg shadow-lg overflow-hidden border border-[#222222]">
               <img 
-                src="https://images.unsplash.com/photo-1627834377411-8da5f4f09de8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1901&q=80" 
+                src={giftSetImg}
                 alt="선물 세트" 
                 className="w-full"
               />
@@ -79,8 +84,8 @@ const GiftSection = () => {
               transition={{ delay: 0.6 }}
             >
               <img 
-                src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" 
-                alt="꽃다발" 
+                src={fruitTartImg}
+                alt="과일 타르트" 
                 className="w-24 h-24 object-cover rounded"
               />
             </motion.div>
@@ -92,8 +97,8 @@ const GiftSection = () => {
               transition={{ delay: 0.8 }}
             >
               <img 
-                src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80" 
-                alt="케이크" 
+                src={cakeImg}
+                alt="초콜릿 케이크" 
                 className="w-24 h-24 object-cover rounded"
               />
             </motion.div>
