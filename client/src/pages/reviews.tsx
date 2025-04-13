@@ -137,27 +137,27 @@ const Reviews = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h1 variants={fadeIn} className={headingClasses.h1 + " text-[#1B1B1B] mb-4"}>
-            고객 후기
+          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4 text-white">
+            <span className="mr-1">고객</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">후기</span>
           </motion.h1>
-          <motion.p variants={fadeIn} className="font-maruburi text-lg max-w-3xl mx-auto text-[#333333]">
+          <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
             대형마트와 온라인에서 빵답게를 만난 고객님들의 소중한 후기입니다.
           </motion.p>
         </div>
         
         {/* Rating Filter */}
         <motion.div variants={fadeIn} className="flex justify-center mb-12">
-          <div className="inline-flex bg-[#F5F3EF] rounded-full p-1">
+          <div className="inline-flex bg-[#111111] rounded-full p-1 border border-[#222222]">
             <button
               onClick={() => setSelectedRating(null)}
               className={`px-4 py-2 rounded-full font-montserrat text-sm transition-colors ${
                 selectedRating === null 
-                  ? 'bg-[#D4AF37] text-white' 
-                  : 'text-[#1B1B1B] hover:bg-[#E5E3DF]'
+                  ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
+                  : 'text-white hover:bg-[#1A1A2A]'
               }`}
             >
               전체
@@ -168,8 +168,8 @@ const Reviews = () => {
                 onClick={() => setSelectedRating(rating)}
                 className={`px-4 py-2 rounded-full font-montserrat text-sm transition-colors ${
                   selectedRating === rating 
-                    ? 'bg-[#D4AF37] text-white' 
-                    : 'text-[#1B1B1B] hover:bg-[#E5E3DF]'
+                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
+                    : 'text-white hover:bg-[#1A1A2A]'
                 }`}
               >
                 {rating}점
@@ -189,15 +189,15 @@ const Reviews = () => {
             <motion.div
               key={review.id}
               variants={fadeIn}
-              className="bg-[#F5F3EF] rounded-lg p-6 shadow-sm"
+              className="bg-[#111111] rounded-lg p-6 shadow-md border border-[#222222]"
             >
               <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-gray-200 overflow-hidden mr-4">
+                <div className="w-12 h-12 rounded-full bg-[#1A1A2A] overflow-hidden mr-4 border border-[#333333]">
                   <img src={review.profile} alt={`${review.name} 프로필`} />
                 </div>
                 <div>
-                  <h4 className="font-montserrat font-semibold">{review.name}</h4>
-                  <div className="flex text-[#D4AF37]">
+                  <h4 className="font-montserrat font-semibold text-white">{review.name}</h4>
+                  <div className="flex bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
                     {[...Array(Math.floor(review.rating))].map((_, i) => (
                       <i key={i} className="fa-solid fa-star"></i>
                     ))}
@@ -207,7 +207,7 @@ const Reviews = () => {
                   </div>
                 </div>
               </div>
-              <p className="font-pretendard text-[#333333] mb-2">{review.text}</p>
+              <p className="font-pretendard text-gray-300 mb-2">{review.text}</p>
               <p className="font-montserrat text-sm text-gray-500 mb-4">
                 {review.product} • {new Date(review.date).toLocaleDateString()}
               </p>
@@ -216,7 +216,7 @@ const Reviews = () => {
                   <button
                     key={index}
                     onClick={() => openGallery(review.images, index)}
-                    className="w-16 h-16 rounded object-cover overflow-hidden"
+                    className="w-16 h-16 rounded object-cover overflow-hidden border border-[#333333]"
                   >
                     <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover" />
                   </button>
@@ -229,15 +229,15 @@ const Reviews = () => {
         {/* Write Review CTA */}
         <motion.div 
           variants={fadeIn}
-          className="mt-16 bg-white rounded-lg p-8 shadow-md text-center"
+          className="mt-16 bg-[#0F0F1A] rounded-lg p-8 shadow-md text-center border border-[#222222]"
         >
-          <h2 className={headingClasses.h3 + " text-[#1B1B1B] mb-4"}>
-            빵답게를 경험해보셨나요?
+          <h2 className="text-2xl font-bold font-montserrat mb-4 text-white">
+            빵답게를 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">경험</span>해보셨나요?
           </h2>
-          <p className="font-maruburi text-[#333333] mb-6">
+          <p className="font-pretendard text-gray-300 mb-6">
             여러분의 솔직한 후기가 다른 고객들에게 큰 도움이 됩니다.
           </p>
-          <button className={buttonClasses.primary}>
+          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium transition-all hover:opacity-90 hover:shadow-lg hover:shadow-purple-500/20">
             후기 작성하기
           </button>
         </motion.div>
