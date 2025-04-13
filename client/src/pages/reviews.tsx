@@ -97,8 +97,8 @@ const Reviews = () => {
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4 text-white">
-            <span className="mr-1">고객</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">후기</span>
+          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4">
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">고객 후기</span>
           </motion.h1>
           <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
             대형마트와 온라인에서 빵답게를 만난 고객님들의 소중한 후기입니다.
