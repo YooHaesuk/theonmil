@@ -145,9 +145,9 @@ const B2B = () => {
         </motion.div>
         
         {/* Inquiry Form */}
-        <motion.div variants={fadeIn} className="bg-[#1B1B1B] text-white rounded-lg p-8 md:p-12">
-          <h2 className={headingClasses.h2 + " text-white mb-8 text-center"}>
-            기업 문의하기
+        <motion.div variants={fadeIn} className="bg-[#0F0F1A] text-white rounded-lg p-8 md:p-12 border border-[#222222]">
+          <h2 className="text-3xl font-bold font-montserrat mb-8 text-center text-white">
+            기업 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">문의하기</span>
           </h2>
           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
@@ -160,7 +160,7 @@ const B2B = () => {
                   value={formData.companyName}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-full bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 />
               </div>
               <div>
@@ -172,7 +172,7 @@ const B2B = () => {
                   value={formData.contactName}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-full bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 />
               </div>
             </div>
@@ -187,7 +187,7 @@ const B2B = () => {
                   value={formData.email}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-full bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 />
               </div>
               <div>
@@ -199,7 +199,7 @@ const B2B = () => {
                   value={formData.phone}
                   onChange={handleChange}
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-full bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 />
               </div>
             </div>
@@ -211,7 +211,7 @@ const B2B = () => {
                 name="employees"
                 value={formData.employees}
                 onChange={handleChange}
-                className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                className="w-full rounded-full bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA] appearance-none"
               >
                 <option value="1-10">1-10명</option>
                 <option value="10-50">10-50명</option>
@@ -230,7 +230,7 @@ const B2B = () => {
                 onChange={handleChange}
                 rows={4} 
                 required
-                className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                className="w-full rounded-lg bg-[#0A0A0A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
               ></textarea>
             </div>
             
@@ -238,7 +238,7 @@ const B2B = () => {
               <button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="bg-[#D4AF37] hover:bg-opacity-90 text-white font-medium py-3 px-8 rounded-md text-center transition duration-300 font-montserrat"
+                className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:opacity-90 text-white font-medium py-3 px-8 rounded-full text-center transition-all duration-300 font-montserrat hover:shadow-lg hover:shadow-purple-500/20"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">

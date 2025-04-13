@@ -82,20 +82,20 @@ const Cart = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
     >
       <div className="container mx-auto px-4">
-        <motion.h1 variants={fadeIn} className={headingClasses.h1 + " text-[#1B1B1B] mb-8 text-center"}>
-          장바구니
+        <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-8 text-center text-white">
+          <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">장바구니</span>
         </motion.h1>
         
         {cartItems.length === 0 ? (
           <motion.div variants={fadeIn} className="text-center py-12">
-            <div className="text-6xl mb-6 text-gray-300">
+            <div className="text-6xl mb-6 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
               <i className="fa-solid fa-shopping-cart"></i>
             </div>
-            <p className="text-xl mb-8">장바구니가 비어있습니다</p>
-            <Link href="/products" className={buttonClasses.primary}>
+            <p className="text-xl mb-8 font-montserrat text-white">장바구니가 비어있습니다</p>
+            <Link href="/products" className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium transition-all hover:opacity-90 hover:shadow-lg hover:shadow-purple-500/20">
               쇼핑 계속하기
             </Link>
           </motion.div>
@@ -108,15 +108,15 @@ const Cart = () => {
               animate="visible"
               className="lg:flex-grow"
             >
-              <div className="bg-white rounded-lg shadow-md overflow-hidden mb-6">
-                <div className="p-6 bg-[#F5F3EF] border-b border-gray-200">
+              <div className="bg-[#111111] rounded-lg shadow-md overflow-hidden mb-6 border border-[#222222]">
+                <div className="p-6 bg-[#0F0F1A] border-b border-[#222222]">
                   <div className="flex justify-between items-center">
-                    <h2 className="font-playfair text-xl font-semibold text-[#1B1B1B]">
-                      상품 목록 ({cartItems.length})
+                    <h2 className="font-montserrat text-xl font-semibold text-white">
+                      상품 목록 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">({cartItems.length})</span>
                     </h2>
                     <button 
                       onClick={emptyCart}
-                      className="text-sm text-red-500 hover:text-red-700 transition-colors"
+                      className="text-sm text-red-400 hover:text-red-300 transition-colors"
                     >
                       장바구니 비우기
                     </button>
