@@ -125,7 +125,10 @@ const Brand = () => {
             >
               <div className="h-64 overflow-hidden">
                 <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-800 flex items-center justify-center">
-                  <i className="fa-solid fa-user-chef text-white text-5xl"></i>
+                  <div className="text-white text-center">
+                    <i className="fa-solid fa-bread-slice text-5xl mb-2"></i>
+                    <p className="font-montserrat text-lg">수석 베이커</p>
+                  </div>
                 </div>
               </div>
               <div className="p-6">
@@ -140,11 +143,12 @@ const Brand = () => {
               className="bg-[#111111] rounded-lg overflow-hidden shadow-md text-center border border-[#222222]"
             >
               <div className="h-64 overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1525265332434-a8bcf3b6eeb5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80" 
-                  alt="제빵 장인" 
-                  className="w-full h-full object-cover"
-                />
+                <div className="w-full h-full bg-gradient-to-br from-pink-600 to-purple-700 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <i className="fa-solid fa-cake-candles text-5xl mb-2"></i>
+                    <p className="font-montserrat text-lg">파티시에</p>
+                  </div>
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="font-montserrat text-xl font-semibold text-white mb-1">이지은</h3>
@@ -158,11 +162,12 @@ const Brand = () => {
               className="bg-[#111111] rounded-lg overflow-hidden shadow-md text-center border border-[#222222]"
             >
               <div className="h-64 overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" 
-                  alt="제빵 연구가" 
-                  className="w-full h-full object-cover"
-                />
+                <div className="w-full h-full bg-gradient-to-br from-blue-600 to-purple-800 flex items-center justify-center">
+                  <div className="text-white text-center">
+                    <i className="fa-solid fa-flask text-5xl mb-2"></i>
+                    <p className="font-montserrat text-lg">제품 개발자</p>
+                  </div>
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="font-montserrat text-xl font-semibold text-white mb-1">박준호</h3>
