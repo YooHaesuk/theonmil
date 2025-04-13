@@ -11,7 +11,6 @@ interface BakeryItem {
   y: number;
   size: number;
   rotate: number;
-  opacity: number;
   image: string;
 }
 
@@ -34,7 +33,6 @@ export function BakeryBackground() {
         y: Math.random() * 100,  // 화면의 y 위치 (%)
         size: Math.random() * 60 + 40,  // 아이템 크기 (40~100px)
         rotate: Math.random() * 360,  // 회전 각도
-        opacity: Math.random() * 0.3 + 0.6,  // 투명도 (0.6~0.9)
         image: Math.random() > 0.5 ? croissantImage : baguetteImage  // 빵 이미지 랜덤 선택
       });
     }
@@ -51,7 +49,6 @@ export function BakeryBackground() {
           style={{
             left: `${item.x}%`,
             top: `${item.y}%`,
-            opacity: item.opacity,
           }}
           animate={{
             x: [0, Math.random() * 100 - 50, 0],
@@ -72,7 +69,6 @@ export function BakeryBackground() {
               width: `${item.size}px`,
               height: `${item.size}px`,
               objectFit: 'contain',
-              filter: 'brightness(1.5) contrast(1.2)',
             }}
             className="select-none pointer-events-none"
           />
