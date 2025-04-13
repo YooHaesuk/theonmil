@@ -6,78 +6,69 @@ interface Shape {
   id: number;
   x: number;
   y: number;
-  scale: number;
   rotate: number;
   opacity: number;
-  type: "bread" | "croissant" | "donut" | "pretzel" | "muffin";
+  scale: number;
+  type: string;
+  delay: number;
 }
 
-// SVG 빵 모양들 - 단순화된 아이콘
-const BreadIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="#D4AF37"
-    className={className}
-  >
-    <path d="M12 2C6.5 2 2 5.5 2 9.5c0 3 2.5 5.5 6 6.5v4c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2v-4c3.5-1 6-3.5 6-6.5C22 5.5 17.5 2 12 2zm0 2c4.4 0 8 2.5 8 5.5S16.4 15 12 15s-8-2.5-8-5.5S7.6 4 12 4z" />
+// 베이커리 SVG 아이콘 컴포넌트
+const BreadIcon = () => (
+  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M12 2C6.5 2 2 5.5 2 9.5C2 13.5 6.5 17 12 17C17.5 17 22 13.5 22 9.5C22 5.5 17.5 2 12 2Z" stroke="url(#bread-gradient)" strokeWidth="1.5" />
+    <defs>
+      <linearGradient id="bread-gradient" x1="2" y1="2" x2="22" y2="17" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#A78BFA" />
+        <stop offset="1" stopColor="#EC4899" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 
-const CroissantIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="#D4AF37"
-    className={className}
-  >
-    <path d="M22 19l-3-2v-2l-9-5V8L5 4 2 5v3l3 2v2l10 5v2l3 2z" />
+const CroissantIcon = () => (
+  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M4 4C2.9 5.1 2 6.5 2 8C2 9.5 3 12 5 13C7 14 10 14 12 12C14 10 14 7 13 5C12 3 9.5 2 8 2C6.5 2 5.1 2.9 4 4Z" stroke="url(#croissant-gradient)" strokeWidth="1.5" />
+    <defs>
+      <linearGradient id="croissant-gradient" x1="2" y1="2" x2="14" y2="14" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#60A5FA" />
+        <stop offset="1" stopColor="#3B82F6" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 
-const DonutIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="#D4AF37"
-    className={className}
-  >
-    <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9-4.03-9-9-9zm0 4c2.76 0 5 2.24 5 5s-2.24 5-5 5-5-2.24-5-5 2.24-5 5-5z" />
+const DonutIcon = () => (
+  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="12" cy="12" r="8" stroke="url(#donut-gradient)" strokeWidth="1.5" />
+    <circle cx="12" cy="12" r="3" stroke="url(#donut-gradient)" strokeWidth="1.5" />
+    <defs>
+      <linearGradient id="donut-gradient" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#F87171" />
+        <stop offset="1" stopColor="#EF4444" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 
-const PretzelIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="#D4AF37"
-    className={className}
-  >
-    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 13l-4-4 4-4 4 4-4 4z" />
+const MuffinIcon = () => (
+  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9H4V11C4 11 6 13 12 13C18 13 20 11 20 11V9H18Z" stroke="url(#muffin-gradient)" strokeWidth="1.5" />
+    <defs>
+      <linearGradient id="muffin-gradient" x1="4" y1="3" x2="20" y2="13" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#FBBF24" />
+        <stop offset="1" stopColor="#F59E0B" />
+      </linearGradient>
+    </defs>
   </svg>
 );
 
-const MuffinIcon = ({ className = "" }: { className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    fill="#D4AF37"
-    className={className}
-  >
-    <path d="M18.38 6.24C17.79 3.24 15.14 1 12 1S6.21 3.24 5.62 6.24C4.08 6.67 3 8.09 3 9.75c0 2.07 1.68 3.75 3.75 3.75l.43-.03L7 23h10l-.18-9.54.43.03c2.07 0 3.75-1.68 3.75-3.75 0-1.66-1.08-3.08-2.62-3.5z" />
-  </svg>
-);
-
-// 빵 아이콘 매핑
-const BreadIcons: Record<
-  string,
-  React.FC<{ className?: string }>
-> = {
-  bread: BreadIcon,
-  croissant: CroissantIcon,
-  donut: DonutIcon,
-  pretzel: PretzelIcon,
-  muffin: MuffinIcon,
+// 컴포넌트 맵핑
+const BakeryIcons = {
+  "bread": BreadIcon,
+  "croissant": CroissantIcon,
+  "donut": DonutIcon,
+  "muffin": MuffinIcon,
 };
 
 export function HeroGeometric({
@@ -95,9 +86,9 @@ export function HeroGeometric({
 
   // 창 크기에 따라 도형 개수 조정
   const getShapeCount = () => {
-    if (dimensions.width < 640) return 6;
-    if (dimensions.width < 1024) return 10;
-    return 15;
+    if (dimensions.width < 640) return 8;
+    if (dimensions.width < 1024) return 12;
+    return 16;
   };
 
   // 화면 크기 변경 감지
@@ -121,13 +112,7 @@ export function HeroGeometric({
   useEffect(() => {
     if (dimensions.width === 0 || dimensions.height === 0) return;
 
-    const types: ("bread" | "croissant" | "donut" | "pretzel" | "muffin")[] = [
-      "bread", 
-      "croissant", 
-      "donut", 
-      "pretzel", 
-      "muffin"
-    ];
+    const types = ["bread", "croissant", "donut", "muffin"];
 
     const newShapes: Shape[] = Array.from(
       { length: getShapeCount() },
@@ -135,10 +120,11 @@ export function HeroGeometric({
         id: i,
         x: Math.random() * dimensions.width,
         y: Math.random() * dimensions.height,
-        scale: Math.random() * 0.5 + 0.5,
         rotate: Math.random() * 360,
-        opacity: Math.random() * 0.4 + 0.1,
+        opacity: Math.random() * 0.3 + 0.2,
+        scale: Math.random() * 0.4 + 0.6,
         type: types[Math.floor(Math.random() * types.length)],
+        delay: Math.random() * 2,
       })
     );
 
@@ -148,46 +134,62 @@ export function HeroGeometric({
   return (
     <div 
       ref={containerRef}
-      className="relative flex min-h-[70vh] w-full items-center justify-center overflow-hidden rounded-md bg-[#0D0D0D]"
+      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* 배경 도형들 */}
+      {/* 배경 그라데이션 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0F0F1A] to-[#0A0A0A] opacity-80"></div>
+      
+      {/* 움직이는 빵 모양 아이콘들 */}
       {shapes.map((shape) => {
-        const Icon = BreadIcons[shape.type];
+        let Icon;
+        if (shape.type === "bread") Icon = BreadIcon;
+        else if (shape.type === "croissant") Icon = CroissantIcon;
+        else if (shape.type === "donut") Icon = DonutIcon;
+        else if (shape.type === "muffin") Icon = MuffinIcon;
+        else Icon = BreadIcon;  // 기본 아이콘
         
         return (
           <motion.div
             key={shape.id}
             className="absolute"
+            style={{
+              opacity: shape.opacity,
+            }}
             initial={{
               x: shape.x,
               y: shape.y,
-              scale: shape.scale,
               rotate: shape.rotate,
-              opacity: shape.opacity,
+              scale: shape.scale,
+              opacity: 0,
             }}
             animate={{
               x: [shape.x, shape.x + Math.random() * 100 - 50, shape.x],
               y: [shape.y, shape.y + Math.random() * 100 - 50, shape.y],
-              rotate: shape.rotate + 360,
+              rotate: shape.rotate + 180,
+              opacity: [0, shape.opacity, 0],
             }}
             transition={{
-              duration: Math.random() * 10 + 20,
+              duration: Math.random() * 15 + 20,
               repeat: Infinity,
               ease: "linear",
+              delay: shape.delay,
             }}
           >
-            <Icon className="h-16 w-16" />
+            <Icon />
           </motion.div>
         );
       })}
 
-      {/* 컨텐츠 */}
-      <div className="relative z-10 m-8 max-w-[800px] rounded-lg p-8 sm:mx-auto md:p-16">
+      {/* 가운데 밝은 영역 만들기 */}
+      <div className="absolute top-1/2 left-1/2 w-1/2 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-[#FFFFFF05] blur-[100px] rounded-full"></div>
+
+      {/* 중앙 컨텐츠 */}
+      <div className="relative z-10 m-8 max-w-[800px] text-center px-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-4 inline-block rounded-full bg-gradient-to-r from-[#D4AF37] to-[#E5C76B] px-4 py-1.5 text-xs font-medium text-black"
+          className="mb-6 inline-block rounded-full bg-[#11111A] border border-[#ffffff20] px-4 py-1.5 text-xs font-medium text-white"
         >
           {badge}
         </motion.div>
@@ -195,34 +197,23 @@ export function HeroGeometric({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-gradient-gold mb-4 mt-4 max-w-3xl text-5xl font-bold md:text-6xl lg:text-7xl"
+          className="mb-6 mt-4 max-w-3xl text-5xl font-bold md:text-6xl lg:text-7xl mx-auto"
         >
-          {title1} <br />
-          {title2}
+          <span className="font-montserrat text-white">{title1}</span> <br />
+          <span className="font-montserrat bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">{title2}</span>
         </motion.h1>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.7 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
+          className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto"
+        >
+          수도권 200여 개 대형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다.
+        </motion.p>
       </div>
+
+      {/* 하단 그라데이션 */}
+      <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-[#0A0A0A] to-transparent"></div>
     </div>
   );
-}
-
-// CSS 스타일 추가를 위한 클래스
-const addGradientStyles = () => {
-  if (typeof document !== "undefined") {
-    const style = document.createElement("style");
-    style.textContent = `
-      .text-gradient-gold {
-        background: linear-gradient(to right, #FFFFFF, #D4AF37);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        text-fill-color: transparent;
-      }
-    `;
-    document.head.appendChild(style);
-  }
-};
-
-// 페이지 로딩 시 스타일 추가
-if (typeof window !== "undefined") {
-  addGradientStyles();
 }

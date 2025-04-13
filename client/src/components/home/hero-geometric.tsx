@@ -5,34 +5,31 @@ import { motion } from "framer-motion";
 
 export function BakeryHeroGeometric() {
   return (
-    <div className="relative">
+    <div className="relative h-screen">
       <HeroGeometric 
         badge="프리미엄 베이커리" 
-        title1="빵다운 빵을 만드는" 
-        title2="빵답게"
+        title1="Elevate Your" 
+        title2="Digital Vision"
       />
       
-      {/* 추가 컨텐츠 오버레이 */}
-      <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 z-30 w-full max-w-md text-center">
-        <motion.p 
-          className="font-maruburi text-base md:text-xl mb-8 text-[#F5F3EF]"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-        >
-          수도권 200여 개 대형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다. 정직한 공정, 현장 기반 신뢰를 만나보세요.
-        </motion.p>
-        
+      {/* 버튼 오버레이 */}
+      <div className="absolute bottom-28 left-1/2 transform -translate-x-1/2 z-30 w-full max-w-md text-center">
         <motion.div 
           className="flex flex-col sm:flex-row justify-center gap-4"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Link href="/products" className={buttonClasses.primary}>
+          <Link 
+            href="/products" 
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+          >
             제품 탐색하기
           </Link>
-          <Link href="/brand" className={buttonClasses.light}>
+          <Link 
+            href="/brand" 
+            className="px-6 py-3 rounded-full bg-[#11111A] border border-[#ffffff20] text-white text-sm font-medium hover:bg-[#1A1A2A] transition-all duration-300"
+          >
             브랜드 이야기
           </Link>
         </motion.div>
@@ -43,7 +40,7 @@ export function BakeryHeroGeometric() {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
         initial={{ opacity: 0 }}
         animate={{ 
-          opacity: 1,
+          opacity: 0.6,
           y: [0, 10, 0]
         }}
         transition={{
@@ -55,7 +52,9 @@ export function BakeryHeroGeometric() {
           }
         }}
       >
-        <i className="fa-solid fa-chevron-down text-white text-2xl"></i>
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 4V20M12 20L18 14M12 20L6 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </motion.div>
     </div>
   );
