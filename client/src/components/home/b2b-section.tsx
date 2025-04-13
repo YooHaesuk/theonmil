@@ -28,7 +28,7 @@ const B2BSection = () => {
   };
   
   return (
-    <section id="b2b" className="py-20 bg-[#1B1B1B] text-white">
+    <section id="b2b" className="py-20 bg-[#0A0A0A] text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center">
           {/* Image */}
@@ -39,11 +39,13 @@ const B2BSection = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <img 
-              src="https://images.unsplash.com/photo-1564844536308-50b114a1d946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80" 
-              alt="기업 제휴" 
-              className="rounded-lg shadow-lg"
-            />
+            <div className="rounded-lg shadow-lg overflow-hidden border border-[#222222]">
+              <img 
+                src="https://images.unsplash.com/photo-1564844536308-50b114a1d946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80" 
+                alt="기업 제휴" 
+                className="w-full"
+              />
+            </div>
           </motion.div>
           
           {/* Text content */}
@@ -54,27 +56,35 @@ const B2BSection = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className={headingClasses.h2 + " mb-6"}>
-              기업 제휴 안내
+            <h2 className="text-4xl font-bold font-montserrat mb-6 text-white">
+              기업 제휴 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">안내</span>
             </h2>
             <p className="font-maruburi text-lg text-gray-300 mb-6">
               기업 행사, 케이터링, 직원 선물을 위한 대량 주문 및 정기 납품 서비스를 제공합니다. 빵답게와 함께 특별한 비즈니스 파트너십을 맺어보세요.
             </p>
             <ul className="space-y-4 mb-8">
               <li className="flex items-start">
-                <i className="fa-solid fa-building text-[#D4AF37] mt-1 mr-3"></i>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
+                  <i className="fa-solid fa-building text-xs"></i>
+                </div>
                 <span className="font-pretendard text-gray-300">맞춤형 기업 선물 세트 구성</span>
               </li>
               <li className="flex items-start">
-                <i className="fa-solid fa-calendar-check text-[#D4AF37] mt-1 mr-3"></i>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
+                  <i className="fa-solid fa-calendar-check text-xs"></i>
+                </div>
                 <span className="font-pretendard text-gray-300">정기 배송 및 일괄 배송 서비스</span>
               </li>
               <li className="flex items-start">
-                <i className="fa-solid fa-handshake text-[#D4AF37] mt-1 mr-3"></i>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
+                  <i className="fa-solid fa-handshake text-xs"></i>
+                </div>
                 <span className="font-pretendard text-gray-300">기업 로고 각인 및 맞춤 패키지 옵션</span>
               </li>
               <li className="flex items-start">
-                <i className="fa-solid fa-tag text-[#D4AF37] mt-1 mr-3"></i>
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
+                  <i className="fa-solid fa-tag text-xs"></i>
+                </div>
                 <span className="font-pretendard text-gray-300">대량 주문 할인 및 전용 견적 서비스</span>
               </li>
             </ul>
@@ -88,7 +98,7 @@ const B2BSection = () => {
                     type="text" 
                     id="companyName" 
                     required
-                    className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                    className="w-full rounded-full bg-[#1A1A2A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                   />
                 </div>
                 <div>
@@ -97,7 +107,7 @@ const B2BSection = () => {
                     type="text" 
                     id="contactName" 
                     required
-                    className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                    className="w-full rounded-full bg-[#1A1A2A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                   />
                 </div>
               </div>
@@ -107,7 +117,7 @@ const B2BSection = () => {
                   type="email" 
                   id="email" 
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-full bg-[#1A1A2A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 />
               </div>
               <div>
@@ -116,14 +126,14 @@ const B2BSection = () => {
                   id="message" 
                   rows={4} 
                   required
-                  className="w-full rounded-md bg-gray-800 border-gray-700 text-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                  className="w-full rounded-xl bg-[#1A1A2A] border border-[#333333] text-white px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#A78BFA]"
                 ></textarea>
               </div>
               <div className="flex justify-between items-center">
                 <button 
                   type="submit" 
                   disabled={isSubmitting}
-                  className="bg-[#D4AF37] hover:bg-opacity-90 text-white font-medium py-3 px-8 rounded-md text-center transition duration-300 font-montserrat disabled:opacity-70"
+                  className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:shadow-lg hover:shadow-purple-500/20 text-white font-medium py-3 px-8 rounded-full text-center transition-all duration-300 font-montserrat disabled:opacity-70"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center">
@@ -132,7 +142,7 @@ const B2BSection = () => {
                     </span>
                   ) : '문의 보내기'}
                 </button>
-                <Link href="/b2b" className="text-[#D4AF37] hover:underline">
+                <Link href="/b2b" className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-opacity duration-300">
                   자세히 알아보기 <i className="fa-solid fa-arrow-right ml-1"></i>
                 </Link>
               </div>

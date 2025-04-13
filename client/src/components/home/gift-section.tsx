@@ -68,7 +68,7 @@ const GiftSection = () => {
               <img 
                 src="https://images.unsplash.com/photo-1627834377411-8da5f4f09de8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1901&q=80" 
                 alt="선물 세트" 
-                className="w-full brightness-75"
+                className="w-full"
               />
             </div>
             <motion.div 
@@ -81,7 +81,7 @@ const GiftSection = () => {
               <img 
                 src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80" 
                 alt="꽃다발" 
-                className="w-24 h-24 object-cover rounded brightness-75"
+                className="w-24 h-24 object-cover rounded"
               />
             </motion.div>
             <motion.div 

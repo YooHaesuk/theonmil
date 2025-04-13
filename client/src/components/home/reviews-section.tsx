@@ -116,7 +116,7 @@ const ReviewsSection = () => {
                     whileHover={{ scale: 1.1 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover brightness-75" />
+                    <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover" />
                   </motion.div>
                 ))}
               </div>

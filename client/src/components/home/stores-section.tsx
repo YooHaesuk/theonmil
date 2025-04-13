@@ -75,8 +75,7 @@ const StoresSection = () => {
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="h-64 overflow-hidden relative">
-                <img src={store.image} alt={store.name} className="w-full h-full object-cover brightness-75" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-80"></div>
+                <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
                 <div className="absolute bottom-0 left-0 p-4">
                   <h3 className="font-montserrat text-xl font-semibold text-white mb-1">{store.name}</h3>
                   <p className="font-pretendard text-sm text-gray-300">{store.address}</p>

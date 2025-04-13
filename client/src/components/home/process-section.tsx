@@ -91,7 +91,7 @@ const ProcessSection = () => {
                 <motion.img 
                   src={step.image} 
                   alt={step.title} 
-                  className="w-full h-40 object-cover brightness-75"
+                  className="w-full h-40 object-cover"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
                 />

@@ -32,9 +32,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
           <img 
             src={product.image} 
             alt={product.nameKorean} 
-            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 brightness-75"
+            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60"></div>
           {product.isBestseller && (
             <span className="absolute top-4 left-4 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
               베스트셀러
