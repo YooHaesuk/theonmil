@@ -15,6 +15,31 @@ interface Shape {
   delay: number;
 }
 
+// 베이커리 아이콘 컴포넌트
+const BreadIcon = () => (
+  <img src={baguetteImage} alt="Bread" className="w-24 h-24 object-contain" />
+);
+
+const CroissantIcon = () => (
+  <img src={croissantImage} alt="Croissant" className="w-20 h-20 object-contain" />
+);
+
+const DonutIcon = () => (
+  <img src={croissantImage} alt="Croissant" className="w-16 h-16 object-contain" />
+);
+
+const MuffinIcon = () => (
+  <img src={baguetteImage} alt="Bread" className="w-28 h-28 object-contain" />
+);
+
+// 컴포넌트 맵핑
+const BakeryIcons = {
+  "bread": BreadIcon,
+  "croissant": CroissantIcon,
+  "donut": DonutIcon,
+  "muffin": MuffinIcon,
+};
+
 export function HeroGeometric({
   badge,
   title1,
@@ -65,7 +90,7 @@ export function HeroGeometric({
         x: Math.random() * dimensions.width,
         y: Math.random() * dimensions.height,
         rotate: Math.random() * 360,
-        opacity: Math.random() * 0.3 + 0.2,
+        opacity: Math.random() * 0.2 + 0.7,
         scale: Math.random() * 0.4 + 0.6,
         type: types[Math.floor(Math.random() * types.length)],
         delay: Math.random() * 2,
@@ -83,22 +108,19 @@ export function HeroGeometric({
       {/* 배경 그라데이션 */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0F0F1A] to-[#0A0A0A] opacity-80"></div>
       
-      {/* 움직이는 빵 이미지들 */}
+      {/* 움직이는 빵 모양 아이콘들 */}
       {shapes.map((shape) => {
-        // 이미지 소스 결정 - 크로와상 또는 바게트
-        const imageSrc = shape.type === "croissant" || shape.type === "donut" 
-          ? croissantImage 
-          : baguetteImage;
-        
-        // 이미지 크기 계산 - 유형에 따라 다르게 설정
-        const imageSize = shape.type === "croissant" || shape.type === "donut"
-          ? 60 * shape.scale  // 크로와상은 작게
-          : 100 * shape.scale;  // 바게트는 좀 더 크게
+        let Icon;
+        if (shape.type === "bread") Icon = BreadIcon;
+        else if (shape.type === "croissant") Icon = CroissantIcon;
+        else if (shape.type === "donut") Icon = DonutIcon;
+        else if (shape.type === "muffin") Icon = MuffinIcon;
+        else Icon = BreadIcon;  // 기본 아이콘
         
         return (
           <motion.div
             key={shape.id}
-            className="absolute z-10"
+            className="absolute"
             style={{
               opacity: shape.opacity,
             }}
@@ -107,13 +129,12 @@ export function HeroGeometric({
               y: shape.y,
               rotate: shape.rotate,
               scale: shape.scale,
-              opacity: 0,
+              opacity: shape.opacity,
             }}
             animate={{
               x: [shape.x, shape.x + Math.random() * 100 - 50, shape.x],
               y: [shape.y, shape.y + Math.random() * 100 - 50, shape.y],
               rotate: shape.rotate + 180,
-              opacity: [0, shape.opacity, 0],
             }}
             transition={{
               duration: Math.random() * 15 + 20,
@@ -122,16 +143,7 @@ export function HeroGeometric({
               delay: shape.delay,
             }}
           >
-            <img 
-              src={imageSrc} 
-              alt="Bakery item" 
-              style={{ 
-                width: `${imageSize}px`,
-                height: `${imageSize}px`,
-                objectFit: 'contain',
-              }}
-              className="select-none"
-            />
+            <Icon />
           </motion.div>
         );
       })}
