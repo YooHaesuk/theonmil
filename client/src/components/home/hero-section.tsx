@@ -107,17 +107,19 @@ const HeroSection = () => {
       <motion.div 
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6, delay: 1.2 }}
-        whileHover={{ y: 5 }}
-        animate={{
-          y: [0, 10, 0],
+        animate={{ 
+          opacity: 1,
+          y: [0, 10, 0]
         }}
         transition={{
-          duration: 1.5,
-          repeat: Infinity,
-          repeatType: "loop"
+          opacity: { duration: 0.6, delay: 1.2 },
+          y: { 
+            duration: 1.5,
+            repeat: Infinity,
+            repeatType: "loop"
+          }
         }}
+        whileHover={{ y: 5 }}
       >
         <i className="fa-solid fa-chevron-down text-white text-2xl"></i>
       </motion.div>
