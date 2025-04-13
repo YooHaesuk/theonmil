@@ -3,7 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { buttonClasses } from '@/lib/fonts';
-import { BakeryBackground } from './bakery-background';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -21,10 +22,112 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center text-white overflow-hidden">
-      {/* Background with bakery sparkles effect - pure black background */}
+      {/* Background with bakery items */}
       <div className="absolute inset-0 bg-[#0A0A0A]">
-        {/* Bakery background effect */}
-        <BakeryBackground />
+        
+        {/* 고정 위치 크로와상 이미지들 */}
+        <motion.img 
+          src={croissantImage} 
+          alt="Croissant 1" 
+          className="absolute w-24 h-24 object-contain z-10"
+          style={{ top: '15%', left: '15%' }}
+          animate={{
+            y: [0, -10, 0],
+            rotate: [0, 5, 0]
+          }}
+          transition={{
+            duration: 5,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
+        
+        <motion.img 
+          src={croissantImage} 
+          alt="Croissant 2" 
+          className="absolute w-16 h-16 object-contain z-10"
+          style={{ bottom: '20%', left: '25%' }}
+          animate={{
+            y: [0, 8, 0],
+            rotate: [0, 10, 0]
+          }}
+          transition={{
+            duration: 4,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
+        
+        <motion.img 
+          src={croissantImage} 
+          alt="Croissant 3" 
+          className="absolute w-20 h-20 object-contain z-10"
+          style={{ top: '30%', right: '15%' }}
+          animate={{
+            y: [0, -12, 0],
+            rotate: [0, -8, 0]
+          }}
+          transition={{
+            duration: 7,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
+        
+        {/* 고정 위치 바게트 이미지들 */}
+        <motion.img 
+          src={baguetteImage} 
+          alt="Baguette 1" 
+          className="absolute w-28 h-28 object-contain z-10"
+          style={{ top: '60%', right: '20%' }}
+          animate={{
+            y: [0, 15, 0],
+            rotate: [0, -8, 0]
+          }}
+          transition={{
+            duration: 6,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
+        
+        <motion.img 
+          src={baguetteImage} 
+          alt="Baguette 2" 
+          className="absolute w-32 h-32 object-contain z-10"
+          style={{ top: '40%', left: '60%' }}
+          animate={{
+            y: [0, 10, 0],
+            rotate: [0, 15, 0]
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
+        
+        <motion.img 
+          src={baguetteImage} 
+          alt="Baguette 3" 
+          className="absolute w-24 h-24 object-contain z-10"
+          style={{ bottom: '15%', right: '35%' }}
+          animate={{
+            y: [0, -12, 0],
+            rotate: [0, -10, 0]
+          }}
+          transition={{
+            duration: 5.5,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
+          }}
+        />
         
         {/* Gradients for visual effect */}
         <div className="absolute inset-x-20 top-[40%] bg-gradient-to-r from-transparent via-[#A78BFA] to-transparent h-[2px] w-3/4 blur-sm"></div>
