@@ -3,9 +3,8 @@ import { Link } from 'wouter';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
 
-// 공장 이미지 임포트를 위한 공간
-// 이미지는 client/src/assets/images/about 폴더에 넣어주세요
-// import factoryImg from '@/assets/images/about/factory.png';
+// 공장 이미지 임포트
+import factoryImg from '@/assets/images/about/factory.png';
 
 const AboutSection = () => {
   return (
@@ -22,9 +21,9 @@ const AboutSection = () => {
           >
             <div className="relative">
               <img 
-                src="https://images.unsplash.com/photo-1591688515877-f6d04f417608?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
+                src={factoryImg}
                 alt="빵 공장 생산 현장" 
-                className="rounded-lg shadow-lg w-full brightness-75"
+                className="rounded-lg shadow-lg w-full brightness-90"
               />
               {/* 15+년 베이킹 장인 경력 버튼이 삭제되었습니다 */}
             </div>

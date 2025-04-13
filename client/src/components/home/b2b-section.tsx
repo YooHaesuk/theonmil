@@ -5,6 +5,9 @@ import { headingClasses } from '@/lib/fonts';
 import { slideInFromLeft, slideInFromRight } from '@/lib/animations';
 import { useToast } from '@/hooks/use-toast';
 
+// 기업 제휴 이미지 임포트
+import partnershipImg from '@/assets/images/about/partnership.png';
+
 const B2BSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
