@@ -51,14 +51,14 @@ const Products = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}>
+          <h1 className={headingClasses.h2 + " text-white mb-4"}>
             {selectedCategory ? categoryDisplayNames[selectedCategory] : '모든 제품'}
           </h1>
-          <p className="font-maruburi text-lg text-[#333333] max-w-2xl mx-auto">
+          <p className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto">
             {selectedCategory === 'regular' && '언제나 만나볼 수 있는 빵답게의 시그니처 제품들입니다.'}
             {selectedCategory === 'custom' && '특별한 날을 위한 맞춤형 케이크와 디저트를 제공합니다.'}
             {selectedCategory === 'gift' && '소중한 분께 감사의 마음을 전할 수 있는 선물 세트입니다.'}

@@ -43,7 +43,7 @@ const ProductFilter = ({
   
   return (
     <div className="mb-8">
-      <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
+      <div className="bg-[#111111] rounded-lg shadow-md p-6 mb-8 border border-[#222222]">
         {/* Search form */}
         <form className="mb-6" onSubmit={handleSearchSubmit}>
           <div className="relative">
@@ -52,7 +52,7 @@ const ProductFilter = ({
               placeholder="제품명 또는 키워드로 검색"
               value={tempSearchQuery}
               onChange={(e) => setTempSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-md border border-gray-200 focus:outline-none focus:ring-2 focus:ring-[#D4AF37] focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-[#1A1A2A] border border-[#333333] text-white focus:outline-none focus:ring-2 focus:ring-[#A78BFA] focus:border-transparent"
             />
             <button
               type="submit"
@@ -67,7 +67,7 @@ const ProductFilter = ({
                   setTempSearchQuery('');
                   setSearchQuery('');
                 }}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
               >
                 <i className="fa-solid fa-times"></i>
               </button>
@@ -77,14 +77,14 @@ const ProductFilter = ({
         
         {/* Categories */}
         <div>
-          <h3 className="font-montserrat font-semibold mb-3">카테고리</h3>
+          <h3 className="font-montserrat font-semibold mb-3 text-white">카테고리</h3>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => handleCategoryChange('')}
               className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                 selectedCategory === '' 
-                  ? 'bg-[#D4AF37] text-white' 
-                  : 'bg-[#F5F3EF] text-[#1B1B1B] hover:bg-[#E5E3DF]'
+                  ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
+                  : 'bg-[#1A1A2A] text-white hover:bg-[#222233]'
               }`}
             >
               전체
@@ -95,8 +95,8 @@ const ProductFilter = ({
                 onClick={() => handleCategoryChange(category)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
                   selectedCategory === category 
-                    ? 'bg-[#D4AF37] text-white' 
-                    : 'bg-[#F5F3EF] text-[#1B1B1B] hover:bg-[#E5E3DF]'
+                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
+                    : 'bg-[#1A1A2A] text-white hover:bg-[#222233]'
                 }`}
               >
                 {categoryDisplayNames[category]}
