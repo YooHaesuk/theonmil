@@ -112,23 +112,23 @@ const Register = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
     >
       <div className="container mx-auto px-4 max-w-md">
         <motion.div variants={fadeIn} className="text-center mb-8">
-          <h1 className={headingClasses.h1 + " text-[#1B1B1B] mb-2"}>회원가입</h1>
-          <p className="font-maruburi text-[#333333]">
+          <h1 className={headingClasses.h1 + " text-white mb-2 font-montserrat"}>회원가입</h1>
+          <p className="font-pretendard text-gray-300">
             빵답게의 회원이 되어 다양한 혜택을 누리세요
           </p>
         </motion.div>
         
         <motion.div
           variants={slideInFromBottom}
-          className="bg-white rounded-lg shadow-md overflow-hidden"
+          className="bg-[#111111] rounded-lg shadow-md overflow-hidden border border-[#222222]"
         >
           <form onSubmit={handleSubmit} className="p-8">
             <div className="mb-6">
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="username" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 아이디 <span className="text-red-500">*</span>
               </label>
               <input
@@ -138,12 +138,12 @@ const Register = () => {
                 value={formData.username}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333333] rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white"
               />
             </div>
             
             <div className="mb-6">
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="password" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 비밀번호 <span className="text-red-500">*</span>
               </label>
               <input
@@ -153,20 +153,20 @@ const Register = () => {
                 value={formData.password}
                 onChange={handleChange}
                 required
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.password ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-3 py-2 bg-[#0A0A0A] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white ${
+                  errors.password ? 'border-red-500' : 'border-[#333333]'
                 }`}
               />
               {errors.password && (
                 <p className="mt-1 text-sm text-red-500">{errors.password}</p>
               )}
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-400 font-pretendard">
                 8자 이상, 영문, 숫자, 특수문자 조합을 권장합니다.
               </p>
             </div>
             
             <div className="mb-6">
-              <label htmlFor="passwordConfirm" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="passwordConfirm" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 비밀번호 확인 <span className="text-red-500">*</span>
               </label>
               <input
@@ -176,8 +176,8 @@ const Register = () => {
                 value={formData.passwordConfirm}
                 onChange={handleChange}
                 required
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.passwordConfirm ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-3 py-2 bg-[#0A0A0A] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white ${
+                  errors.passwordConfirm ? 'border-red-500' : 'border-[#333333]'
                 }`}
               />
               {errors.passwordConfirm && (
@@ -186,7 +186,7 @@ const Register = () => {
             </div>
             
             <div className="mb-6">
-              <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="name" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 이름 <span className="text-red-500">*</span>
               </label>
               <input
@@ -196,12 +196,12 @@ const Register = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333333] rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white"
               />
             </div>
             
             <div className="mb-6">
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="email" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 이메일 <span className="text-red-500">*</span>
               </label>
               <input
@@ -211,8 +211,8 @@ const Register = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37] ${
-                  errors.email ? 'border-red-500' : 'border-gray-300'
+                className={`w-full px-3 py-2 bg-[#0A0A0A] border rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white ${
+                  errors.email ? 'border-red-500' : 'border-[#333333]'
                 }`}
               />
               {errors.email && (
@@ -221,7 +221,7 @@ const Register = () => {
             </div>
             
             <div className="mb-6">
-              <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="phone" className="block text-sm font-medium text-white mb-1 font-pretendard">
                 연락처 <span className="text-red-500">*</span>
               </label>
               <input
@@ -231,16 +231,16 @@ const Register = () => {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                className="w-full px-3 py-2 bg-[#0A0A0A] border border-[#333333] rounded-md focus:outline-none focus:ring-2 focus:ring-[#A78BFA] text-white"
                 placeholder="01012345678"
               />
-              <p className="mt-1 text-xs text-gray-500">
+              <p className="mt-1 text-xs text-gray-400 font-pretendard">
                 '-' 없이 숫자만 입력해주세요.
               </p>
             </div>
             
-            <div className="border-t border-gray-200 pt-6 mb-6">
-              <h3 className="text-lg font-medium text-gray-900 mb-4">이용약관 동의</h3>
+            <div className="border-t border-[#222222] pt-6 mb-6">
+              <h3 className="text-lg font-medium text-white mb-4 font-montserrat">이용약관 동의</h3>
               
               <div className="space-y-4">
                 <div className="flex items-start">
@@ -258,11 +258,11 @@ const Register = () => {
                           agreeMarketing: checked
                         });
                       }}
-                      className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
+                      className="h-4 w-4 text-[#A78BFA] focus:ring-[#A78BFA] border-[#333333] rounded bg-[#0A0A0A]"
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label htmlFor="agreeAll" className="font-medium text-gray-700">전체 동의</label>
+                    <label htmlFor="agreeAll" className="font-medium text-white font-pretendard">전체 동의</label>
                   </div>
                 </div>
                 
@@ -275,17 +275,17 @@ const Register = () => {
                       checked={formData.agreeTerms}
                       onChange={handleChange}
                       required
-                      className={`h-4 w-4 focus:ring-[#D4AF37] border-gray-300 rounded ${
-                        errors.agreeTerms ? 'text-red-500 border-red-500' : 'text-[#D4AF37]'
+                      className={`h-4 w-4 focus:ring-[#A78BFA] border-[#333333] rounded bg-[#0A0A0A] ${
+                        errors.agreeTerms ? 'text-red-500 border-red-500' : 'text-[#A78BFA]'
                       }`}
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label htmlFor="agreeTerms" className="font-medium text-gray-700">
+                    <label htmlFor="agreeTerms" className="font-medium text-white font-pretendard">
                       이용약관 동의 <span className="text-red-500">(필수)</span>
                     </label>
-                    <p className="text-gray-500">
-                      <a href="#" className="text-[#D4AF37] underline">약관보기</a>
+                    <p className="text-gray-400">
+                      <a href="#" className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:underline">약관보기</a>
                     </p>
                   </div>
                 </div>
@@ -299,17 +299,17 @@ const Register = () => {
                       checked={formData.agreePrivacy}
                       onChange={handleChange}
                       required
-                      className={`h-4 w-4 focus:ring-[#D4AF37] border-gray-300 rounded ${
-                        errors.agreePrivacy ? 'text-red-500 border-red-500' : 'text-[#D4AF37]'
+                      className={`h-4 w-4 focus:ring-[#A78BFA] border-[#333333] rounded bg-[#0A0A0A] ${
+                        errors.agreePrivacy ? 'text-red-500 border-red-500' : 'text-[#A78BFA]'
                       }`}
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label htmlFor="agreePrivacy" className="font-medium text-gray-700">
+                    <label htmlFor="agreePrivacy" className="font-medium text-white font-pretendard">
                       개인정보 수집 및 이용 동의 <span className="text-red-500">(필수)</span>
                     </label>
-                    <p className="text-gray-500">
-                      <a href="#" className="text-[#D4AF37] underline">약관보기</a>
+                    <p className="text-gray-400">
+                      <a href="#" className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:underline">약관보기</a>
                     </p>
                   </div>
                 </div>
@@ -322,14 +322,14 @@ const Register = () => {
                       name="agreeMarketing"
                       checked={formData.agreeMarketing}
                       onChange={handleChange}
-                      className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
+                      className="h-4 w-4 text-[#A78BFA] focus:ring-[#A78BFA] border-[#333333] rounded bg-[#0A0A0A]"
                     />
                   </div>
                   <div className="ml-3 text-sm">
-                    <label htmlFor="agreeMarketing" className="font-medium text-gray-700">
+                    <label htmlFor="agreeMarketing" className="font-medium text-white font-pretendard">
                       마케팅 정보 수신 동의 (선택)
                     </label>
-                    <p className="text-gray-500">
+                    <p className="text-gray-400 font-pretendard">
                       빵답게의 신제품 및 이벤트 소식을 받아보실 수 있습니다.
                     </p>
                   </div>
@@ -340,7 +340,7 @@ const Register = () => {
             <button
               type="submit"
               disabled={isLoading}
-              className={buttonClasses.primary + " w-full"}
+              className="w-full px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium transition-all hover:opacity-90"
             >
               {isLoading ? (
                 <span className="flex items-center justify-center">
@@ -353,9 +353,9 @@ const Register = () => {
         </motion.div>
         
         <motion.div variants={fadeIn} className="text-center mt-6">
-          <p className="text-gray-600">
+          <p className="text-gray-400 font-pretendard">
             이미 계정이 있으신가요?{' '}
-            <Link href="/login" className="text-[#D4AF37] hover:underline">
+            <Link href="/login" className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:underline">
               로그인
             </Link>
           </p>
