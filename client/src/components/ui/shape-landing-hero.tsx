@@ -83,8 +83,19 @@ export function HeroGeometric({
       <motion.div
         className="absolute left-[5%] bottom-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
-        animate={{ opacity: 0.5, scale: 1, rotate: -5 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
+        animate={{ 
+          opacity: 0.5, 
+          scale: [1, 1.03, 0.98, 1],
+          rotate: [-5, -8, -3, -5],
+          y: [0, -15, 10, 0],
+          x: [0, 10, -5, 0]
+        }}
+        transition={{ 
+          duration: 15, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop"
+        }}
       >
         <img 
           src={croissantImage} 
@@ -97,8 +108,20 @@ export function HeroGeometric({
       <motion.div
         className="absolute right-[10%] top-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
-        animate={{ opacity: 0.5, scale: 1, rotate: 10 }}
-        transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
+        animate={{ 
+          opacity: 0.5, 
+          scale: [1, 1.02, 0.97, 1],
+          rotate: [10, 8, 12, 10],
+          y: [0, 10, -8, 0],
+          x: [0, -15, 8, 0]
+        }}
+        transition={{ 
+          duration: 18, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: 0.2
+        }}
       >
         <img 
           src={baguetteImage} 
@@ -111,8 +134,20 @@ export function HeroGeometric({
       <motion.div
         className="absolute right-[20%] bottom-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
-        animate={{ opacity: 0.4, scale: 0.9, rotate: -5 }}
-        transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
+        animate={{ 
+          opacity: 0.4, 
+          scale: [0.9, 0.93, 0.88, 0.9],
+          rotate: [-5, -3, -8, -5],
+          y: [0, -10, 5, 0],
+          x: [0, -8, 12, 0]
+        }}
+        transition={{ 
+          duration: 12, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: 0.4
+        }}
       >
         <img 
           src={croissantImage} 
@@ -125,8 +160,20 @@ export function HeroGeometric({
       <motion.div
         className="absolute left-[15%] top-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: 20 }}
-        animate={{ opacity: 0.4, scale: 0.9, rotate: 15 }}
-        transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
+        animate={{ 
+          opacity: 0.4, 
+          scale: [0.9, 0.92, 0.87, 0.9],
+          rotate: [15, 18, 12, 15],
+          y: [0, 8, -12, 0],
+          x: [0, 12, -5, 0]
+        }}
+        transition={{ 
+          duration: 14, 
+          ease: "easeInOut", 
+          repeat: Infinity,
+          repeatType: "loop",
+          delay: 0.3
+        }}
       >
         <img 
           src={baguetteImage} 
