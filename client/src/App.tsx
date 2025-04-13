@@ -17,6 +17,7 @@ import Register from "@/pages/register";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { AnimatePresence } from "framer-motion";
+import TestImage from "./components/home/test-image";
 
 function Router() {
   const [location] = useLocation();
@@ -50,6 +51,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <Router />
       <Toaster />
+      <TestImage />
     </QueryClientProvider>
   );
 }
