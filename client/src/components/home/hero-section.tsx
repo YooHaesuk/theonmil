@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { buttonClasses } from '@/lib/fonts';
+import { SparklesCore } from '@/components/ui/sparkles';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -20,37 +21,47 @@ const HeroSection = () => {
 
   return (
     <section className="relative h-screen flex items-center text-white overflow-hidden">
-      {/* Background image with overlay */}
+      {/* Background with sparkles effect */}
       <div className="absolute inset-0">
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
-        
         {/* Background image - using inline CSS background for better control */}
         <div 
-          className="absolute inset-0 bg-cover bg-center"
+          className="absolute inset-0 bg-cover bg-center z-0"
           style={{
             backgroundImage: `url('https://images.unsplash.com/photo-1586444248902-2981d90cb42d?q=80&w=1964&auto=format&fit=crop')`,
-            filter: 'brightness(0.7)',
+            filter: 'brightness(0.6)',
           }}
         ></div>
         
-        {/* Gold accents/overlay */}
-        <div className="absolute inset-0 z-10" style={{
-          background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(0,0,0,0) 50%)',
+        {/* Sparkles effect */}
+        <div className="absolute inset-0 z-10">
+          <SparklesCore
+            id="bakerySparkles"
+            background="transparent"
+            minSize={0.4}
+            maxSize={1.0}
+            particleDensity={60}
+            className="w-full h-full"
+            particleColor="#D4AF37"
+            speed={0.3}
+          />
+        </div>
+        
+        {/* Additional overlays and gradients */}
+        <div className="absolute inset-0 z-20" style={{
+          background: 'linear-gradient(135deg, rgba(212,175,55,0.15) 0%, rgba(0,0,0,0) 50%)',
         }}></div>
         
-        {/* Additional decorative elements */}
-        <div className="absolute top-0 left-0 w-full h-32" style={{
+        <div className="absolute top-0 left-0 w-full h-32 z-20" style={{
           background: 'linear-gradient(to bottom, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
         }}></div>
-        <div className="absolute bottom-0 left-0 w-full h-40" style={{
+        <div className="absolute bottom-0 left-0 w-full h-40 z-20" style={{
           background: 'linear-gradient(to top, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
         }}></div>
       </div>
       
       {/* Hero content */}
       <div 
-        className="container mx-auto px-4 relative z-20"
+        className="container mx-auto px-4 relative z-30"
         style={{ transform: `translateY(${scrollY * 0.2}px)` }}
       >
         <motion.div 
@@ -103,7 +114,7 @@ const HeroSection = () => {
       
       {/* Scroll indicator */}
       <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
         initial={{ opacity: 0 }}
         animate={{ 
           opacity: 1,
