@@ -44,14 +44,18 @@
 @layer base {
   * {
     @apply border-border;
+    word-break: keep-all; /* 한글 단어 단위 줄바꿈 */
+    overflow-wrap: break-word; /* 긴 단어 처리 */
   }
 
   body {
     @apply font-pretendard antialiased bg-background text-foreground overflow-x-hidden;
+    word-break: keep-all; /* 한글 단어 단위 줄바꿈 보강 */
   }
   
   h1, h2, h3, h4, h5, h6 {
     @apply font-playfair;
+    word-break: keep-all; /* 제목에도 적용 */
   }
 }
 

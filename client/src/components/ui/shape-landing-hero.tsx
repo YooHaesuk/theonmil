@@ -244,12 +244,13 @@ export function HeroGeometric({
       <div className="absolute top-1/2 left-1/2 w-1/2 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-[#FFFFFF05] blur-[100px] rounded-full"></div>
 
       {/* 중앙 컨텐츠 */}
-      <div className="relative z-20 m-8 max-w-[800px] text-center px-4">
+      <div className="relative z-20 m-8 max-w-[800px] text-center px-4" style={{ wordBreak: 'keep-all' }}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
           className="mb-8 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
+          style={{ wordBreak: 'keep-all' }}
         >
           {badge}
         </motion.div>
@@ -258,6 +259,7 @@ export function HeroGeometric({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="mb-6 mt-4 max-w-3xl text-5xl font-bold md:text-6xl lg:text-7xl mx-auto"
+          style={{ wordBreak: 'keep-all' }}
         >
           <span className="font-montserrat text-white">{title1}</span> <br />
           <span className="font-montserrat bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">{title2}</span>
@@ -267,6 +269,7 @@ export function HeroGeometric({
           animate={{ opacity: 0.7 }}
           transition={{ duration: 0.5, delay: 0.4 }}
           className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto"
+          style={{ wordBreak: 'keep-all', overflowWrap: 'break-word' }}
         >
           수도권 120여 개 지역중형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다.
         </motion.p>
