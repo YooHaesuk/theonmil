@@ -13,7 +13,7 @@ export interface Product {
   nameKorean: string;
   description: string;
   price: number;
-  image: string;
+  image: any; // 이미지 타입을 any로 변경
   category: ProductCategory;
   tags: string[];
   isBestseller?: boolean;
