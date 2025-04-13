@@ -123,7 +123,7 @@ const Cart = () => {
                   </div>
                 </div>
                 
-                <div className="divide-y divide-gray-100">
+                <div className="divide-y divide-[#222222]">
                   {cartItems.map(item => (
                     <motion.div
                       key={item.id}
@@ -134,16 +134,16 @@ const Cart = () => {
                         <img 
                           src={item.image} 
                           alt={item.nameKorean} 
-                          className="w-full h-full object-cover rounded"
+                          className="w-full h-full object-cover rounded-lg border border-[#333333]"
                         />
                       </Link>
                       
                       <div className="flex-grow">
-                        <Link href={`/products/${item.id}`} className="font-playfair text-lg font-semibold text-[#1B1B1B] hover:text-[#D4AF37] transition-colors">
+                        <Link href={`/products/${item.id}`} className="font-montserrat text-lg font-semibold text-white hover:bg-gradient-to-r hover:from-[#A78BFA] hover:to-[#EC4899] hover:text-transparent hover:bg-clip-text transition-colors">
                           {item.nameKorean}
                         </Link>
-                        <p className="font-montserrat text-sm text-gray-500">{item.name}</p>
-                        <p className="font-montserrat font-semibold text-[#1B1B1B] mt-1">
+                        <p className="font-montserrat text-sm text-gray-400">{item.name}</p>
+                        <p className="font-montserrat font-semibold text-gray-300 mt-1">
                           {formatPrice(item.price)}
                         </p>
                       </div>
@@ -151,26 +151,26 @@ const Cart = () => {
                       <div className="flex items-center">
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                          className="w-8 h-8 rounded-md bg-[#F5F3EF] flex items-center justify-center"
+                          className="w-8 h-8 rounded-full bg-[#0F0F1A] text-white border border-[#333333] flex items-center justify-center hover:bg-[#1A1A2A] transition-colors"
                         >
                           <i className="fa-solid fa-minus text-sm"></i>
                         </button>
-                        <span className="w-12 text-center font-montserrat">{item.quantity}</span>
+                        <span className="w-12 text-center font-montserrat text-white">{item.quantity}</span>
                         <button 
                           onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                          className="w-8 h-8 rounded-md bg-[#F5F3EF] flex items-center justify-center"
+                          className="w-8 h-8 rounded-full bg-[#0F0F1A] text-white border border-[#333333] flex items-center justify-center hover:bg-[#1A1A2A] transition-colors"
                         >
                           <i className="fa-solid fa-plus text-sm"></i>
                         </button>
                       </div>
                       
                       <div className="text-right sm:w-24">
-                        <p className="font-montserrat font-semibold text-[#1B1B1B]">
+                        <p className="font-montserrat font-semibold text-white">
                           {formatPrice(item.price * item.quantity)}
                         </p>
                         <button 
                           onClick={() => removeItem(item.id)}
-                          className="text-sm text-red-500 hover:text-red-700 transition-colors mt-1"
+                          className="text-sm text-red-400 hover:text-red-300 transition-colors mt-1"
                         >
                           삭제
                         </button>
@@ -181,7 +181,7 @@ const Cart = () => {
               </div>
               
               <div className="flex justify-between">
-                <Link href="/products" className="font-montserrat text-sm text-[#1B1B1B] hover:text-[#D4AF37] transition-colors flex items-center">
+                <Link href="/products" className="font-montserrat text-sm text-gray-300 hover:text-white transition-colors flex items-center">
                   <i className="fa-solid fa-arrow-left mr-2"></i> 쇼핑 계속하기
                 </Link>
               </div>
@@ -192,42 +192,42 @@ const Cart = () => {
               variants={fadeIn}
               className="lg:w-96 flex-shrink-0"
             >
-              <div className="bg-white rounded-lg shadow-md overflow-hidden sticky top-24">
-                <div className="p-6 bg-[#F5F3EF] border-b border-gray-200">
-                  <h2 className="font-playfair text-xl font-semibold text-[#1B1B1B]">
-                    주문 요약
+              <div className="bg-[#111111] rounded-lg shadow-md overflow-hidden sticky top-24 border border-[#222222]">
+                <div className="p-6 bg-[#0F0F1A] border-b border-[#222222]">
+                  <h2 className="font-montserrat text-xl font-semibold text-white">
+                    주문 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">요약</span>
                   </h2>
                 </div>
                 
                 <div className="p-6">
                   <div className="space-y-3 mb-6">
                     <div className="flex justify-between">
-                      <span className="font-pretendard text-gray-600">상품 금액</span>
-                      <span className="font-montserrat font-semibold">{formatPrice(subtotal)}</span>
+                      <span className="font-pretendard text-gray-300">상품 금액</span>
+                      <span className="font-montserrat font-semibold text-white">{formatPrice(subtotal)}</span>
                     </div>
                     <div className="flex justify-between">
-                      <span className="font-pretendard text-gray-600">배송비</span>
-                      <span className="font-montserrat font-semibold">
+                      <span className="font-pretendard text-gray-300">배송비</span>
+                      <span className="font-montserrat font-semibold text-white">
                         {shippingFee === 0 ? '무료' : formatPrice(shippingFee)}
                       </span>
                     </div>
                     {shippingFee > 0 && (
-                      <div className="text-sm text-gray-500">
+                      <div className="text-sm text-gray-400">
                         * {formatPrice(50000 - subtotal)}원 추가 구매 시 무료배송
                       </div>
                     )}
                   </div>
                   
-                  <div className="border-t border-gray-200 pt-4 mb-6">
+                  <div className="border-t border-[#333333] pt-4 mb-6">
                     <div className="flex justify-between">
-                      <span className="font-pretendard font-medium">총 결제 금액</span>
-                      <span className="font-montserrat font-bold text-[#D4AF37] text-xl">
+                      <span className="font-pretendard font-medium text-gray-300">총 결제 금액</span>
+                      <span className="font-montserrat font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text text-xl">
                         {formatPrice(total)}
                       </span>
                     </div>
                   </div>
                   
-                  <Link href="/checkout" className={buttonClasses.primary + " w-full flex items-center justify-center"}>
+                  <Link href="/checkout" className="w-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:opacity-90 text-white font-medium py-3 px-4 rounded-full text-center transition-all duration-300 font-montserrat hover:shadow-lg hover:shadow-purple-500/20 flex items-center justify-center">
                     <i className="fa-solid fa-credit-card mr-2"></i>
                     결제하기
                   </Link>
