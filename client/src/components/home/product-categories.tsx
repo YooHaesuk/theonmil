@@ -35,20 +35,20 @@ const categories: Category[] = [
 
 const ProductCategories = () => {
   return (
-    <section id="categories" className="py-20 bg-[#F5F3EF]">
+    <section id="categories" className="py-20 bg-[#0F0F1A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
-            className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}
+            className="text-4xl font-bold font-montserrat mb-4 text-white"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            제품 카테고리
+            제품 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">카테고리</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-[#333333] max-w-2xl mx-auto"
+            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
@@ -70,7 +70,7 @@ const ProductCategories = () => {
           {categories.map((category) => (
             <motion.div
               key={category.id}
-              className="bg-white rounded-lg overflow-hidden shadow-md group"
+              className="bg-[#111111] rounded-lg overflow-hidden shadow-md group border border-[#222222]"
               variants={fadeIn}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
@@ -78,20 +78,21 @@ const ProductCategories = () => {
                 <img 
                   src={category.image} 
                   alt={category.name} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 brightness-75"
                 />
-                <div className="absolute inset-0 bg-[#1B1B1B] bg-opacity-30 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[#0A0A0A] opacity-70"></div>
+                <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <Link 
                     href={`/products?category=${category.id}`}
-                    className="bg-white text-[#1B1B1B] py-2 px-6 rounded-md font-montserrat font-medium transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white py-2 px-6 rounded-full font-montserrat font-medium transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
                   >
                     둘러보기
                   </Link>
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-2">{category.name}</h3>
-                <p className="font-pretendard text-sm text-gray-600">{category.description}</p>
+                <h3 className="font-montserrat text-xl font-semibold text-white mb-2">{category.name}</h3>
+                <p className="font-pretendard text-sm text-gray-400">{category.description}</p>
               </div>
             </motion.div>
           ))}

@@ -43,17 +43,17 @@ const ProcessSection = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
-    <section id="process" className="py-20 bg-[#1B1B1B] text-white">
+    <section id="process" className="py-20 bg-[#0A0A0A] text-white">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <motion.h2 
-            className={headingClasses.h2 + " text-white mb-4"}
+            className="text-4xl font-bold font-montserrat mb-4 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            우리의 제조 과정
+            우리의 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제조 과정</span>
           </motion.h2>
           <motion.p 
             className="font-maruburi text-lg max-w-2xl mx-auto text-gray-300"
@@ -78,22 +78,24 @@ const ProcessSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
             >
               <div className="relative mb-6 mx-auto">
-                <div className="w-24 h-24 rounded-full bg-[#D4AF37] flex items-center justify-center text-white text-2xl font-bold mx-auto">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white text-2xl font-bold mx-auto">
                   {step.number}
                 </div>
                 {!isMobile && index < processSteps.length - 1 && (
-                  <div className="hidden md:block absolute top-12 left-full w-full h-0.5 bg-[#D4AF37] transform -translate-x-6"></div>
+                  <div className="hidden md:block absolute top-12 left-full w-full h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transform -translate-x-6"></div>
                 )}
               </div>
-              <h3 className="font-playfair text-xl font-semibold mb-3">{step.title}</h3>
+              <h3 className="font-montserrat text-xl font-semibold mb-3 text-white">{step.title}</h3>
               <p className="font-pretendard text-gray-300">{step.description}</p>
-              <motion.img 
-                src={step.image} 
-                alt={step.title} 
-                className="mt-6 rounded-lg w-full h-40 object-cover"
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
+              <div className="mt-6 rounded-lg overflow-hidden bg-[#111111] border border-[#222222]">
+                <motion.img 
+                  src={step.image} 
+                  alt={step.title} 
+                  className="w-full h-40 object-cover brightness-75"
+                  whileHover={{ scale: 1.05 }}
+                  transition={{ duration: 0.3 }}
+                />
+              </div>
             </motion.div>
           ))}
         </div>
@@ -106,7 +108,10 @@ const ProcessSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Link href="/brand" className={buttonClasses.primary}>
+          <Link 
+            href="/brand" 
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+          >
             제조 과정 자세히 보기
           </Link>
         </motion.div>
