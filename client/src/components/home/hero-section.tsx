@@ -74,7 +74,7 @@ const HeroSection = () => {
             </motion.span>
           </h1>
           <motion.p 
-            className="font-maruburi text-base md:text-xl mb-8 text-[#F5F3EF]"
+            className="font-pretendard text-base md:text-xl mb-8 text-[#F5F3EF]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.6, delay: 0.6 }}
