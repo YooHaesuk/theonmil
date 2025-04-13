@@ -11,37 +11,31 @@ interface ProcessStep {
   image: string;
 }
 
-// 이미지 임포트
-import process1 from '@/assets/images/process/process_step1.png';
-import process2 from '@/assets/images/process/process_step2.png';
-import process3 from '@/assets/images/process/process_step3.png';
-import process4 from '@/assets/images/process/process_step4.png';
-
 // Process steps data
 const processSteps: ProcessStep[] = [
   {
     number: 1,
     title: '엄선된 재료',
     description: '전국 각지의 신선한 재료들을 매일 아침 직접 선별합니다.',
-    image: process1
+    image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80'
   },
   {
     number: 2,
     title: '천연 발효',
     description: '최소 16시간 이상 천천히 발효시켜 깊은 맛과 향을 끌어냅니다.',
-    image: process2
+    image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
   },
   {
     number: 3,
     title: '장인의 손길',
     description: '기계가 아닌 장인의 손으로 모양을 만들고 정성을 담습니다.',
-    image: process3
+    image: 'https://images.unsplash.com/photo-1509365465985-25d11c17e812?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
   },
   {
     number: 4,
     title: '완벽한 굽기',
     description: '최적의 온도와 습도를 유지하며 골든 브라운 색상까지 굽습니다.',
-    image: process4
+    image: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
   }
 ];
 
