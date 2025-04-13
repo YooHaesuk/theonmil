@@ -3,14 +3,20 @@ import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 
+// 리뷰 이미지 가져오기
+import reviewImage1 from '@/assets/images/reviews/review_image1.png';
+import reviewImage2 from '@/assets/images/reviews/review_image2.png';
+import reviewImage3 from '@/assets/images/reviews/review_image3.png';
+import reviewImage4 from '@/assets/images/reviews/review_image4.png';
+import reviewImage5 from '@/assets/images/reviews/review_image5.png';
+
 // Review type definition
 interface Review {
   id: string;
   name: string;
   rating: number;
   text: string;
-  profile: string;
-  images: string[];
+  productImage: any; // 제품 이미지로 변경
   date: string;
   product: string;
 }
@@ -22,12 +28,8 @@ const reviews: Review[] = [
     name: '김지영',
     rating: 5,
     text: '크로와상이 정말 바삭하고 버터향이 진해요. 아침에 커피와 함께 먹으면 하루가 행복해집니다. 정기배송 신청해서 매주 받아먹고 있어요!',
-    profile: 'https://randomuser.me/api/portraits/women/44.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1555507036-ab1f4038808a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1026&q=80',
-      'https://images.unsplash.com/photo-1613278831678-c371b89abf47?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    ],
-    date: '2023-05-15',
+    productImage: reviewImage3,
+    date: '2024-04-10',
     product: '클래식 크로와상'
   },
   {
@@ -35,11 +37,8 @@ const reviews: Review[] = [
     name: '이상현',
     rating: 4.5,
     text: '아내 생일에 케이크와 꽃다발 세트로 주문했는데, 포장이 정말 고급스러웠어요. 케이크 맛도 달지 않고 부드러워서 가족 모두 만족했습니다.',
-    profile: 'https://randomuser.me/api/portraits/men/32.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1089&q=80'
-    ],
-    date: '2023-04-22',
+    productImage: reviewImage2,
+    date: '2024-04-05',
     product: '스페셜 초콜릿 케이크'
   },
   {
@@ -47,25 +46,17 @@ const reviews: Review[] = [
     name: '박소연',
     rating: 5,
     text: '회사 모임에 단체 주문했어요. 직원들 모두 맛있다고 칭찬했고, 특히 통밀 식빵은 건강해 보여서 좋았어요. 다음에도 이용할 예정입니다.',
-    profile: 'https://randomuser.me/api/portraits/women/68.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1513442542250-854d436a73f2?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-      'https://images.unsplash.com/photo-1600326145359-3a44909d1a39?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80',
-      'https://images.unsplash.com/photo-1610406765661-57646c40da59?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80'
-    ],
-    date: '2023-06-03',
-    product: '통밀 식빵'
+    productImage: reviewImage5,
+    date: '2024-03-28',
+    product: '브런치 바게트'
   },
   {
     id: '4',
     name: '정현우',
     rating: 5,
     text: '프렌치 바게트가 정말 맛있어요. 겉은 바삭하고 속은 쫄깃하니 식감이 완벽합니다. 여러 빵집을 다녀봤지만 여기가 최고예요.',
-    profile: 'https://randomuser.me/api/portraits/men/42.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
-    ],
-    date: '2023-05-28',
+    productImage: reviewImage5,
+    date: '2024-03-25',
     product: '프렌치 바게트'
   },
   {
@@ -73,12 +64,8 @@ const reviews: Review[] = [
     name: '서민지',
     rating: 4,
     text: '과일 타르트 맛있게 먹었습니다. 과일이 신선하고 크림이 너무 달지 않아서 좋았어요. 다음에는 다른 종류의 타르트도 시도해볼게요.',
-    profile: 'https://randomuser.me/api/portraits/women/65.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80',
-      'https://images.unsplash.com/photo-1572897306050-9c33bf745513?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80'
-    ],
-    date: '2023-06-10',
+    productImage: reviewImage4,
+    date: '2024-03-20',
     product: '신선한 과일 타르트'
   },
   {
@@ -86,50 +73,19 @@ const reviews: Review[] = [
     name: '최준영',
     rating: 5,
     text: '기념일 선물 세트를 여자친구에게 보냈는데 너무 좋아했어요. 빵도 맛있고 꽃도 예쁘고 성공적인 선물이었습니다!',
-    profile: 'https://randomuser.me/api/portraits/men/22.jpg',
-    images: [
-      'https://images.unsplash.com/photo-1627834377411-8da5f4f09de8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1901&q=80'
-    ],
-    date: '2023-06-15',
+    productImage: reviewImage1,
+    date: '2024-03-15',
     product: '기념일 선물 세트'
   }
 ];
 
 const Reviews = () => {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
-  const [selectedImages, setSelectedImages] = useState<string[]>([]);
   
   // Filter reviews based on selected rating
   const filteredReviews = selectedRating 
     ? reviews.filter(review => Math.floor(review.rating) === selectedRating) 
     : reviews;
-  
-  // Handle image click to open gallery
-  const openGallery = (images: string[], index: number) => {
-    setSelectedImages(images);
-    setSelectedImageIndex(index);
-  };
-  
-  // Close gallery
-  const closeGallery = () => {
-    setSelectedImageIndex(null);
-    setSelectedImages([]);
-  };
-  
-  // Next image in gallery
-  const nextImage = () => {
-    if (selectedImageIndex !== null && selectedImages.length > 0) {
-      setSelectedImageIndex((selectedImageIndex + 1) % selectedImages.length);
-    }
-  };
-  
-  // Previous image in gallery
-  const prevImage = () => {
-    if (selectedImageIndex !== null && selectedImages.length > 0) {
-      setSelectedImageIndex((selectedImageIndex - 1 + selectedImages.length) % selectedImages.length);
-    }
-  };
   
   return (
     <motion.div
@@ -191,36 +147,32 @@ const Reviews = () => {
               variants={fadeIn}
               className="bg-[#111111] rounded-lg p-6 shadow-md border border-[#222222]"
             >
-              <div className="flex items-center mb-4">
-                <div className="w-12 h-12 rounded-full bg-[#1A1A2A] overflow-hidden mr-4 border border-[#333333]">
-                  <img src={review.profile} alt={`${review.name} 프로필`} />
+              <div className="mb-6">
+                <div className="mb-3 rounded-lg overflow-hidden border border-[#333333]">
+                  <img 
+                    src={review.productImage} 
+                    alt={`${review.product}`} 
+                    className="w-full h-48 object-cover"
+                  />
                 </div>
-                <div>
+                <div className="flex justify-between items-center mb-2">
                   <h4 className="font-montserrat font-semibold text-white">{review.name}</h4>
-                  <div className="flex bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
-                    {[...Array(Math.floor(review.rating))].map((_, i) => (
-                      <i key={i} className="fa-solid fa-star"></i>
-                    ))}
-                    {review.rating % 1 !== 0 && (
-                      <i className="fa-solid fa-star-half-alt"></i>
-                    )}
-                  </div>
+                  <span className="text-sm text-gray-400 font-pretendard">
+                    {new Date(review.date).toLocaleDateString()}
+                  </span>
                 </div>
-              </div>
-              <p className="font-pretendard text-gray-300 mb-2">{review.text}</p>
-              <p className="font-montserrat text-sm text-gray-500 mb-4">
-                {review.product} • {new Date(review.date).toLocaleDateString()}
-              </p>
-              <div className="flex space-x-2">
-                {review.images.map((image, index) => (
-                  <button
-                    key={index}
-                    onClick={() => openGallery(review.images, index)}
-                    className="w-16 h-16 rounded object-cover overflow-hidden border border-[#333333]"
-                  >
-                    <img src={image} alt={`고객 후기 사진 ${index + 1}`} className="w-full h-full object-cover" />
-                  </button>
-                ))}
+                <div className="flex mb-2 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
+                  {[...Array(Math.floor(review.rating))].map((_, i) => (
+                    <i key={i} className="fa-solid fa-star"></i>
+                  ))}
+                  {review.rating % 1 !== 0 && (
+                    <i className="fa-solid fa-star-half-alt"></i>
+                  )}
+                </div>
+                <p className="font-montserrat text-sm text-gray-400 mb-3 font-medium">
+                  {review.product}
+                </p>
+                <p className="font-pretendard text-gray-300">{review.text}</p>
               </div>
             </motion.div>
           ))}
@@ -242,41 +194,6 @@ const Reviews = () => {
           </button>
         </motion.div>
       </div>
-      
-      {/* Image Gallery Modal */}
-      {selectedImageIndex !== null && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <button 
-            onClick={closeGallery}
-            className="absolute top-4 right-4 text-white text-2xl"
-            aria-label="갤러리 닫기"
-          >
-            <i className="fa-solid fa-times"></i>
-          </button>
-          <button 
-            onClick={prevImage} 
-            className="absolute left-4 text-white text-3xl"
-            aria-label="이전 이미지"
-          >
-            <i className="fa-solid fa-chevron-left"></i>
-          </button>
-          <button 
-            onClick={nextImage} 
-            className="absolute right-4 text-white text-3xl"
-            aria-label="다음 이미지"
-          >
-            <i className="fa-solid fa-chevron-right"></i>
-          </button>
-          
-          <div className="max-w-4xl max-h-[80vh]">
-            <img 
-              src={selectedImages[selectedImageIndex]} 
-              alt="후기 이미지 확대" 
-              className="max-w-full max-h-[80vh] object-contain"
-            />
-          </div>
-        </div>
-      )}
     </motion.div>
   );
 };
