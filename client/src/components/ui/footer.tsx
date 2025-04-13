@@ -4,7 +4,7 @@ const Footer = () => {
   return (
     <footer className="bg-[#0A0A0A] text-white border-t border-[#222222] pt-16 pb-8">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-bold font-montserrat mb-6 text-white">
@@ -25,19 +25,6 @@ const Footer = () => {
                 <i className="fa-brands fa-twitter text-xl"></i>
               </a>
             </div>
-          </div>
-          
-          {/* Links 1 */}
-          <div>
-            <h4 className="font-montserrat font-semibold text-lg mb-6 text-white">빠른 링크</h4>
-            <ul className="space-y-3 font-pretendard text-gray-400">
-              <li><Link href="/brand" className="hover:text-white hover:pl-1 transition-all duration-200">브랜드 소개</Link></li>
-              <li><Link href="/products" className="hover:text-white hover:pl-1 transition-all duration-200">전체 제품 보기</Link></li>
-              <li><Link href="/products?category=regular" className="hover:text-white hover:pl-1 transition-all duration-200">상시 운영 제품</Link></li>
-              <li><Link href="/products?category=custom" className="hover:text-white hover:pl-1 transition-all duration-200">주문 제작 제품</Link></li>
-              <li><Link href="/products?category=gift" className="hover:text-white hover:pl-1 transition-all duration-200">기념일 선물 세트</Link></li>
-              <li><Link href="/stores" className="hover:text-white hover:pl-1 transition-all duration-200">오프라인 매장</Link></li>
-            </ul>
           </div>
           
           {/* Links 2 */}
