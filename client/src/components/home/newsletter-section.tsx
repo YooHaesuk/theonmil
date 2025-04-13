@@ -41,7 +41,7 @@ const NewsletterSection = () => {
           <h2 className="text-3xl font-bold font-montserrat mb-4 text-white">
             빵답게 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">소식 받기</span>
           </h2>
-          <p className="font-maruburi text-lg text-gray-300 mb-8">
+          <p className="font-pretendard text-lg text-gray-300 mb-8">
             신제품 소식, 시즌 한정 메뉴, 특별 할인 정보를 가장 먼저 받아보세요.
           </p>
           <form 
