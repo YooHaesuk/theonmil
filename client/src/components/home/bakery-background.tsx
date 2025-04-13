@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
+import { useMobile } from '@/hooks/use-mobile';
 import { motion } from 'framer-motion';
-import { useMediaQuery } from '@/hooks/use-mobile';
 
-// Import bakery images
-import croissantImage from '@/assets/images/bakery/croissant-transparent.png';
-import baguetteImage from '@/assets/images/bakery/baguette-transparent.png';
-
+// 떠다니는 빵 아이템 타입 정의
 interface BakeryItem {
   id: number;
   x: number;
@@ -17,87 +16,69 @@ interface BakeryItem {
 }
 
 export function BakeryBackground() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [bakeryItems, setBakeryItems] = useState<BakeryItem[]>([]);
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMobile();
+  const [items, setItems] = useState<BakeryItem[]>([]);
   
+  // 화면 크기에 맞게 아이템 개수 조정
+  const itemCount = useMemo(() => isMobile ? 8 : 15, [isMobile]);
+  
+  // 컴포넌트 마운트 시 떠다니는 아이템 초기화
   useEffect(() => {
-    if (!containerRef.current) return;
-    
-    const container = containerRef.current;
-    const width = container.clientWidth;
-    const height = container.clientHeight;
-    
-    const itemCount = isMobile ? 8 : 14;
     const newItems: BakeryItem[] = [];
     
+    // 랜덤 아이템 생성
     for (let i = 0; i < itemCount; i++) {
-      // Alternate between croissant and baguette
-      const image = i % 2 === 0 ? croissantImage : baguetteImage;
-      const size = Math.random() * (180 - 80) + 80;
-      
-      // Create a new bakery item with random position, size, rotation
       newItems.push({
         id: i,
-        x: Math.random() * width,
-        y: Math.random() * height,
-        size,
-        rotate: Math.random() * 360,
-        opacity: 0.3 + Math.random() * 0.2,
-        image
+        x: Math.random() * 100,  // 화면의 x 위치 (%)
+        y: Math.random() * 100,  // 화면의 y 위치 (%)
+        size: Math.random() * 60 + 40,  // 아이템 크기 (40~100px)
+        rotate: Math.random() * 360,  // 회전 각도
+        opacity: Math.random() * 0.6 + 0.2,  // 투명도 (0.2~0.8)
+        image: Math.random() > 0.5 ? croissantImage : baguetteImage  // 빵 이미지 랜덤 선택
       });
     }
     
-    setBakeryItems(newItems);
-  }, [isMobile]);
+    setItems(newItems);
+  }, [itemCount]);
   
   return (
-    <div 
-      ref={containerRef}
-      className="absolute inset-0 overflow-hidden"
-      style={{ zIndex: 1 }}
-    >
-      {bakeryItems.map((item) => (
+    <div className="absolute inset-0 overflow-hidden">
+      {items.map((item) => (
         <motion.div
           key={item.id}
           className="absolute"
           style={{
-            left: item.x,
-            top: item.y,
-            width: item.size,
-            height: item.size,
+            left: `${item.x}%`,
+            top: `${item.y}%`,
             opacity: item.opacity,
           }}
           animate={{
-            x: [0, Math.random() * 50 - 25, 0],
-            y: [0, Math.random() * 50 - 25, 0],
-            rotate: [0, item.id % 2 === 0 ? 360 : -360]
+            x: [0, Math.random() * 100 - 50, 0],
+            y: [0, Math.random() * 100 - 50, 0],
+            rotate: [item.rotate, item.rotate + 20, item.rotate - 20, item.rotate],
           }}
           transition={{
-            x: {
-              repeat: Infinity,
-              duration: 10 + Math.random() * 10,
-              ease: "easeInOut"
-            },
-            y: {
-              repeat: Infinity,
-              duration: 15 + Math.random() * 10,
-              ease: "easeInOut"
-            },
-            rotate: {
-              repeat: Infinity,
-              duration: 20 + Math.random() * 20,
-              ease: "linear"
-            }
+            duration: Math.random() * 25 + 15, // 15~40초 동안 움직임
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut"
           }}
         >
-          <img 
-            src={item.image} 
-            alt="Bakery item" 
-            className="w-full h-full object-contain" 
+          <img
+            src={item.image}
+            alt="Bakery Item"
+            style={{
+              width: `${item.size}px`,
+              height: `${item.size}px`,
+              objectFit: 'contain',
+            }}
+            className="select-none pointer-events-none"
           />
         </motion.div>
       ))}
     </div>
   );
 }
+
+export default BakeryBackground;
