@@ -94,7 +94,7 @@ const GiftSection = () => {
               <img 
                 src="https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80" 
                 alt="케이크" 
-                className="w-24 h-24 object-cover rounded brightness-75"
+                className="w-24 h-24 object-cover rounded"
               />
             </motion.div>
           </motion.div>
