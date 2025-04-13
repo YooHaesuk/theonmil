@@ -208,7 +208,7 @@ export function HeroGeometric({
           transition={{ duration: 0.5, delay: 0.4 }}
           className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto"
         >
-          수도권 200여 개 대형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다.
+          수도권 120여 개 지역중형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다.
         </motion.p>
       </div>
 
