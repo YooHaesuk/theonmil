@@ -1,0 +1,206 @@
+import { motion } from 'framer-motion';
+import { pageTransition, fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
+import { headingClasses, buttonClasses } from '@/lib/fonts';
+
+const Brand = () => {
+  return (
+    <motion.div
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageTransition}
+      className="min-h-screen pt-24 pb-20"
+    >
+      <div className="container mx-auto px-4">
+        {/* Hero Section */}
+        <div className="flex flex-col items-center text-center mb-16">
+          <motion.h1 variants={fadeIn} className={headingClasses.h1 + " text-[#1B1B1B] mb-4"}>
+            브랜드 이야기
+          </motion.h1>
+          <motion.p variants={fadeIn} className="font-maruburi text-lg max-w-3xl mx-auto mb-8 text-[#333333]">
+            빵답게는 2008년, 단 하나의 작은 오븐으로 시작했습니다. 처음부터 우리는 '빵다운 빵'이라는 단순한 철학을 고수했습니다.
+          </motion.p>
+        </div>
+        
+        {/* Brand Story */}
+        <div className="flex flex-col md:flex-row items-center gap-12 mb-20">
+          <motion.div 
+            variants={slideInFromLeft}
+            className="md:w-1/2"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80" 
+              alt="빵 제조 과정" 
+              className="rounded-lg shadow-lg w-full"
+            />
+          </motion.div>
+          <motion.div 
+            variants={slideInFromRight}
+            className="md:w-1/2"
+          >
+            <h2 className={headingClasses.h2 + " text-[#1B1B1B] mb-6"}>
+              시작의 순간
+            </h2>
+            <p className="font-maruburi text-lg mb-6 text-[#333333]">
+              빵답게는 2008년, 단 하나의 작은 오븐으로 시작했습니다. 처음부터 우리는 '빵다운 빵'이라는 단순한 철학을 고수했습니다.
+            </p>
+            <p className="font-maruburi text-lg mb-6 text-[#333333]">
+              국내산 밀가루, 천연 발효종, 그리고 최소한의 첨가물만을 사용해 건강하고 맛있는 빵을 굽는 것. 그 철학은 지금도 변함없이 지켜지고 있습니다.
+            </p>
+            <p className="font-maruburi text-lg mb-6 text-[#333333]">
+              대형마트 200여 곳에서 판매되며 많은 분들의 사랑을 받고 있는 빵답게가 이제 온라인에서도 여러분을 찾아갑니다.
+            </p>
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="text-center p-4 bg-[#F5F3EF] rounded-lg">
+                <p className="font-montserrat text-xl font-bold text-[#D4AF37]">200+</p>
+                <p className="font-pretendard text-sm text-[#333333]">입점 매장</p>
+              </div>
+              <div className="text-center p-4 bg-[#F5F3EF] rounded-lg">
+                <p className="font-montserrat text-xl font-bold text-[#D4AF37]">30+</p>
+                <p className="font-pretendard text-sm text-[#333333]">제품 라인업</p>
+              </div>
+              <div className="text-center p-4 bg-[#F5F3EF] rounded-lg">
+                <p className="font-montserrat text-xl font-bold text-[#D4AF37]">5,000+</p>
+                <p className="font-pretendard text-sm text-[#333333]">일 생산량</p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Brand Philosophy */}
+        <div className="flex flex-col md:flex-row-reverse items-center gap-12 mb-20">
+          <motion.div 
+            variants={slideInFromRight}
+            className="md:w-1/2"
+          >
+            <img 
+              src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
+              alt="빵 굽는 과정" 
+              className="rounded-lg shadow-lg w-full"
+            />
+          </motion.div>
+          <motion.div 
+            variants={slideInFromLeft}
+            className="md:w-1/2"
+          >
+            <h2 className={headingClasses.h2 + " text-[#1B1B1B] mb-6"}>
+              브랜드 철학
+            </h2>
+            <p className="font-maruburi text-lg mb-6 text-[#333333]">
+              빵답게의 모든 제품은 정직한 재료와 시간으로 만들어집니다. 우리는 화학 첨가물 대신 천연 발효의 맛과 향을 담아내기 위해 긴 시간 정성을 다합니다.
+            </p>
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start">
+                <i className="fa-solid fa-check text-[#D4AF37] mt-1 mr-3"></i>
+                <span className="font-pretendard text-[#333333]">최소한의 첨가물로 건강한 맛을 추구합니다</span>
+              </div>
+              <div className="flex items-start">
+                <i className="fa-solid fa-check text-[#D4AF37] mt-1 mr-3"></i>
+                <span className="font-pretendard text-[#333333]">국내산 농산물과 엄선된 재료만을 사용합니다</span>
+              </div>
+              <div className="flex items-start">
+                <i className="fa-solid fa-check text-[#D4AF37] mt-1 mr-3"></i>
+                <span className="font-pretendard text-[#333333]">장인의 정성으로 매일 신선한 빵을 굽습니다</span>
+              </div>
+              <div className="flex items-start">
+                <i className="fa-solid fa-check text-[#D4AF37] mt-1 mr-3"></i>
+                <span className="font-pretendard text-[#333333]">공정무역 원료를 적극적으로 도입합니다</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Team */}
+        <div className="mb-20">
+          <div className="text-center mb-12">
+            <motion.h2 variants={fadeIn} className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}>
+              장인 베이커들
+            </motion.h2>
+            <motion.p variants={fadeIn} className="font-maruburi text-lg max-w-3xl mx-auto text-[#333333]">
+              빵답게를 만드는 사람들은 각자의 분야에서 오랜 경험과 전문성을 갖춘 장인들입니다.
+            </motion.p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <motion.div 
+              variants={fadeIn}
+              className="bg-white rounded-lg overflow-hidden shadow-md text-center"
+            >
+              <div className="h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
+                  alt="수석 베이커" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-1">김민수</h3>
+                <p className="font-montserrat text-sm text-[#D4AF37] mb-4">수석 베이커</p>
+                <p className="font-pretendard text-sm text-[#333333]">프랑스 파리에서 15년간 현지 베이커리에서 경력을 쌓은 뒤 빵답게의 첫 번째 오븐을 열었습니다.</p>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={fadeIn}
+              className="bg-white rounded-lg overflow-hidden shadow-md text-center"
+            >
+              <div className="h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1525265332434-a8bcf3b6eeb5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1173&q=80" 
+                  alt="제빵 장인" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-1">이지은</h3>
+                <p className="font-montserrat text-sm text-[#D4AF37] mb-4">파티시에</p>
+                <p className="font-pretendard text-sm text-[#333333]">전통 제과와 현대적 기법을 접목시킨 디저트로 빵답게의 특별한 케이크와 타르트를 책임지고 있습니다.</p>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              variants={fadeIn}
+              className="bg-white rounded-lg overflow-hidden shadow-md text-center"
+            >
+              <div className="h-64 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80" 
+                  alt="제빵 연구가" 
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="p-6">
+                <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-1">박준호</h3>
+                <p className="font-montserrat text-sm text-[#D4AF37] mb-4">제품 개발자</p>
+                <p className="font-pretendard text-sm text-[#333333]">식품 영양학 전문가로서 건강하고 맛있는 빵답게의 신제품 개발과 품질 관리를 담당합니다.</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+        
+        {/* CTA Section */}
+        <motion.div 
+          variants={fadeIn}
+          className="bg-[#1B1B1B] text-white rounded-lg p-12 text-center"
+        >
+          <h2 className="font-playfair text-3xl md:text-4xl font-bold mb-6">
+            빵답게의 철학, 직접 맛보세요
+          </h2>
+          <p className="font-maruburi text-lg mb-8 max-w-2xl mx-auto">
+            정직한 재료와 장인의 손길로 만든 빵답게의 제품을 지금 경험해보세요.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/products" className={buttonClasses.primary}>
+              제품 보러가기
+            </Link>
+            <Link href="/stores" className={buttonClasses.light}>
+              매장 찾기
+            </Link>
+          </div>
+        </motion.div>
+      </div>
+    </motion.div>
+  );
+};
+
+export default Brand;
