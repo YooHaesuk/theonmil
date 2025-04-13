@@ -1,6 +1,8 @@
 "use client";
 import { motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
 
 interface Shape {
   id: number;
@@ -12,64 +14,6 @@ interface Shape {
   type: string;
   delay: number;
 }
-
-// 베이커리 SVG 아이콘 컴포넌트
-const BreadIcon = () => (
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M12 2C6.5 2 2 5.5 2 9.5C2 13.5 6.5 17 12 17C17.5 17 22 13.5 22 9.5C22 5.5 17.5 2 12 2Z" stroke="url(#bread-gradient)" strokeWidth="1.5" />
-    <defs>
-      <linearGradient id="bread-gradient" x1="2" y1="2" x2="22" y2="17" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#A78BFA" />
-        <stop offset="1" stopColor="#EC4899" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-const CroissantIcon = () => (
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M4 4C2.9 5.1 2 6.5 2 8C2 9.5 3 12 5 13C7 14 10 14 12 12C14 10 14 7 13 5C12 3 9.5 2 8 2C6.5 2 5.1 2.9 4 4Z" stroke="url(#croissant-gradient)" strokeWidth="1.5" />
-    <defs>
-      <linearGradient id="croissant-gradient" x1="2" y1="2" x2="14" y2="14" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#60A5FA" />
-        <stop offset="1" stopColor="#3B82F6" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-const DonutIcon = () => (
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <circle cx="12" cy="12" r="8" stroke="url(#donut-gradient)" strokeWidth="1.5" />
-    <circle cx="12" cy="12" r="3" stroke="url(#donut-gradient)" strokeWidth="1.5" />
-    <defs>
-      <linearGradient id="donut-gradient" x1="4" y1="4" x2="20" y2="20" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#F87171" />
-        <stop offset="1" stopColor="#EF4444" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-const MuffinIcon = () => (
-  <svg width="60" height="60" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M18 9C18 5.68629 15.3137 3 12 3C8.68629 3 6 5.68629 6 9H4V11C4 11 6 13 12 13C18 13 20 11 20 11V9H18Z" stroke="url(#muffin-gradient)" strokeWidth="1.5" />
-    <defs>
-      <linearGradient id="muffin-gradient" x1="4" y1="3" x2="20" y2="13" gradientUnits="userSpaceOnUse">
-        <stop stopColor="#FBBF24" />
-        <stop offset="1" stopColor="#F59E0B" />
-      </linearGradient>
-    </defs>
-  </svg>
-);
-
-// 컴포넌트 맵핑
-const BakeryIcons = {
-  "bread": BreadIcon,
-  "croissant": CroissantIcon,
-  "donut": DonutIcon,
-  "muffin": MuffinIcon,
-};
 
 export function HeroGeometric({
   badge,
@@ -139,19 +83,22 @@ export function HeroGeometric({
       {/* 배경 그라데이션 */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0F0F1A] to-[#0A0A0A] opacity-80"></div>
       
-      {/* 움직이는 빵 모양 아이콘들 */}
+      {/* 움직이는 빵 이미지들 */}
       {shapes.map((shape) => {
-        let Icon;
-        if (shape.type === "bread") Icon = BreadIcon;
-        else if (shape.type === "croissant") Icon = CroissantIcon;
-        else if (shape.type === "donut") Icon = DonutIcon;
-        else if (shape.type === "muffin") Icon = MuffinIcon;
-        else Icon = BreadIcon;  // 기본 아이콘
+        // 이미지 소스 결정 - 크로와상 또는 바게트
+        const imageSrc = shape.type === "croissant" || shape.type === "donut" 
+          ? croissantImage 
+          : baguetteImage;
+        
+        // 이미지 크기 계산 - 유형에 따라 다르게 설정
+        const imageSize = shape.type === "croissant" || shape.type === "donut"
+          ? 60 * shape.scale  // 크로와상은 작게
+          : 100 * shape.scale;  // 바게트는 좀 더 크게
         
         return (
           <motion.div
             key={shape.id}
-            className="absolute"
+            className="absolute z-10"
             style={{
               opacity: shape.opacity,
             }}
@@ -175,7 +122,16 @@ export function HeroGeometric({
               delay: shape.delay,
             }}
           >
-            <Icon />
+            <img 
+              src={imageSrc} 
+              alt="Bakery item" 
+              style={{ 
+                width: `${imageSize}px`,
+                height: `${imageSize}px`,
+                objectFit: 'contain',
+              }}
+              className="select-none"
+            />
           </motion.div>
         );
       })}

@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion';
 import { pageTransition } from '@/lib/animations';
 import HeroSection from '@/components/home/hero-section';
-import { BakeryHeroGeometric } from '@/components/home/hero-geometric';
 import FeaturedProducts from '@/components/home/featured-products';
 import AboutSection from '@/components/home/about-section';
 import ProductCategories from '@/components/home/product-categories';
@@ -20,7 +19,7 @@ const Home = () => {
       exit="exit"
       variants={pageTransition}
     >
-      <BakeryHeroGeometric />
+      <HeroSection />
       <FeaturedProducts />
       <AboutSection />
       <ProductCategories />
