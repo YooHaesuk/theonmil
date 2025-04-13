@@ -19,11 +19,11 @@ const ProductGrid = ({ products }: ProductGridProps) => {
           variants={fadeIn}
           className="col-span-full text-center py-12"
         >
-          <div className="text-6xl mb-6 text-gray-300">
+          <div className="text-6xl mb-6 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
             <i className="fa-solid fa-search"></i>
           </div>
-          <p className="text-xl mb-4">검색 결과가 없습니다</p>
-          <p className="text-gray-500">
+          <p className="text-xl mb-4 font-montserrat text-white">검색 결과가 없습니다</p>
+          <p className="text-gray-400 font-pretendard">
             다른 검색어나 필터를 사용해 보세요
           </p>
         </motion.div>

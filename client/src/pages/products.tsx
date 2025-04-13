@@ -55,8 +55,8 @@ const Products = () => {
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className={headingClasses.h2 + " text-white mb-4"}>
-            {selectedCategory ? categoryDisplayNames[selectedCategory] : '모든 제품'}
+          <h1 className="text-4xl font-bold font-montserrat mb-4 text-white">
+            <span className="mr-1">{selectedCategory ? categoryDisplayNames[selectedCategory] : '모든'}</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제품</span>
           </h1>
           <p className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto">
             {selectedCategory === 'regular' && '언제나 만나볼 수 있는 빵답게의 시그니처 제품들입니다.'}
