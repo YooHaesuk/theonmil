@@ -29,11 +29,9 @@ const Brand = () => {
             variants={slideInFromLeft}
             className="md:w-1/2"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80" 
-              alt="빵 제조 과정" 
-              className="rounded-lg shadow-lg w-full"
-            />
+            <div className="bg-gradient-to-r from-purple-800 to-indigo-900 w-full h-64 md:h-96 rounded-lg shadow-lg flex items-center justify-center">
+              <p className="text-2xl md:text-3xl text-white font-bold font-montserrat">빵 제조 과정</p>
+            </div>
           </motion.div>
           <motion.div 
             variants={slideInFromRight}
@@ -74,11 +72,9 @@ const Brand = () => {
             variants={slideInFromRight}
             className="md:w-1/2"
           >
-            <img 
-              src="https://images.unsplash.com/photo-1549931319-a545dcf3bc7c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
-              alt="빵 굽는 과정" 
-              className="rounded-lg shadow-lg w-full"
-            />
+            <div className="bg-gradient-to-r from-pink-600 to-purple-800 w-full h-64 md:h-96 rounded-lg shadow-lg flex items-center justify-center">
+              <p className="text-2xl md:text-3xl text-white font-bold font-montserrat">천연 발효 공정</p>
+            </div>
           </motion.div>
           <motion.div 
             variants={slideInFromLeft}
@@ -128,11 +124,9 @@ const Brand = () => {
               className="bg-[#111111] rounded-lg overflow-hidden shadow-md text-center border border-[#222222]"
             >
               <div className="h-64 overflow-hidden">
-                <img 
-                  src="https://images.unsplash.com/photo-1509365465985-25d11c17e812?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
-                  alt="수석 베이커" 
-                  className="w-full h-full object-cover"
-                />
+                <div className="w-full h-full bg-gradient-to-br from-indigo-600 to-purple-800 flex items-center justify-center">
+                  <i className="fa-solid fa-user-chef text-white text-5xl"></i>
+                </div>
               </div>
               <div className="p-6">
                 <h3 className="font-montserrat text-xl font-semibold text-white mb-1">김민수</h3>
