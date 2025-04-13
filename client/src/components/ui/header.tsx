@@ -86,7 +86,7 @@ const Header = () => {
             </button>
             <Link href="/cart" className="text-gray-300 hover:text-white transition-colors duration-300 relative">
               <i className="fa-solid fa-shopping-bag text-lg"></i>
-              <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+              {/* <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span> */}
             </Link>
             <Link href="/login" className="text-gray-300 hover:text-white transition-colors duration-300">
               <i className="fa-solid fa-user text-lg"></i>
@@ -142,7 +142,7 @@ const Header = () => {
                 </button>
                 <Link href="/cart" className="text-gray-300 hover:text-white transition-colors duration-300 relative">
                   <i className="fa-solid fa-shopping-bag text-xl"></i>
-                  <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+                  {/* <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span> */}
                 </Link>
                 <Link href="/login" className="text-gray-300 hover:text-white transition-colors duration-300">
                   <i className="fa-solid fa-user text-xl"></i>
