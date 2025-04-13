@@ -19,36 +19,23 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center bg-[#1B1B1B] text-white overflow-hidden">
-      {/* Background video (desktop only) */}
-      {!isMobile && (
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-black bg-opacity-40 z-10"></div>
-          <div className="w-full h-full object-cover">
-            <video 
-              className="w-full h-full object-cover" 
-              autoPlay 
-              loop 
-              muted 
-              playsInline
-            >
-              <source src="https://assets.mixkit.co/videos/preview/mixkit-baking-bread-in-an-oven-9913-large.mp4" type="video/mp4" />
-            </video>
+    <section className="relative h-screen flex items-center bg-gradient-to-br from-[#1B1B1B] to-[#2D2D2D] text-white overflow-hidden">
+      {/* Decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[#1B1B1B]">
+          {/* Decorative gold accents */}
+          <div className="absolute top-[20%] right-[10%] w-32 h-32 rounded-full bg-[#D4AF37] opacity-10 blur-xl"></div>
+          <div className="absolute bottom-[30%] left-[5%] w-40 h-40 rounded-full bg-[#D4AF37] opacity-5 blur-xl"></div>
+          
+          {/* Pattern overlay */}
+          <div className="absolute inset-0 opacity-10" 
+               style={{ 
+                 backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0)', 
+                 backgroundSize: '50px 50px' 
+               }}>
           </div>
         </div>
-      )}
-      
-      {/* Background image (mobile) */}
-      {isMobile && (
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-black bg-opacity-50 z-10"></div>
-          <img 
-            src="https://images.unsplash.com/photo-1509440159596-0249088772ff?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80" 
-            alt="Fresh baked bread" 
-            className="w-full h-full object-cover"
-          />
-        </div>
-      )}
+      </div>
       
       {/* Hero content */}
       <div 
