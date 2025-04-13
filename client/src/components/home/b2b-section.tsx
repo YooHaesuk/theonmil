@@ -28,7 +28,7 @@ const B2BSection = () => {
   };
   
   return (
-    <section id="b2b" className="py-20 bg-[#0A0A0A] text-white">
+    <section id="b2b" className="py-20 bg-[#0F0F1A] text-white">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center">
           {/* Image */}

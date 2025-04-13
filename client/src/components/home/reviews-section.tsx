@@ -52,7 +52,7 @@ const reviews: Review[] = [
 
 const ReviewsSection = () => {
   return (
-    <section id="reviews" className="py-20 bg-[#0A0A0A]">
+    <section id="reviews" className="py-20 bg-[#0F0F1A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
