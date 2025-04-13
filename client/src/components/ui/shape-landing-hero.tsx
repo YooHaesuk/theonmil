@@ -7,8 +7,8 @@ import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
 // 캡슐형 객체 정의 
 interface RoundedObject {
   id: number;
-  x: number;
-  y: number;
+  x: string | number;
+  y: string | number;
   width: number;
   height: number;
   rotate: number;
@@ -59,8 +59,8 @@ export function HeroGeometric({
       ref={containerRef}
       className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#0A0A0A]"
     >
-      {/* 어두운 배경 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#101020] to-[#0A0A0A] opacity-95"></div>
+      {/* 매우 어두운 배경 */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#080810] to-[#050505] opacity-95"></div>
       
       {/* 참고 이미지에 나온 캡슐형 요소들 */}
       {roundedObjects.map((obj) => (
@@ -83,13 +83,13 @@ export function HeroGeometric({
       <motion.div
         className="absolute left-[5%] bottom-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
-        animate={{ opacity: 0.9, scale: 1, rotate: -5 }}
+        animate={{ opacity: 0.5, scale: 1, rotate: -5 }}
         transition={{ duration: 1.5, ease: "easeOut" }}
       >
         <img 
           src={croissantImage} 
           alt="크로와상" 
-          className="w-[300px] h-[300px] object-contain" 
+          className="w-[300px] h-[300px] object-contain brightness-75" 
         />
       </motion.div>
       
@@ -97,13 +97,13 @@ export function HeroGeometric({
       <motion.div
         className="absolute right-[10%] top-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
-        animate={{ opacity: 0.9, scale: 1, rotate: 10 }}
+        animate={{ opacity: 0.5, scale: 1, rotate: 10 }}
         transition={{ duration: 1.5, ease: "easeOut", delay: 0.2 }}
       >
         <img 
           src={baguetteImage} 
           alt="바게트" 
-          className="w-[350px] h-[350px] object-contain" 
+          className="w-[350px] h-[350px] object-contain brightness-75" 
         />
       </motion.div>
       
@@ -111,13 +111,13 @@ export function HeroGeometric({
       <motion.div
         className="absolute right-[20%] bottom-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
-        animate={{ opacity: 0.8, scale: 0.9, rotate: -5 }}
+        animate={{ opacity: 0.4, scale: 0.9, rotate: -5 }}
         transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
       >
         <img 
           src={croissantImage} 
           alt="작은 크로와상" 
-          className="w-[200px] h-[200px] object-contain" 
+          className="w-[200px] h-[200px] object-contain brightness-75" 
         />
       </motion.div>
       
@@ -125,13 +125,13 @@ export function HeroGeometric({
       <motion.div
         className="absolute left-[15%] top-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: 20 }}
-        animate={{ opacity: 0.8, scale: 0.9, rotate: 15 }}
+        animate={{ opacity: 0.4, scale: 0.9, rotate: 15 }}
         transition={{ duration: 1.5, ease: "easeOut", delay: 0.3 }}
       >
         <img 
           src={baguetteImage} 
           alt="작은 바게트" 
-          className="w-[250px] h-[250px] object-contain" 
+          className="w-[250px] h-[250px] object-contain brightness-75" 
         />
       </motion.div>
 
