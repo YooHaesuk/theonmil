@@ -9,20 +9,20 @@ const FeaturedProducts = () => {
   const featuredProducts = getFeaturedProducts();
 
   return (
-    <section id="featured" className="py-20 bg-[#F5F3EF]">
+    <section id="featured" className="py-20 bg-[#0F0F1A]">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h2 
-            className={headingClasses.h2 + " text-[#1B1B1B] mb-4"}
+            className="text-4xl font-bold font-montserrat mb-4 text-white"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            대표 제품
+            대표 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제품</span>
           </motion.h2>
           <motion.p 
-            className="font-maruburi text-lg text-[#333333] max-w-2xl mx-auto"
+            className="font-maruburi text-lg text-gray-300 max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -53,7 +53,10 @@ const FeaturedProducts = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Link href="/products" className={buttonClasses.dark}>
+          <Link 
+            href="/products" 
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+          >
             모든 제품 보기
           </Link>
         </motion.div>

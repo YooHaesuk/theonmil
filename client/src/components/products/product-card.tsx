@@ -23,40 +23,41 @@ const ProductCard = ({ product }: ProductCardProps) => {
   
   return (
     <motion.div
-      className="product-card bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300"
+      className="product-card bg-[#111111] rounded-lg overflow-hidden shadow-md hover:shadow-lg border border-[#222222] transition-all duration-300"
       variants={fadeIn}
-      whileHover={{ y: -5 }}
+      whileHover={{ y: -5, transition: { duration: 0.3 } }}
     >
       <Link href={`/products/${product.id}`}>
         <div className="relative h-64 overflow-hidden">
           <img 
             src={product.image} 
             alt={product.nameKorean} 
-            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500 brightness-75"
           />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] to-transparent opacity-60"></div>
           {product.isBestseller && (
-            <span className="absolute top-4 left-4 bg-[#D4AF37] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
               베스트셀러
             </span>
           )}
           {product.isNew && (
-            <span className="absolute top-4 left-4 bg-[#D4AF37] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
               신제품
             </span>
           )}
           {product.isPopular && (
-            <span className="absolute top-4 left-4 bg-[#D4AF37] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
+            <span className="absolute top-4 left-4 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
               인기
             </span>
           )}
         </div>
         <div className="p-6">
-          <h3 className="font-playfair text-xl font-semibold text-[#1B1B1B] mb-2">{product.nameKorean}</h3>
-          <p className="font-pretendard text-sm text-gray-600 mb-4">{product.description}</p>
+          <h3 className="font-montserrat text-xl font-semibold text-white mb-2">{product.nameKorean}</h3>
+          <p className="font-pretendard text-sm text-gray-400 mb-4">{product.description}</p>
           <div className="flex justify-between items-center">
-            <span className="font-montserrat font-semibold text-[#1B1B1B]">{formatPrice(product.price)}</span>
+            <span className="font-montserrat font-semibold text-white">{formatPrice(product.price)}</span>
             <button 
-              className="text-[#D4AF37] hover:text-[#1B1B1B] transition-colors"
+              className="w-10 h-10 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white hover:shadow-lg hover:shadow-purple-500/20 transition-all"
               onClick={handleAddToCart}
               aria-label="장바구니에 추가"
             >
