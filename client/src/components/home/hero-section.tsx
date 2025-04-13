@@ -19,22 +19,33 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center bg-gradient-to-br from-[#1B1B1B] to-[#2D2D2D] text-white overflow-hidden">
-      {/* Decorative elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[#1B1B1B]">
-          {/* Decorative gold accents */}
-          <div className="absolute top-[20%] right-[10%] w-32 h-32 rounded-full bg-[#D4AF37] opacity-10 blur-xl"></div>
-          <div className="absolute bottom-[30%] left-[5%] w-40 h-40 rounded-full bg-[#D4AF37] opacity-5 blur-xl"></div>
-          
-          {/* Pattern overlay */}
-          <div className="absolute inset-0 opacity-10" 
-               style={{ 
-                 backgroundImage: 'radial-gradient(circle at 25px 25px, rgba(255,255,255,0.1) 2px, transparent 0)', 
-                 backgroundSize: '50px 50px' 
-               }}>
-          </div>
-        </div>
+    <section className="relative h-screen flex items-center text-white overflow-hidden">
+      {/* Background image with overlay */}
+      <div className="absolute inset-0">
+        {/* Dark overlay */}
+        <div className="absolute inset-0 bg-black bg-opacity-60 z-10"></div>
+        
+        {/* Background image - using inline CSS background for better control */}
+        <div 
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: `url('https://images.unsplash.com/photo-1586444248902-2981d90cb42d?q=80&w=1964&auto=format&fit=crop')`,
+            filter: 'brightness(0.7)',
+          }}
+        ></div>
+        
+        {/* Gold accents/overlay */}
+        <div className="absolute inset-0 z-10" style={{
+          background: 'linear-gradient(135deg, rgba(212,175,55,0.2) 0%, rgba(0,0,0,0) 50%)',
+        }}></div>
+        
+        {/* Additional decorative elements */}
+        <div className="absolute top-0 left-0 w-full h-32" style={{
+          background: 'linear-gradient(to bottom, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
+        }}></div>
+        <div className="absolute bottom-0 left-0 w-full h-40" style={{
+          background: 'linear-gradient(to top, rgba(27,27,27,0.8) 0%, rgba(27,27,27,0) 100%)'
+        }}></div>
       </div>
       
       {/* Hero content */}
