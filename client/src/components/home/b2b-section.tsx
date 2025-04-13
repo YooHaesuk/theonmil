@@ -44,7 +44,7 @@ const B2BSection = () => {
           >
             <div className="rounded-lg shadow-lg overflow-hidden border border-[#222222]">
               <img 
-                src="https://images.unsplash.com/photo-1564844536308-50b114a1d946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80" 
+                src={partnershipImg} 
                 alt="기업 제휴" 
                 className="w-full"
               />
