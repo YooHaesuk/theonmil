@@ -3,6 +3,10 @@ import { Link } from 'wouter';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
 
+// 공장 이미지 임포트를 위한 공간
+// 이미지는 client/src/assets/images/about 폴더에 넣어주세요
+// import factoryImg from '@/assets/images/about/factory.png';
+
 const AboutSection = () => {
   return (
     <section id="about" className="py-20 bg-[#0A0A0A]">
@@ -19,13 +23,10 @@ const AboutSection = () => {
             <div className="relative">
               <img 
                 src="https://images.unsplash.com/photo-1591688515877-f6d04f417608?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80" 
-                alt="베이커리 매장 전경" 
+                alt="빵 공장 생산 현장" 
                 className="rounded-lg shadow-lg w-full brightness-75"
               />
-              <div className="absolute -bottom-6 -right-6 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white p-6 rounded-lg shadow-lg hidden md:block">
-                <p className="font-montserrat text-lg font-bold">15+ 년</p>
-                <p className="font-pretendard text-sm">베이킹 장인 경력</p>
-              </div>
+              {/* 15+년 베이킹 장인 경력 버튼이 삭제되었습니다 */}
             </div>
           </motion.div>
           
