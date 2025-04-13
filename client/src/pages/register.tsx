@@ -116,9 +116,11 @@ const Register = () => {
     >
       <div className="container mx-auto px-4 max-w-md">
         <motion.div variants={fadeIn} className="text-center mb-8">
-          <h1 className={headingClasses.h1 + " text-white mb-2 font-montserrat"}>회원가입</h1>
-          <p className="font-pretendard text-gray-300">
-            빵답게의 회원이 되어 다양한 혜택을 누리세요
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 font-montserrat">
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">회원가입</span>
+          </h1>
+          <p className="font-pretendard text-gray-300 text-lg">
+            빵답게의 회원이 되어 <span className="text-white font-semibold">특별한 혜택</span>을 누리세요
           </p>
         </motion.div>
         
