@@ -3,6 +3,10 @@ import { Link } from 'wouter';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { staggerContainer, fadeIn } from '@/lib/animations';
 
+// 로컬 이미지 임포트
+import gangnamImg from '@/assets/images/stores/gangnam-store.png';
+import seongsuImg from '@/assets/images/stores/seongsu-store.png';
+
 // Store type definition
 interface Store {
   id: string;
@@ -10,7 +14,7 @@ interface Store {
   address: string;
   hours: string;
   phone: string;
-  image: string;
+  image: any; // 이미지 타입을 any로 변경
 }
 
 // Stores data (only show 2 for homepage)
@@ -21,7 +25,7 @@ const stores: Store[] = [
     address: '서울특별시 강남구 테헤란로 123 1층',
     hours: '오전 8:00 - 오후 9:00 (매일)',
     phone: '02-123-4567',
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: gangnamImg
   },
   {
     id: 'seongsu',
@@ -29,7 +33,7 @@ const stores: Store[] = [
     address: '서울특별시 성동구 성수이로 45 1층',
     hours: '오전 9:00 - 오후 8:00 (월-토)',
     phone: '02-456-7890',
-    image: 'https://images.unsplash.com/photo-1591688515877-f6d04f417608?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: seongsuImg
   }
 ];
 
