@@ -3,6 +3,12 @@ import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
 
+// 로컬 이미지 임포트
+import gangnamImg from '@/assets/images/bakery-gangnam.svg';
+import seongsuImg from '@/assets/images/bakery-seongsu.svg';
+import hongdaeImg from '@/assets/images/bakery-hongdae.svg';
+import jamsilImg from '@/assets/images/bakery-jamsil.svg';
+
 // Store type definition
 interface Store {
   id: string;
@@ -21,7 +27,7 @@ const stores: Store[] = [
     address: '서울특별시 강남구 테헤란로 123 1층',
     hours: '오전 8:00 - 오후 9:00 (매일)',
     phone: '02-123-4567',
-    image: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: gangnamImg
   },
   {
     id: 'seongsu',
@@ -29,7 +35,7 @@ const stores: Store[] = [
     address: '서울특별시 성동구 성수이로 45 1층',
     hours: '오전 9:00 - 오후 8:00 (월-토)',
     phone: '02-456-7890',
-    image: 'https://images.unsplash.com/photo-1573125048085-da970a971225?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'
+    image: seongsuImg
   },
   {
     id: 'hongdae',
@@ -37,7 +43,7 @@ const stores: Store[] = [
     address: '서울특별시 마포구 홍대로 123 1층',
     hours: '오전 10:00 - 오후 10:00 (매일)',
     phone: '02-789-0123',
-    image: 'https://images.unsplash.com/photo-1564844536308-50b114a1d946?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1738&q=80'
+    image: hongdaeImg
   },
   {
     id: 'jamsil',
@@ -45,7 +51,7 @@ const stores: Store[] = [
     address: '서울특별시 송파구 올림픽로 256 1층',
     hours: '오전 8:00 - 오후 9:00 (매일)',
     phone: '02-345-6789',
-    image: 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1147&q=80'
+    image: jamsilImg
   }
 ];
 
