@@ -53,8 +53,8 @@ const Header = () => {
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <div className="text-2xl md:text-3xl font-bold font-montserrat text-white">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵</span>답게
+          <div className="text-2xl md:text-3xl font-bold font-montserrat">
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
           </div>
         </Link>
         

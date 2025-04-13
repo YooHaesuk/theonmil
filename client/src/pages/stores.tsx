@@ -76,8 +76,8 @@ const Stores = () => {
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4 text-white">
-            <span className="mr-1">오프라인</span> <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">매장 안내</span>
+          <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4">
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">오프라인 매장 안내</span>
           </motion.h1>
           <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
             빵답게를 직접 보고 맛볼 수 있는 오프라인 매장을 소개합니다.

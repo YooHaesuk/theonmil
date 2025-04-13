@@ -7,8 +7,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold font-montserrat mb-6 text-white">
-              <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵</span>답게
+            <h3 className="text-2xl font-bold font-montserrat mb-6">
+              <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
             </h3>
             <p className="font-pretendard text-gray-400 mb-6">이 사이트의 브래드는, 빵답게.<br/>정직한 공정, 현장 기반 신뢰를 약속합니다.</p>
             <div className="flex space-x-4">
