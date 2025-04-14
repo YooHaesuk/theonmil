@@ -55,7 +55,7 @@ const Header = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <div className="text-2xl md:text-3xl font-bold font-montserrat">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">ube75ub2f5uac8c</span>
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
           </div>
         </Link>
         
