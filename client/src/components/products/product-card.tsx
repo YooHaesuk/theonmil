@@ -3,6 +3,7 @@ import { Link } from 'wouter';
 import { Product, formatPrice } from '@/lib/products';
 import { fadeIn } from '@/lib/animations';
 import { useToast } from '@/hooks/use-toast';
+import ImageLoader from '@/components/ui/image-loader';
 
 interface ProductCardProps {
   product: Product;
@@ -29,10 +30,10 @@ const ProductCard = ({ product }: ProductCardProps) => {
     >
       <Link href={`/products/${product.id}`}>
         <div className="relative h-64 overflow-hidden">
-          <img 
+          <ImageLoader 
             src={product.image} 
             alt={product.nameKorean} 
-            className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-500"
+            className="w-full h-full"
           />
           {product.isBestseller && (
             <span className="absolute top-4 left-4 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
