@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from 'wouter';
 
 const Footer = () => {
@@ -48,19 +49,25 @@ const Footer = () => {
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
                   <i className="fa-solid fa-location-dot text-xs"></i>
                 </div>
-                <span>서울특별시 강남구 테헤란로 123 1층</span>
+                <span>경기도 고양시 일산동구 장진천길 46번길 22-45, 1동 (설문동)</span>
               </li>
               <li className="flex items-start">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
                   <i className="fa-solid fa-phone text-xs"></i>
                 </div>
-                <span>02-123-4567</span>
+                <span>031-938-2590</span>
+              </li>
+              <li className="flex items-start">
+                <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
+                  <i className="fa-solid fa-fax text-xs"></i>
+                </div>
+                <span>031-932-2590</span>
               </li>
               <li className="flex items-start">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
                   <i className="fa-solid fa-envelope text-xs"></i>
                 </div>
-                <span>hello@bbangdapge.co.kr</span>
+                <span>sbk2590@naver.com</span>
               </li>
               <li className="flex items-start">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
@@ -75,9 +82,11 @@ const Footer = () => {
         {/* Bottom footer */}
         <div className="pt-8 border-t border-[#222222] text-center sm:text-left">
           <div className="flex flex-col sm:flex-row justify-between items-center">
-            <p className="font-pretendard text-sm text-gray-500 mb-4 sm:mb-0">
-              &copy; {new Date().getFullYear()} 빵답게 주식회사. 모든 권리 보유.
-            </p>
+            <div className="font-pretendard text-sm text-gray-500 mb-4 sm:mb-0">
+              <p className="mb-1">&copy; {new Date().getFullYear()} 주식회사 신화베이커리. 모든 권리 보유.</p>
+              <p className="mb-1">대표자: 유해숙 | 사업자등록번호: 127-88-03260 | 법인등록번호: 285011-0546305</p>
+              <p>개업일자: 2023년 9월 26일 | 업태: 제조업, 도소매업, 음식점업</p>
+            </div>
             <div className="flex items-center space-x-4">
               <svg width="40" height="25" viewBox="0 0 40 25" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-6">
                 <rect width="40" height="25" rx="4" fill="#222222" />

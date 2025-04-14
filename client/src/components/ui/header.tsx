@@ -1,3 +1,4 @@
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -54,7 +55,7 @@ const Header = () => {
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <div className="text-2xl md:text-3xl font-bold font-montserrat">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">신화베이커리</span>
           </div>
         </Link>
         

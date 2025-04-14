@@ -1,10 +1,14 @@
 "use client";
 import { motion } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+// @ts-ignore
 import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
+// @ts-ignore
 import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
 
-// 캡슐형 객체 정의 
+/**
+ * 캡슐형 객체 정의 
+ */
 interface RoundedObject {
   id: number;
   x: string | number;
@@ -241,15 +245,15 @@ export function HeroGeometric({
       </motion.div>
 
       {/* 가운데 밝은 영역 */}
-      <div className="absolute top-1/2 left-1/2 w-1/2 h-1/3 -translate-x-1/2 -translate-y-1/2 bg-[#FFFFFF05] blur-[100px] rounded-full"></div>
+      <div className="absolute top-1/6 left-1/2 w-1/2 h-1/3 -translate-x-1/2 -translate-y-1/4 bg-[#FFFFFF08] blur-[80px] rounded-full"></div>
 
       {/* 중앙 컨텐츠 */}
-      <div className="relative z-20 m-8 max-w-[800px] text-center px-4" style={{ wordBreak: 'keep-all' }}>
+      <div className="relative z-20 m-8 max-w-[800px] text-center mx-auto pt-0 mt-0 -translate-y-12" style={{ wordBreak: 'keep-all' }}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-8 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
+          className="mb-6 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
           style={{ wordBreak: 'keep-all' }}
         >
           {badge}
@@ -258,7 +262,7 @@ export function HeroGeometric({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6 mt-4 max-w-3xl text-5xl font-bold md:text-6xl lg:text-7xl mx-auto"
+          className="mb-6 max-w-3xl text-5xl md:text-6xl lg:text-7xl font-bold mx-auto mt-12 translate-y-8"
           style={{ wordBreak: 'keep-all' }}
         >
           <span className="font-montserrat text-white">{title1}</span> <br />
@@ -268,12 +272,30 @@ export function HeroGeometric({
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto"
+          className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto mb-6 mt-10 translate-y-4"
           style={{ wordBreak: 'keep-all', overflowWrap: 'break-word' }}
         >
-          수도권 120여 개 지역중형마트에서 이미 검증된 빵을, 소비자에게 직접 전달합니다.
+          수도권 120여 개 지역중형마트에서 이미 검증된 빵을,<br />
+          소비자에게 직접 전달합니다.
         </motion.p>
       </div>
+
+      {/* uc2a4ud06cub864 ud45cuc2dcuae30 */}
+      <motion.div 
+        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 0.6 }}
+        transition={{ duration: 0.6, delay: 1.2 }}
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
+        >
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 4V20M12 20L18 14M12 20L6 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </motion.div>
+      </motion.div>
     </div>
   );
 }

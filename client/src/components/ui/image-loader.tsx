@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getOptimizedImageUrl, generateSrcSet, getImageMimeType } from '@/lib/image-utils';
 
 interface ImageLoaderProps {
