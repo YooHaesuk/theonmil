@@ -1,3 +1,4 @@
+import React from "react";
 import { Switch, Route, useLocation } from "wouter";
 import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -14,7 +15,7 @@ import Cart from "@/pages/cart";
 import Checkout from "@/pages/checkout";
 import Login from "@/pages/login";
 import Register from "@/pages/register";
-import Header from "@/components/ui/header";
+import { Header } from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { AnimatePresence } from "framer-motion";
 

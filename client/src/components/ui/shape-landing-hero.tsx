@@ -50,21 +50,23 @@ export function HeroGeometric({
       }
     };
 
+    // 초기화
     updateDimensions();
-    window.addEventListener("resize", updateDimensions);
+    window.addEventListener('resize', updateDimensions);
     
+    // 해제
     return () => {
-      window.removeEventListener("resize", updateDimensions);
+      window.removeEventListener('resize', updateDimensions);
     };
   }, []);
 
   return (
     <div 
       ref={containerRef}
-      className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-[#0A0A0A]"
+      className="relative w-full overflow-hidden"
     >
-      {/* 매우 어두운 배경 */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#050505] via-[#080810] to-[#050505] opacity-95"></div>
+      {/* 배경 */}
+      <div className="absolute inset-0 bg-[#0A0A0A] z-0"></div>
       
       {/* 참고 이미지에 나온 캡슐형 요소들 */}
       {roundedObjects.map((obj) => (
@@ -248,12 +250,12 @@ export function HeroGeometric({
       <div className="absolute top-1/6 left-1/2 w-1/2 h-1/3 -translate-x-1/2 -translate-y-1/4 bg-[#FFFFFF08] blur-[80px] rounded-full"></div>
 
       {/* 중앙 컨텐츠 */}
-      <div className="relative z-20 m-8 max-w-[800px] text-center mx-auto pt-0 mt-0 -translate-y-12" style={{ wordBreak: 'keep-all' }}>
+      <div className="relative z-20 flex flex-col items-center justify-center mx-auto px-4 sm:px-8 py-8 md:py-12 w-full max-w-[800px]" style={{ wordBreak: 'keep-all' }}>
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
+          className="mb-6 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-6 sm:px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
           style={{ wordBreak: 'keep-all' }}
         >
           {badge}
@@ -262,7 +264,7 @@ export function HeroGeometric({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="mb-6 max-w-3xl text-5xl md:text-6xl lg:text-7xl font-bold mx-auto mt-12 translate-y-8"
+          className="mb-6 text-center max-w-full text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mx-auto mt-6"
           style={{ wordBreak: 'keep-all' }}
         >
           <span className="font-montserrat text-white">{title1}</span> <br />
@@ -272,30 +274,13 @@ export function HeroGeometric({
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="font-pretendard text-gray-400 text-lg max-w-xl mx-auto mb-6 mt-10 translate-y-4"
+          className="font-pretendard text-gray-400 text-lg max-w-full sm:max-w-xl mx-auto mb-8 mt-8 text-center"
           style={{ wordBreak: 'keep-all', overflowWrap: 'break-word' }}
         >
           수도권 120여 개 지역중형마트에서 이미 검증된 빵을,<br />
           소비자에게 직접 전달합니다.
         </motion.p>
       </div>
-
-      {/* uc2a4ud06cub864 ud45cuc2dcuae30 */}
-      <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-30"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 0.6 }}
-        transition={{ duration: 0.6, delay: 1.2 }}
-      >
-        <motion.div
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity, repeatType: "loop", ease: "easeInOut" }}
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 4V20M12 20L18 14M12 20L6 14" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.div>
-      </motion.div>
     </div>
   );
 }

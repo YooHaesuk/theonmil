@@ -1,0 +1,26 @@
+/* uc2e4uc81c ubdf0ud3ecud2b8 ub192uc774 ubcc0uc218 ucd94uac00 */
+:root {
+  --vh: 1vh;
+}
+
+/* uc2e4uc81c ubdf0ud3ecud2b8 ub192uc774ub97c uc0acuc6a9ud558ub294 ud074ub798uc2a4 */
+.real-screen-height {
+  height: calc(var(--vh, 1vh) * 100);
+}
+
+/* uac00ub85c uc2a4ud06cub864 ubc29uc9c0 */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* ubaa8ubc14uc77c uae30uae30uc5d0uc11c ud14duc2a4ud2b8 ud06cuae30 uc870uc815 */
+@media (max-width: 640px) {
+  h1 {
+    font-size: calc(1.5rem + 2vw) !important;
+    line-height: 1.3 !important;
+  }
+  p {
+    font-size: 1rem !important;
+  }
+}

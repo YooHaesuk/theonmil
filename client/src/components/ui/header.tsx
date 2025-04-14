@@ -1,10 +1,9 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/hooks/use-mobile';
 
-const Header = () => {
+export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -29,7 +28,11 @@ const Header = () => {
   // Add scroll event listener
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -50,7 +53,10 @@ const Header = () => {
   }, [isMenuOpen]);
 
   return (
-    <header className={`fixed top-0 left-0 right-0 bg-[#0A0A0A] z-50 transition-shadow duration-300 ${isScrolled ? 'shadow-md' : 'shadow-sm'} backdrop-blur-sm bg-opacity-90`}>
+    <header 
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${isScrolled ? 'bg-[#0A0A0A] shadow-md' : 'bg-[#0A0A0A] shadow-sm'} backdrop-blur-sm bg-opacity-90`}
+      style={{ zIndex: 50 }}
+    >
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         {/* Logo */}
         <Link href="/" className="flex items-center">
@@ -170,5 +176,3 @@ const Header = () => {
     </header>
   );
 };
-
-export default Header;
