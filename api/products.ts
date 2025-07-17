@@ -43,28 +43,52 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
+    // Firebase Admin 앱 확인
+    if (!admin.apps.length) {
+      console.error('❌ Firebase Admin이 초기화되지 않았습니다');
+      return res.status(500).json({
+        error: "Firebase Admin 초기화 실패",
+        details: "서버 설정 오류"
+      });
+    }
+
+    console.log('🔥 Firebase Admin 앱 수:', admin.apps.length);
     const db = admin.firestore();
+    console.log('🔥 Firestore 인스턴스 생성 완료');
 
     if (req.method === 'GET') {
       // 상품 목록 조회
       console.log('🔥 Vercel API: 상품 목록 조회 시작');
-      const productsRef = db.collection('products');
-      const snapshot = await productsRef.orderBy('createdAt', 'desc').get();
 
-      const products: any[] = [];
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        products.push({
-          id: doc.id,
-          ...data,
-          // Timestamp를 문자열로 변환
-          createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
-          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt
+      try {
+        const productsRef = db.collection('products');
+        console.log('🔥 products 컬렉션 참조 생성 완료');
+
+        const snapshot = await productsRef.orderBy('createdAt', 'desc').get();
+        console.log('🔥 Firestore 쿼리 실행 완료, 문서 수:', snapshot.size);
+
+        const products: any[] = [];
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          products.push({
+            id: doc.id,
+            ...data,
+            // Timestamp를 문자열로 변환
+            createdAt: data.createdAt?.toDate?.()?.toISOString() || data.createdAt,
+            updatedAt: data.updatedAt?.toDate?.()?.toISOString() || data.updatedAt
+          });
         });
-      });
 
-      console.log('✅ Vercel API: 상품 목록 조회 성공:', products.length, '개');
-      return res.status(200).json(products);
+        console.log('✅ Vercel API: 상품 목록 조회 성공:', products.length, '개');
+        return res.status(200).json(products);
+
+      } catch (firestoreError) {
+        console.error('❌ Firestore 쿼리 오류:', firestoreError);
+        return res.status(500).json({
+          error: "Firestore 접근 실패",
+          details: firestoreError instanceof Error ? firestoreError.message : 'Unknown Firestore error'
+        });
+      }
 
     } else if (req.method === 'POST') {
       // 상품 등록
