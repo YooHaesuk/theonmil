@@ -4,26 +4,28 @@ import admin from 'firebase-admin';
 // Firebase Admin 초기화 (Vercel 환경용)
 if (!admin.apps.length) {
   try {
-    // Vercel 환경변수에서 Firebase 설정 읽기
+    console.log('🔍 Firebase 환경변수 확인:');
+    console.log('- PROJECT_ID:', process.env.FIREBASE_PROJECT_ID ? '✅' : '❌');
+    console.log('- CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL ? '✅' : '❌');
+    console.log('- PRIVATE_KEY:', process.env.FIREBASE_PRIVATE_KEY ? '✅' : '❌');
+
+    if (!process.env.FIREBASE_PROJECT_ID || !process.env.FIREBASE_CLIENT_EMAIL || !process.env.FIREBASE_PRIVATE_KEY) {
+      throw new Error('Firebase 환경변수가 누락되었습니다');
+    }
+
     const serviceAccount = {
       type: "service_account",
-      project_id: process.env.FIREBASE_PROJECT_ID || "theonmil-bakery",
-      private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
-      private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+      project_id: process.env.FIREBASE_PROJECT_ID,
+      private_key: process.env.FIREBASE_PRIVATE_KEY.replace(/\\n/g, '\n'),
       client_email: process.env.FIREBASE_CLIENT_EMAIL,
-      client_id: process.env.FIREBASE_CLIENT_ID,
-      auth_uri: "https://accounts.google.com/o/oauth2/auth",
-      token_uri: "https://oauth2.googleapis.com/token",
-      auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs",
-      client_x509_cert_url: `https://www.googleapis.com/robot/v1/metadata/x509/${process.env.FIREBASE_CLIENT_EMAIL}`
     };
 
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount),
-      projectId: process.env.FIREBASE_PROJECT_ID || "theonmil-bakery",
+      credential: admin.credential.cert(serviceAccount as any),
+      projectId: process.env.FIREBASE_PROJECT_ID,
     });
 
-    console.log('✅ Firebase Admin initialized in Vercel');
+    console.log('✅ Firebase Admin initialized successfully');
   } catch (error) {
     console.error('❌ Firebase Admin initialization failed:', error);
   }
