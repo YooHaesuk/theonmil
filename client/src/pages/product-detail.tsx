@@ -20,35 +20,38 @@ const ProductDetail = () => {
 
   const productId = params?.id || '';
 
-  // Fetch product and related products from API
+  // Fetch product and related products from Firestore directly
   useEffect(() => {
     const fetchProductData = async () => {
       try {
         console.log('📦 상품 상세 정보 가져오는 중...', productId);
 
-        // Fetch all products
-        const response = await fetch('/api/products');
-        if (response.ok) {
-          const allProducts = await response.json();
+        // Fetch all products from Firestore
+        const { getAllProducts } = await import('@/lib/firestore');
+        const allProducts = await getAllProducts();
 
-          // Find the specific product
-          const foundProduct = allProducts.find((p: any) => p.id.toString() === productId);
-          setProduct(foundProduct);
+        // Firestore 데이터를 클라이언트 형식으로 변환
+        const formattedProducts = allProducts.map(product => ({
+          ...product,
+          createdAt: product.createdAt?.toDate?.()?.toISOString() || product.createdAt,
+          updatedAt: product.updatedAt?.toDate?.()?.toISOString() || product.updatedAt
+        }));
 
-          // Get related products (same category, excluding current product)
-          if (foundProduct) {
-            const related = allProducts
-              .filter((p: any) => p.category === foundProduct.category && p.id !== foundProduct.id)
-              .slice(0, 3);
-            setRelatedProducts(related);
-          }
+        // Find the specific product
+        const foundProduct = formattedProducts.find((p: any) => p.id.toString() === productId);
+        setProduct(foundProduct);
 
-          console.log('✅ 상품 상세 정보 가져오기 성공:', foundProduct ? '찾음' : '없음');
-          console.log('🔍 상품 데이터 상세:', foundProduct);
-          console.log('🖼️ detailImage 확인:', foundProduct?.detailImage);
-        } else {
-          console.error('❌ 상품 목록 가져오기 실패:', response.status);
+        // Get related products (same category, excluding current product)
+        if (foundProduct) {
+          const related = formattedProducts
+            .filter((p: any) => p.category === foundProduct.category && p.id !== foundProduct.id)
+            .slice(0, 3);
+          setRelatedProducts(related);
         }
+
+        console.log('✅ 상품 상세 정보 가져오기 성공:', foundProduct ? '찾음' : '없음');
+        console.log('🔍 상품 데이터 상세:', foundProduct);
+        console.log('🖼️ detailImage 확인:', foundProduct?.detailImage);
       } catch (error) {
         console.error('❌ 상품 상세 정보 가져오기 오류:', error);
       } finally {

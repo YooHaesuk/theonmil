@@ -70,14 +70,18 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       console.log('📦 관리자: 상품 목록 가져오는 중...');
-      const response = await fetch('/api/products');
-      if (response.ok) {
-        const data = await response.json();
-        setProducts(data);
-        console.log('✅ 관리자: 상품 목록 가져오기 성공:', data.length, '개');
-      } else {
-        console.error('❌ 관리자: 상품 목록 가져오기 실패:', response.status);
-      }
+      const { getAllProducts } = await import('@/lib/firestore');
+      const data = await getAllProducts();
+
+      // Firestore 데이터를 클라이언트 형식으로 변환
+      const formattedProducts = data.map(product => ({
+        ...product,
+        createdAt: product.createdAt?.toDate?.()?.toISOString() || product.createdAt,
+        updatedAt: product.updatedAt?.toDate?.()?.toISOString() || product.updatedAt
+      }));
+
+      setProducts(formattedProducts);
+      console.log('✅ 관리자: 상품 목록 가져오기 성공:', formattedProducts.length, '개');
     } catch (error) {
       console.error('❌ 관리자: 상품 목록 가져오기 오류:', error);
       toast({
@@ -534,33 +538,53 @@ const ProductManagement = () => {
       const isEdit = mode === 'edit' && selectedProduct;
       console.log(`📦 상품 ${isEdit ? '수정' : '등록'} 시작:`, formData);
 
-      const url = isEdit ? `/api/products/${selectedProduct.id}` : '/api/products';
-      const method = isEdit ? 'PUT' : 'POST';
+      if (isEdit) {
+        // 상품 수정
+        const { updateProduct } = await import('@/lib/firestore');
+        await updateProduct(selectedProduct.id, {
+          name: formData.name,
+          nameKorean: formData.nameKorean,
+          description: formData.description,
+          price: formData.price,
+          category: formData.category as any,
+          tags: formData.tags,
+          image: formData.image,
+          images: formData.images,
+          detailImage: formData.detailImage,
+          detailContent: formData.detailContent,
+          isBestseller: false,
+          isNew: false,
+          isPopular: false
+        });
+      } else {
+        // 상품 등록
+        const { createProduct } = await import('@/lib/firestore');
+        await createProduct({
+          name: formData.name,
+          nameKorean: formData.nameKorean,
+          description: formData.description,
+          price: formData.price,
+          category: formData.category as any,
+          tags: formData.tags,
+          image: formData.image,
+          images: formData.images,
+          detailImage: formData.detailImage,
+          detailContent: formData.detailContent,
+          isBestseller: false,
+          isNew: false,
+          isPopular: false
+        });
+      }
 
-      const response = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData)
+      toast({
+        title: "성공",
+        description: `상품이 성공적으로 ${isEdit ? '수정' : '등록'}되었습니다.`,
       });
 
-      const result = await response.json();
+      console.log(`✅ 상품 ${isEdit ? '수정' : '등록'} 완료`);
 
-      if (result.success) {
-        const isEdit = mode === 'edit';
-        toast({
-          title: "성공",
-          description: `상품이 성공적으로 ${isEdit ? '수정' : '등록'}되었습니다.`,
-        });
-
-        console.log(`✅ 상품 ${isEdit ? '수정' : '등록'} 완료:`, result.product);
-
-        // 목록으로 돌아가기
-        handleBackToList();
-      } else {
-        throw new Error(result.message || `상품 ${mode === 'edit' ? '수정' : '등록'} 실패`);
-      }
+      // 목록으로 돌아가기
+      handleBackToList();
     } catch (error) {
       console.error(`❌ 상품 ${mode === 'edit' ? '수정' : '등록'} 오류:`, error);
       toast({

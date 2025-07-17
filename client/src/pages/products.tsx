@@ -15,20 +15,24 @@ const Products = () => {
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Fetch products from API
+  // Fetch products from Firestore directly
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         console.log('📦 상품 목록 가져오는 중...');
-        const response = await fetch('/api/products');
-        if (response.ok) {
-          const data = await response.json();
-          console.log('✅ 상품 목록 가져오기 성공:', data.length, '개');
-          setProducts(data);
-          setFilteredProducts(data);
-        } else {
-          console.error('❌ 상품 목록 가져오기 실패:', response.status);
-        }
+        const { getAllProducts } = await import('@/lib/firestore');
+        const data = await getAllProducts();
+
+        // Firestore 데이터를 클라이언트 형식으로 변환
+        const formattedProducts = data.map(product => ({
+          ...product,
+          createdAt: product.createdAt?.toDate?.()?.toISOString() || product.createdAt,
+          updatedAt: product.updatedAt?.toDate?.()?.toISOString() || product.updatedAt
+        }));
+
+        console.log('✅ 상품 목록 가져오기 성공:', formattedProducts.length, '개');
+        setProducts(formattedProducts);
+        setFilteredProducts(formattedProducts);
       } catch (error) {
         console.error('❌ 상품 목록 가져오기 오류:', error);
       } finally {
