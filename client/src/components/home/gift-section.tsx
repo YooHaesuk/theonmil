@@ -25,7 +25,7 @@ const GiftSection = () => {
               특별한 날, <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">특별한 선물</span>
             </h2>
             <p className="font-pretendard text-lg text-gray-300 mb-6">
-              소중한 사람의 기념일에 빵답게의 선물 세트는 어떠신가요? 케이크, 디저트와 함께 신선한 꽃다발과 마음을 담은 메시지 카드를 함께 보내드립니다.
+              소중한 사람의 기념일에 더 온밀의 선물 세트는 어떠신가요? 케이크, 디저트와 함께 신선한 꽃다발과 마음을 담은 메시지 카드를 함께 보내드립니다.
             </p>
             <ul className="space-y-4 mb-8">
               <li className="flex items-start">

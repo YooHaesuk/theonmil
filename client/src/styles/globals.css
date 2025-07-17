@@ -1,3 +1,6 @@
+/* 리치 에디터 스타일 */
+@import './rich-editor.css';
+
 /* uc2e4uc81c ubdf0ud3ecud2b8 ub192uc774 ubcc0uc218 ucd94uac00 */
 :root {
   --vh: 1vh;

@@ -1,3 +1,3 @@
-# 빵답게 (BreadGram)
+# 더 온밀 (The Onmil)
 
-Modern, responsive e-commerce platform for '빵답게' bakery brand.
+Modern, responsive e-commerce platform for '더 온밀' bakery brand.

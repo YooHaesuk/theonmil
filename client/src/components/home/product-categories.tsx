@@ -21,7 +21,7 @@ const categories: Category[] = [
   {
     id: 'regular',
     name: '상시 운영 제품',
-    description: '언제나 만나볼 수 있는 빵답게의 시그니처 제품들',
+    description: '언제나 만나볼 수 있는 더 온밀의 시그니처 제품들',
     image: regularProductImg
   },
   {
@@ -60,7 +60,7 @@ const ProductCategories = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            빵답게가 만드는 다양한 종류의 빵을 카테고리별로 살펴보세요.
+            더 온밀이 만드는 다양한 종류의 빵을 카테고리별로 살펴보세요.
           </motion.p>
         </div>
         

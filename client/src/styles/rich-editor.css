@@ -1,0 +1,402 @@
+/* 🎨 리치 에디터 다크 테마 스타일 */
+
+.rich-text-editor .ql-toolbar {
+  background: #1A1A1A;
+  border: 1px solid #333333;
+  border-bottom: none;
+  border-radius: 8px 8px 0 0;
+}
+
+.rich-text-editor .ql-container {
+  background: #111111;
+  border: 1px solid #333333;
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+  color: #ffffff;
+  font-family: 'Pretendard', sans-serif;
+}
+
+.rich-text-editor .ql-editor {
+  color: #ffffff;
+  min-height: 300px;
+  padding: 20px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.rich-text-editor .ql-editor.ql-blank::before {
+  color: #666666;
+  font-style: normal;
+}
+
+/* 툴바 버튼 스타일 */
+.rich-text-editor .ql-toolbar .ql-stroke {
+  stroke: #cccccc;
+}
+
+.rich-text-editor .ql-toolbar .ql-fill {
+  fill: #cccccc;
+}
+
+.rich-text-editor .ql-toolbar button:hover .ql-stroke {
+  stroke: #A78BFA;
+}
+
+.rich-text-editor .ql-toolbar button:hover .ql-fill {
+  fill: #A78BFA;
+}
+
+.rich-text-editor .ql-toolbar button.ql-active .ql-stroke {
+  stroke: #A78BFA;
+}
+
+.rich-text-editor .ql-toolbar button.ql-active .ql-fill {
+  fill: #A78BFA;
+}
+
+/* 드롭다운 스타일 */
+.rich-text-editor .ql-toolbar .ql-picker {
+  color: #cccccc;
+}
+
+.rich-text-editor .ql-toolbar .ql-picker-options {
+  background: #1A1A1A;
+  border: 1px solid #333333;
+  border-radius: 4px;
+}
+
+.rich-text-editor .ql-toolbar .ql-picker-item:hover {
+  background: #333333;
+  color: #A78BFA;
+}
+
+/* 링크 툴팁 스타일 */
+.rich-text-editor .ql-tooltip {
+  background: #1A1A1A;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  color: #ffffff;
+}
+
+.rich-text-editor .ql-tooltip input {
+  background: #111111;
+  border: 1px solid #333333;
+  color: #ffffff;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.rich-text-editor .ql-tooltip .ql-action,
+.rich-text-editor .ql-tooltip .ql-remove {
+  color: #A78BFA;
+}
+
+.rich-text-editor .ql-tooltip .ql-action:hover,
+.rich-text-editor .ql-tooltip .ql-remove:hover {
+  color: #EC4899;
+}
+
+/* 에디터 내 이미지 스타일 */
+.rich-text-editor .ql-editor img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* 에디터 내 링크 스타일 */
+.rich-text-editor .ql-editor a {
+  color: #A78BFA;
+  text-decoration: underline;
+}
+
+.rich-text-editor .ql-editor a:hover {
+  color: #EC4899;
+}
+
+/* 에디터 내 헤더 스타일 */
+.rich-text-editor .ql-editor h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 20px 0 10px 0;
+  color: #ffffff;
+}
+
+.rich-text-editor .ql-editor h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 16px 0 8px 0;
+  color: #ffffff;
+}
+
+.rich-text-editor .ql-editor h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 12px 0 6px 0;
+  color: #ffffff;
+}
+
+/* 에디터 내 리스트 스타일 */
+.rich-text-editor .ql-editor ul,
+.rich-text-editor .ql-editor ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.rich-text-editor .ql-editor li {
+  margin: 4px 0;
+}
+
+/* 에디터 내 인용구 스타일 */
+.rich-text-editor .ql-editor blockquote {
+  border-left: 4px solid #A78BFA;
+  padding-left: 16px;
+  margin: 16px 0;
+  font-style: italic;
+  color: #cccccc;
+  background: rgba(167, 139, 250, 0.1);
+  border-radius: 0 4px 4px 0;
+}
+
+/* 에디터 내 코드 블록 스타일 */
+.rich-text-editor .ql-editor pre {
+  background: #0A0A0A;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 12px 0;
+  overflow-x: auto;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}
+
+/* 스크롤바 스타일 */
+.rich-text-editor .ql-editor::-webkit-scrollbar {
+  width: 8px;
+}
+
+.rich-text-editor .ql-editor::-webkit-scrollbar-track {
+  background: #1A1A1A;
+  border-radius: 4px;
+}
+
+.rich-text-editor .ql-editor::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 4px;
+}
+
+.rich-text-editor .ql-editor::-webkit-scrollbar-thumb:hover {
+  background: #555555;
+}
+
+/* 🎨 HTML 콘텐츠 렌더러 스타일 */
+.html-content-renderer {
+  color: #ffffff;
+  font-family: 'Pretendard', sans-serif;
+  line-height: 1.6;
+}
+
+.html-content-renderer h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin: 20px 0 10px 0;
+  color: #ffffff;
+}
+
+.html-content-renderer h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: 16px 0 8px 0;
+  color: #ffffff;
+}
+
+.html-content-renderer h3 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin: 12px 0 6px 0;
+  color: #ffffff;
+}
+
+.html-content-renderer p {
+  margin: 10px 0;
+  color: #ffffff;
+}
+
+.html-content-renderer strong {
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.html-content-renderer em {
+  font-style: italic;
+  color: #cccccc;
+}
+
+.html-content-renderer u {
+  text-decoration: underline;
+}
+
+.html-content-renderer s {
+  text-decoration: line-through;
+}
+
+.html-content-renderer ul,
+.html-content-renderer ol {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.html-content-renderer li {
+  margin: 4px 0;
+  color: #ffffff;
+}
+
+.html-content-renderer blockquote {
+  border-left: 4px solid #A78BFA;
+  padding-left: 16px;
+  margin: 16px 0;
+  font-style: italic;
+  color: #cccccc;
+  background: rgba(167, 139, 250, 0.1);
+  border-radius: 0 4px 4px 0;
+  padding: 12px 16px;
+}
+
+.html-content-renderer pre {
+  background: #0A0A0A;
+  border: 1px solid #333333;
+  border-radius: 4px;
+  padding: 12px;
+  margin: 12px 0;
+  overflow-x: auto;
+  color: #ffffff;
+  font-family: 'Courier New', monospace;
+}
+
+.html-content-renderer code {
+  background: #1A1A1A;
+  border: 1px solid #333333;
+  border-radius: 2px;
+  padding: 2px 4px;
+  font-family: 'Courier New', monospace;
+  color: #A78BFA;
+}
+
+.html-content-renderer a {
+  color: #A78BFA;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.html-content-renderer a:hover {
+  color: #EC4899;
+}
+
+.html-content-renderer img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin: 10px 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  background: #1A1A1A;
+  border: 1px solid #333333;
+}
+
+/* 이미지 로드 실패 시 스타일 */
+.html-content-renderer img[src=""],
+.html-content-renderer img:not([src]) {
+  display: none;
+}
+
+.html-content-renderer img::before {
+  content: "이미지를 불러올 수 없습니다";
+  display: block;
+  color: #666;
+  text-align: center;
+  padding: 20px;
+  background: #1A1A1A;
+  border: 1px dashed #333;
+  border-radius: 8px;
+}
+
+/* 반응형 이미지 */
+@media (max-width: 768px) {
+  .html-content-renderer img {
+    margin: 8px 0;
+    border-radius: 6px;
+  }
+
+  .html-content-renderer h1 {
+    font-size: 1.8em;
+  }
+
+  .html-content-renderer h2 {
+    font-size: 1.4em;
+  }
+
+  .html-content-renderer h3 {
+    font-size: 1.1em;
+  }
+
+  .html-content-renderer blockquote {
+    padding: 8px 12px;
+    margin: 12px 0;
+  }
+
+  .html-content-renderer pre {
+    padding: 8px;
+    margin: 8px 0;
+    font-size: 0.9em;
+  }
+}
+
+/* 🎨 TinyMCE 다크 테마 커스터마이징 */
+.tinymce-editor-wrapper .tox-tinymce {
+  border: 1px solid #333333 !important;
+  border-radius: 8px !important;
+  overflow: hidden;
+}
+
+.tinymce-editor-wrapper .tox-toolbar {
+  background: #1A1A1A !important;
+  border-bottom: 1px solid #333333 !important;
+}
+
+.tinymce-editor-wrapper .tox-edit-area {
+  background: #111111 !important;
+}
+
+.tinymce-editor-wrapper .tox-edit-area iframe {
+  background: #111111 !important;
+}
+
+/* TinyMCE 버튼 스타일 */
+.tinymce-editor-wrapper .tox-tbtn {
+  color: #cccccc !important;
+}
+
+.tinymce-editor-wrapper .tox-tbtn:hover {
+  background: #333333 !important;
+  color: #A78BFA !important;
+}
+
+.tinymce-editor-wrapper .tox-tbtn--enabled {
+  background: #A78BFA !important;
+  color: #ffffff !important;
+}
+
+/* TinyMCE 드롭다운 */
+.tinymce-editor-wrapper .tox-listboxfield .tox-listbox {
+  background: #1A1A1A !important;
+  border: 1px solid #333333 !important;
+  color: #cccccc !important;
+}
+
+/* TinyMCE 상태바 숨김 */
+.tinymce-editor-wrapper .tox-statusbar {
+  display: none !important;
+}

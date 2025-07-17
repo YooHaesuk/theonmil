@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useLocation } from 'wouter';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
+import { useAuth } from '@/hooks/use-auth';
+import { useToast } from '@/hooks/use-toast';
 
 // 리뷰 이미지 가져오기
 import reviewImage1 from '@/assets/images/reviews/review_image1.png';
@@ -81,7 +84,33 @@ const reviews: Review[] = [
 
 const Reviews = () => {
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
-  
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
+  const { toast } = useToast();
+
+  // 리뷰 작성하기 버튼 클릭 핸들러
+  const handleWriteReview = () => {
+    if (!user) {
+      toast({
+        title: "로그인이 필요합니다 🔐",
+        description: "리뷰를 작성하려면 먼저 로그인해주세요.",
+        variant: "destructive",
+      });
+      setLocation('/login');
+      return;
+    }
+
+    // 구매 완료 고객만 리뷰 작성 가능
+    toast({
+      title: "마이페이지로 이동합니다 📝",
+      description: "구매완료된 상품에 한해서 리뷰를 작성할 수 있습니다!",
+      variant: "default",
+    });
+
+    // MY 쇼핑 탭으로 이동 (구매완료 상품 확인)
+    setLocation('/mypage/shopping?from=review');
+  };
+
   // Filter reviews based on selected rating
   const filteredReviews = selectedRating 
     ? reviews.filter(review => Math.floor(review.rating) === selectedRating) 
@@ -98,10 +127,10 @@ const Reviews = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">고객 후기</span>
+            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">고객 리뷰</span>
           </motion.h1>
           <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
-            대형마트와 온라인에서 빵답게를 만난 고객님들의 소중한 후기입니다.
+            대형마트와 온라인에서 더 온밀을 만난 고객님들의 소중한 리뷰입니다.
           </motion.p>
         </div>
         
@@ -184,13 +213,16 @@ const Reviews = () => {
           className="mt-16 bg-[#0F0F1A] rounded-lg p-8 shadow-md text-center border border-[#222222]"
         >
           <h2 className="text-2xl font-bold font-montserrat mb-4 text-white">
-            빵답게를 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">경험</span>해보셨나요?
+            더 온밀을 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">경험</span>해보셨나요?
           </h2>
           <p className="font-pretendard text-gray-300 mb-6">
-            여러분의 솔직한 후기가 다른 고객들에게 큰 도움이 됩니다.
+            여러분의 솔직한 리뷰가 다른 고객들에게 큰 도움이 됩니다.
           </p>
-          <button className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium transition-all hover:opacity-90 hover:shadow-lg hover:shadow-purple-500/20">
-            후기 작성하기
+          <button
+            onClick={handleWriteReview}
+            className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:from-[#9333EA] hover:to-[#DB2777] text-white font-medium transition-all transform hover:scale-105 shadow-lg hover:shadow-[#A78BFA]/30"
+          >
+            📝 리뷰 작성하기
           </button>
         </motion.div>
       </div>

@@ -9,9 +9,9 @@ const Footer = () => {
           {/* Brand */}
           <div>
             <h3 className="text-2xl font-bold font-montserrat mb-6">
-              <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
+              <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">더 온밀</span>
             </h3>
-            <p className="font-pretendard text-gray-400 mb-6">이 사이트의 브래드는, 빵답게.<br/>정직한 공정, 현장 기반 신뢰를 약속합니다.</p>
+            <p className="font-pretendard text-gray-400 mb-6">온전한 밀의 맛, 더 온밀.<br/>정직한 공정, 현장 기반 신뢰를 약속합니다.</p>
             <div className="flex space-x-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-white transition-colors">
                 <i className="fa-brands fa-instagram text-xl"></i>
@@ -67,7 +67,7 @@ const Footer = () => {
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
                   <i className="fa-solid fa-envelope text-xs"></i>
                 </div>
-                <span>sbk2590@naver.com</span>
+                <span>yhs85844@gmail.com</span>
               </li>
               <li className="flex items-start">
                 <div className="w-6 h-6 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white mt-0.5 mr-3 flex-shrink-0">
@@ -83,7 +83,7 @@ const Footer = () => {
         <div className="pt-8 border-t border-[#222222] text-center sm:text-left">
           <div className="flex flex-col sm:flex-row justify-between items-center">
             <div className="font-pretendard text-sm text-gray-500 mb-4 sm:mb-0">
-              <p className="mb-1">&copy; {new Date().getFullYear()} 주식회사 신화베이커리. 모든 권리 보유.</p>
+              <p className="mb-1">&copy; {new Date().getFullYear()} 더 온밀. 모든 권리 보유.</p>
               <p className="mb-1">대표자: 유해숙 | 사업자등록번호: 127-88-03260 | 법인등록번호: 285011-0546305</p>
               <p>개업일자: 2023년 9월 26일 | 업태: 제조업, 도소매업, 음식점업</p>
             </div>

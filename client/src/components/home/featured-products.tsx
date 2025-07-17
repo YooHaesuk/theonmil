@@ -28,7 +28,7 @@ const FeaturedProducts = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            지금 가장 사랑받는 빵답게의 대표 제품들을 만나보세요.
+            지금 가장 사랑받는 더 온밀의 대표 제품들을 만나보세요.
           </motion.p>
         </div>
         

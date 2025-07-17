@@ -20,7 +20,7 @@ const NewsletterSection = () => {
     setTimeout(() => {
       toast({
         title: "구독 신청 완료",
-        description: "빵답게의 소식을 이메일로 받아보실 수 있습니다.",
+        description: "더 온밀의 소식을 이메일로 받아보실 수 있습니다.",
       });
       
       setEmail('');
@@ -39,7 +39,7 @@ const NewsletterSection = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold font-montserrat mb-4 text-white">
-            빵답게 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">소식 받기</span>
+            더 온밀 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">소식 받기</span>
           </h2>
           <p className="font-pretendard text-lg text-gray-300 mb-8">
             신제품 소식, 시즌 한정 메뉴, 특별 할인 정보를 가장 먼저 받아보세요.

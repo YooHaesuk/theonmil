@@ -70,7 +70,7 @@ const ReviewsSection = () => {
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            대형마트와 온라인에서 빵답게를 만난 고객님들의 소중한 후기입니다.
+            대형마트와 온라인에서 더 온밀을 만난 고객님들의 소중한 후기입니다.
           </motion.p>
         </div>
         

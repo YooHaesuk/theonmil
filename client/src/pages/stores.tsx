@@ -23,7 +23,7 @@ interface Store {
 const stores: Store[] = [
   {
     id: 'gangnam',
-    name: '빵답게 강남점',
+    name: '더 온밀 강남점',
     address: '서울특별시 강남구 테헤란로 123 1층',
     hours: '오전 8:00 - 오후 9:00 (매일)',
     phone: '02-123-4567',
@@ -31,7 +31,7 @@ const stores: Store[] = [
   },
   {
     id: 'seongsu',
-    name: '빵답게 성수점',
+    name: '더 온밀 성수점',
     address: '서울특별시 성동구 성수이로 45 1층',
     hours: '오전 9:00 - 오후 8:00 (월-토)',
     phone: '02-456-7890',
@@ -39,7 +39,7 @@ const stores: Store[] = [
   },
   {
     id: 'hongdae',
-    name: '빵답게 홍대점',
+    name: '더 온밀 홍대점',
     address: '서울특별시 마포구 홍대로 123 1층',
     hours: '오전 10:00 - 오후 10:00 (매일)',
     phone: '02-789-0123',
@@ -47,7 +47,7 @@ const stores: Store[] = [
   },
   {
     id: 'jamsil',
-    name: '빵답게 잠실점',
+    name: '더 온밀 잠실점',
     address: '서울특별시 송파구 올림픽로 256 1층',
     hours: '오전 8:00 - 오후 9:00 (매일)',
     phone: '02-345-6789',
@@ -80,7 +80,7 @@ const Stores = () => {
             <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">오프라인 매장 안내</span>
           </motion.h1>
           <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
-            빵답게를 직접 보고 맛볼 수 있는 오프라인 매장을 소개합니다.
+            더 온밀을 직접 보고 맛볼 수 있는 오프라인 매장을 소개합니다.
           </motion.p>
         </div>
         

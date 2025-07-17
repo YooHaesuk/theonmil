@@ -261,8 +261,8 @@ export function BakeryHeroGeometric() {
               className="mb-6 text-center max-w-full text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mx-auto mt-6"
               style={{ wordBreak: 'keep-all' }}
             >
-              <span className="font-montserrat text-white">빵다운 빵을 만드는</span> <br />
-              <span className="font-montserrat bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">빵답게</span>
+              <span className="font-montserrat text-white">온전한 밀의 맛을 만드는</span> <br />
+              <span className="font-montserrat bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">더 온밀</span>
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}

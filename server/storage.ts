@@ -102,7 +102,55 @@ export class MemStorage implements IStorage {
   async getProductsByCategory(category: string): Promise<Product[]> {
     return Array.from(this.products.values()).filter(product => product.category === category);
   }
-  
+
+  async insertProduct(productData: Omit<Product, 'id'>): Promise<Product> {
+    const id = this.productIdCounter++;
+    const product: Product = {
+      ...productData,
+      id,
+      // tags가 문자열로 오면 배열로 변환
+      tags: typeof productData.tags === 'string'
+        ? productData.tags.split(',').filter(tag => tag.trim())
+        : productData.tags || [],
+      // 기본값 설정
+      isBestseller: productData.isBestseller || false,
+      isNew: productData.isNew || false,
+      isPopular: productData.isPopular || false
+    };
+
+    this.products.set(id, product);
+    console.log('💾 상품 저장 완료:', product);
+    return product;
+  }
+
+  async getProductById(id: number): Promise<Product | null> {
+    return this.products.get(id) || null;
+  }
+
+  async updateProduct(id: number, productData: Partial<Omit<Product, 'id'>>): Promise<boolean> {
+    const existingProduct = this.products.get(id);
+    if (!existingProduct) {
+      console.log('❌ 상품을 찾을 수 없음:', id);
+      return false;
+    }
+
+    const updatedProduct: Product = {
+      ...existingProduct,
+      ...productData,
+      id, // ID는 변경되지 않음
+      // tags가 문자열로 오면 배열로 변환
+      tags: Array.isArray(productData.tags)
+        ? productData.tags
+        : (typeof productData.tags === 'string'
+          ? productData.tags.split(',').map(tag => tag.trim())
+          : existingProduct.tags)
+    };
+
+    this.products.set(id, updatedProduct);
+    console.log('💾 상품 수정 완료:', updatedProduct);
+    return true;
+  }
+
   // Cart operations
   async getCartItemsByUser(userId: number): Promise<(CartItem & { product: Product })[]> {
     const items = Array.from(this.cartItems.values())

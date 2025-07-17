@@ -90,7 +90,7 @@ const Register = () => {
       if (response.ok) {
         toast({
           title: "회원가입 성공",
-          description: "빵답게의 회원이 되신 것을 환영합니다.",
+          description: "더 온밀의 회원이 되신 것을 환영합니다.",
         });
         
         setLocation('/login', { replace: true });
@@ -120,7 +120,7 @@ const Register = () => {
             <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">회원가입</span>
           </h1>
           <p className="font-pretendard text-gray-300 text-lg">
-            빵답게의 회원이 되어 <span className="text-white font-semibold">특별한 혜택</span>을 누리세요
+            더 온밀의 회원이 되어 <span className="text-white font-semibold">특별한 혜택</span>을 누리세요
           </p>
         </motion.div>
         
@@ -332,7 +332,7 @@ const Register = () => {
                       마케팅 정보 수신 동의 (선택)
                     </label>
                     <p className="text-gray-400 font-pretendard">
-                      빵답게의 신제품 및 이벤트 소식을 받아보실 수 있습니다.
+                      더 온밀의 신제품 및 이벤트 소식을 받아보실 수 있습니다.
                     </p>
                   </div>
                 </div>

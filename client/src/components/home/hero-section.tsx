@@ -155,7 +155,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              이 사이트의 브래드는,
+              온전한 밀의 맛,
             </motion.span>
             <motion.span 
               className="block text-white"
@@ -163,7 +163,7 @@ const HeroSection = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
             >
-              빵답게
+              더 온밀
             </motion.span>
           </h1>
           <motion.p 

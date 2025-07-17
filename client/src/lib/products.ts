@@ -19,6 +19,10 @@ export interface Product {
   isBestseller?: boolean;
   isNew?: boolean;
   isPopular?: boolean;
+  // 🆕 리치 에디터 필드 추가
+  detailContent?: string; // HTML 콘텐츠
+  detailImage?: string; // 기존 이미지 (마이그레이션용)
+  images?: string[]; // 추가 이미지들
 }
 
 export type ProductCategory = 'regular' | 'custom' | 'gift';

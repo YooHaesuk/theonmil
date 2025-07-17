@@ -1,0 +1,773 @@
+import { Heart, Gift, Star, Clock } from 'lucide-react';
+import { useLocation } from 'wouter';
+import { useState, useEffect } from 'react';
+import { useAuth } from '@/hooks/use-auth';
+import { useToast } from '@/hooks/use-toast';
+import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { db } from '@/lib/firebase';
+import ReviewWrite from '@/components/mypage/review/review-write';
+
+interface WishItem {
+  id: string;
+  userId: string;
+  productId: string;
+  productName: string;
+  productPrice: number;
+  productImage?: string;
+  createdAt: any;
+}
+
+interface Review {
+  id: string;
+  userId: string;
+  productId: string;
+  productName: string;
+  rating: number;
+  content: string;
+  createdAt: any;
+  updatedAt?: any;
+  isEdited?: boolean;
+}
+
+interface Coupon {
+  id: string;
+  userId: string;
+  title: string;
+  discount: number;
+  expiryDate: any;
+  isUsed: boolean;
+}
+
+const ActivitySection = () => {
+  const [, setLocation] = useLocation();
+  const { user } = useAuth();
+  const { toast } = useToast();
+  const [wishItems, setWishItems] = useState<WishItem[]>([]);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [coupons, setCoupons] = useState<Coupon[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState<'wishlist' | 'reviews' | 'coupons'>('wishlist');
+  const [editingReview, setEditingReview] = useState<string | null>(null);
+  const [editContent, setEditContent] = useState('');
+  const [editRating, setEditRating] = useState(5);
+  const [showWriteReviewGuide, setShowWriteReviewGuide] = useState(false);
+  const [showWriteReviewForm, setShowWriteReviewForm] = useState(false);
+  const [writeReviewData, setWriteReviewData] = useState<{orderId: string, productName: string} | null>(null);
+
+  // URL 파라미터 확인해서 탭 설정
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tab = urlParams.get('tab');
+    const write = urlParams.get('write');
+
+    if (tab === 'reviews') {
+      setActiveTab('reviews');
+      if (write === 'true') {
+        // URL에서 주문 정보 가져오기
+        const orderId = urlParams.get('orderId') || 'test-order-1';
+        const productName = urlParams.get('productName') || '크루아상';
+
+        setWriteReviewData({ orderId, productName });
+        setShowWriteReviewForm(true);
+      }
+    }
+  }, []);
+
+  // Firebase에서 활동 데이터 가져오기
+  useEffect(() => {
+    const fetchActivityData = async () => {
+      if (!user?.uid) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        console.log('🔍 활동 데이터 조회 시작:', user.uid);
+
+        // 실제 데이터가 없으면 테스트 데이터 추가
+        const testWishItems: WishItem[] = [
+          {
+            id: 'wish-1',
+            userId: user.uid,
+            productId: 'bread-1',
+            productName: '크루아상',
+            productPrice: 12500,
+            productImage: '/images/croissant.jpg',
+            createdAt: { toDate: () => new Date('2024-01-20') }
+          },
+          {
+            id: 'wish-2',
+            userId: user.uid,
+            productId: 'bread-2',
+            productName: '바게트',
+            productPrice: 18000,
+            productImage: '/images/baguette.jpg',
+            createdAt: { toDate: () => new Date('2024-01-18') }
+          }
+        ];
+
+        const testReviews: Review[] = [
+          {
+            id: 'review-1',
+            userId: user.uid,
+            productId: 'bread-1',
+            productName: '크루아상',
+            rating: 5,
+            content: '정말 맛있어요! 다음에도 주문할게요.',
+            createdAt: { toDate: () => new Date('2024-01-16') },
+            isEdited: false
+          },
+          {
+            id: 'review-2',
+            userId: user.uid,
+            productId: 'bread-2',
+            productName: '바게트',
+            rating: 4,
+            content: '바삭하고 좋네요. 조금 더 따뜻했으면 완벽했을 것 같아요.',
+            createdAt: { toDate: () => new Date('2024-01-12') },
+            isEdited: false
+          }
+        ];
+
+        const testCoupons: Coupon[] = [
+          {
+            id: 'coupon-1',
+            userId: user.uid,
+            title: '신규 회원 10% 할인',
+            discount: 10,
+            expiryDate: { toDate: () => new Date('2024-02-15') },
+            isUsed: false
+          },
+          {
+            id: 'coupon-2',
+            userId: user.uid,
+            title: '생일 축하 20% 할인',
+            discount: 20,
+            expiryDate: { toDate: () => new Date('2024-03-01') },
+            isUsed: false
+          }
+        ];
+
+        console.log('🧪 테스트 활동 데이터 추가');
+        setWishItems(testWishItems);
+        setReviews(testReviews);
+        setCoupons(testCoupons);
+      } catch (error) {
+        console.error('❌ 활동 데이터 조회 실패:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchActivityData();
+  }, [user?.uid]);
+
+  // 통계 계산
+  const wishCount = wishItems.length;
+  const reviewCount = reviews.length;
+  const couponCount = coupons.filter(coupon => !coupon.isUsed).length;
+  const lastActivityDays = wishItems.length > 0 ?
+    Math.floor((new Date().getTime() - wishItems[0].createdAt.toDate().getTime()) / (1000 * 60 * 60 * 24)) : 0;
+
+  const handleGoToProducts = () => {
+    console.log('❤️ 상품 둘러보기 클릭!');
+    setLocation('/products');
+  };
+
+  const handleShowWishlist = () => {
+    console.log('❤️ 찜한 상품 보기 클릭!');
+    setActiveTab('wishlist');
+  };
+
+  const handleShowReviews = () => {
+    console.log('⭐ 작성한 리뷰 보기 클릭!');
+    setActiveTab('reviews');
+  };
+
+  const handleShowCoupons = () => {
+    console.log('🎁 보유 쿠폰 보기 클릭!');
+    setActiveTab('coupons');
+  };
+
+  const handleProductClick = (productId: string, productName: string) => {
+    console.log(`🔍 찜한 상품 클릭: ${productName} (${productId})`);
+    setLocation(`/products/${productId}`); // 상품 상세 페이지로 이동
+  };
+
+  const handleAddToCart = (item: WishItem, event: React.MouseEvent) => {
+    event.stopPropagation(); // 상품 클릭 이벤트 방지
+    console.log(`🛒 장바구니 담기: ${item.productName}`);
+
+    // 실제 장바구니 추가 로직 (예시)
+    const cartItem = {
+      productId: item.productId,
+      productName: item.productName,
+      price: item.productPrice,
+      quantity: 1,
+      image: item.productImage
+    };
+
+    // 로컬 스토리지나 상태 관리로 장바구니에 추가
+    const existingCart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const existingItemIndex = existingCart.findIndex((cartItem: any) => cartItem.productId === item.productId);
+
+    if (existingItemIndex >= 0) {
+      existingCart[existingItemIndex].quantity += 1;
+    } else {
+      existingCart.push(cartItem);
+    }
+
+    localStorage.setItem('cart', JSON.stringify(existingCart));
+
+    // 세련된 토스트 알림
+    toast({
+      title: "장바구니에 추가되었습니다! 🛒",
+      description: `${item.productName}을(를) 장바구니에 담았습니다.`,
+      variant: "default",
+    });
+  };
+
+  const handleRemoveFromWishlist = (itemId: string, productName: string, event: React.MouseEvent) => {
+    event.stopPropagation(); // 상품 클릭 이벤트 방지
+    console.log(`💔 찜 해제: ${productName}`);
+
+    // 찜 목록에서 제거
+    setWishItems(prev => prev.filter(item => item.id !== itemId));
+
+    // 세련된 토스트 알림
+    toast({
+      title: "찜 목록에서 제거되었습니다 💔",
+      description: `${productName}을(를) 찜 목록에서 제거했습니다.`,
+      variant: "destructive",
+    });
+  };
+
+  // 리뷰 수정 가능 여부 확인 (구매 완료 후 14일 이내)
+  const canEditReview = (review: Review) => {
+    const daysSinceCreated = Math.floor(
+      (new Date().getTime() - review.createdAt.toDate().getTime()) / (1000 * 60 * 60 * 24)
+    );
+    return daysSinceCreated <= 14;
+  };
+
+  // 리뷰 수정 시작
+  const handleEditReview = (review: Review) => {
+    setEditingReview(review.id);
+    setEditContent(review.content);
+    setEditRating(review.rating);
+  };
+
+  // 리뷰 수정 저장
+  const handleSaveReview = (reviewId: string) => {
+    setReviews(prev => prev.map(review =>
+      review.id === reviewId
+        ? {
+            ...review,
+            content: editContent,
+            rating: editRating,
+            updatedAt: { toDate: () => new Date() },
+            isEdited: true
+          }
+        : review
+    ));
+
+    setEditingReview(null);
+    setEditContent('');
+    setEditRating(5);
+
+    toast({
+      title: "리뷰가 수정되었습니다! ✏️",
+      description: "리뷰 내용이 성공적으로 업데이트되었습니다.",
+      variant: "default",
+    });
+  };
+
+  // 리뷰 수정 취소
+  const handleCancelEdit = () => {
+    setEditingReview(null);
+    setEditContent('');
+    setEditRating(5);
+  };
+
+  // 새 리뷰 저장 완료 처리
+  const handleReviewSaved = (newReview: Review) => {
+    console.log('🎉 handleReviewSaved 호출됨!');
+    console.log('📝 새 리뷰 추가:', newReview);
+
+    // 리뷰 목록에 새 리뷰 추가
+    setReviews(prev => [newReview, ...prev]);
+
+    // localStorage에 리뷰 완료 상태 저장 (전역 상태 관리)
+    if (newReview.orderId) {
+      console.log('💾 localStorage에 리뷰 완료 상태 저장:', newReview.orderId);
+
+      // 기존 완료된 리뷰 목록 가져오기
+      const completedReviews = JSON.parse(localStorage.getItem('completedReviews') || '[]');
+
+      // 새 리뷰 추가
+      if (!completedReviews.includes(newReview.orderId)) {
+        completedReviews.push(newReview.orderId);
+        localStorage.setItem('completedReviews', JSON.stringify(completedReviews));
+        console.log('✅ 리뷰 완료 상태 저장 완료:', completedReviews);
+      }
+    }
+
+    // 리뷰 작성 폼 닫기
+    setShowWriteReviewForm(false);
+    setWriteReviewData(null);
+    console.log('🔚 리뷰 작성 폼 닫기 완료');
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* 헤더 */}
+      <div className="flex items-center gap-3">
+        <Heart className="w-8 h-8 text-[#EC4899]" />
+        <h2 className="text-2xl font-bold text-white">MY 활동</h2>
+      </div>
+
+      {/* 클릭 가능한 활동 통계 카드 */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        {/* 찜한 상품 */}
+        <button
+          onClick={handleShowWishlist}
+          className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#EC4899] hover:bg-[#1A1A1A]/80 transition-all cursor-pointer group"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <Heart className="w-5 h-5 text-[#EC4899] group-hover:scale-110 transition-transform" />
+            <div className="text-sm text-gray-400 group-hover:text-white">찜한 상품</div>
+          </div>
+          <div className="text-2xl font-bold text-white">{loading ? '...' : `${wishCount}개`}</div>
+          <div className="text-xs text-[#EC4899] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            클릭하여 찜한 상품 보기 →
+          </div>
+        </button>
+
+        {/* 작성한 리뷰 */}
+        <button
+          onClick={handleShowReviews}
+          className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#F59E0B] hover:bg-[#1A1A1A]/80 transition-all cursor-pointer group"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <Star className="w-5 h-5 text-[#F59E0B] group-hover:scale-110 transition-transform" />
+            <div className="text-sm text-gray-400 group-hover:text-white">작성한 리뷰</div>
+          </div>
+          <div className="text-2xl font-bold text-white">{loading ? '...' : `${reviewCount}개`}</div>
+          <div className="text-xs text-[#F59E0B] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            클릭하여 작성한 리뷰 보기 →
+          </div>
+        </button>
+
+        {/* 보유 쿠폰 */}
+        <button
+          onClick={handleShowCoupons}
+          className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#10B981] hover:bg-[#1A1A1A]/80 transition-all cursor-pointer group"
+        >
+          <div className="flex items-center gap-3 mb-2">
+            <Gift className="w-5 h-5 text-[#10B981] group-hover:scale-110 transition-transform" />
+            <div className="text-sm text-gray-400 group-hover:text-white">보유 쿠폰</div>
+          </div>
+          <div className="text-2xl font-bold text-white">{loading ? '...' : `${couponCount}장`}</div>
+          <div className="text-xs text-[#10B981] mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
+            클릭하여 보유 쿠폰 보기 →
+          </div>
+        </button>
+
+        {/* 최근 활동 */}
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6">
+          <div className="flex items-center gap-3 mb-2">
+            <Clock className="w-5 h-5 text-[#A78BFA]" />
+            <div className="text-sm text-gray-400">최근 활동</div>
+          </div>
+          <div className="text-2xl font-bold text-white">{loading ? '...' : `${lastActivityDays}일 전`}</div>
+          <div className="text-xs text-gray-500 mt-1">
+            마지막 찜한 날짜 기준
+          </div>
+        </div>
+      </div>
+
+      {/* 탭 메뉴 */}
+      <div className="flex gap-2 border-b border-[#333]">
+        <button
+          onClick={() => setActiveTab('wishlist')}
+          className={`px-4 py-2 font-medium transition-colors ${
+            activeTab === 'wishlist'
+              ? 'text-[#EC4899] border-b-2 border-[#EC4899]'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          찜한 상품
+        </button>
+        <button
+          onClick={() => setActiveTab('reviews')}
+          className={`px-4 py-2 font-medium transition-colors ${
+            activeTab === 'reviews'
+              ? 'text-[#F59E0B] border-b-2 border-[#F59E0B]'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          작성한 리뷰
+        </button>
+        <button
+          onClick={() => setActiveTab('coupons')}
+          className={`px-4 py-2 font-medium transition-colors ${
+            activeTab === 'coupons'
+              ? 'text-[#10B981] border-b-2 border-[#10B981]'
+              : 'text-gray-400 hover:text-white'
+          }`}
+        >
+          보유 쿠폰
+        </button>
+      </div>
+
+      {/* 탭 컨텐츠 */}
+      {loading ? (
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-12 text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EC4899] mx-auto mb-4"></div>
+          <p className="text-gray-400">활동 내역을 불러오는 중...</p>
+        </div>
+      ) : (
+        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6">
+          {/* 찜한 상품 탭 */}
+          {activeTab === 'wishlist' && (
+            <>
+              {wishItems.length === 0 ? (
+                <div className="text-center py-8">
+                  <Heart className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">찜한 상품이 없습니다</h3>
+                  <p className="text-gray-400 mb-6">
+                    마음에 드는 상품을 찜해보세요!<br />
+                    찜한 상품은 여기서 확인할 수 있습니다.
+                  </p>
+                  <button
+                    onClick={handleGoToProducts}
+                    className="bg-[#EC4899] hover:bg-[#DB2777] text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    상품 둘러보기
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-semibold text-white">찜한 상품 ({wishItems.length}개)</h3>
+                    <p className="text-sm text-gray-400">상품을 클릭하면 상세 페이지로 이동합니다</p>
+                  </div>
+
+                  {wishItems.map(item => (
+                    <div
+                      key={item.id}
+                      onClick={() => handleProductClick(item.productId, item.productName)}
+                      className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6 hover:border-[#EC4899] hover:bg-[#111] transition-all cursor-pointer group"
+                    >
+                      <div className="flex items-center gap-6">
+                        {/* 상품 이미지 */}
+                        <div className="w-20 h-20 bg-gradient-to-br from-[#222] to-[#333] rounded-xl flex items-center justify-center shadow-lg group-hover:shadow-[#EC4899]/20 transition-all">
+                          {item.productImage ? (
+                            <img
+                              src={item.productImage}
+                              alt={item.productName}
+                              className="w-full h-full object-cover rounded-xl"
+                            />
+                          ) : (
+                            <Heart className="w-10 h-10 text-[#EC4899] group-hover:scale-110 transition-transform" />
+                          )}
+                        </div>
+
+                        {/* 상품 정보 */}
+                        <div className="flex-1">
+                          <h4 className="font-bold text-white text-lg group-hover:text-[#EC4899] transition-colors mb-1">
+                            {item.productName}
+                          </h4>
+                          <div className="flex items-center gap-2 mb-2">
+                            <div className="w-1.5 h-1.5 bg-[#EC4899] rounded-full"></div>
+                            <p className="text-gray-400 text-sm">
+                              찜한 날짜: {item.createdAt?.toDate?.()?.toLocaleDateString()}
+                            </p>
+                          </div>
+                          <p className="text-xs text-gray-500 group-hover:text-gray-400 transition-colors">
+                            클릭하여 상품 상세보기 →
+                          </p>
+                        </div>
+
+                        {/* 가격 및 액션 버튼 */}
+                        <div className="text-right">
+                          <p className="font-bold text-2xl bg-gradient-to-r from-[#EC4899] to-[#F97316] bg-clip-text text-transparent mb-3">
+                            {item.productPrice.toLocaleString()}원
+                          </p>
+
+                          <div className="flex flex-col gap-2">
+                            {/* 장바구니 담기 버튼 */}
+                            <button
+                              onClick={(e) => handleAddToCart(item, e)}
+                              className="bg-gradient-to-r from-[#EC4899] to-[#F97316] hover:from-[#DB2777] hover:to-[#EA580C] text-white px-4 py-2 rounded-lg font-medium transition-all transform hover:scale-105 shadow-lg hover:shadow-[#EC4899]/30"
+                            >
+                              🛒 장바구니 담기
+                            </button>
+
+                            {/* 찜 해제 버튼 */}
+                            <button
+                              onClick={(e) => handleRemoveFromWishlist(item.id, item.productName, e)}
+                              className="bg-gray-600 hover:bg-red-600 text-white px-4 py-1.5 rounded-lg text-sm font-medium transition-all"
+                            >
+                              💔 찜 해제
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+
+                  {/* 하단 액션 버튼 */}
+                  <div className="mt-8 pt-6 border-t border-[#333]">
+                    <div className="flex gap-4 justify-center">
+                      <button
+                        onClick={handleGoToProducts}
+                        className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:from-[#9333EA] hover:to-[#DB2777] text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg"
+                      >
+                        🔍 상품 다시 둘러보기
+                      </button>
+                      <button
+                        onClick={() => setLocation('/cart')}
+                        className="bg-gradient-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg"
+                      >
+                        🛒 장바구니 확인하기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
+          )}
+
+          {/* 작성한 리뷰 탭 */}
+          {activeTab === 'reviews' && (
+            <>
+              {/* 리뷰 작성 폼 */}
+              {showWriteReviewForm && writeReviewData && (
+                <ReviewWrite
+                  orderId={writeReviewData.orderId}
+                  productName={writeReviewData.productName}
+                  onClose={() => {
+                    setShowWriteReviewForm(false);
+                    setWriteReviewData(null);
+                  }}
+                  onReviewSaved={handleReviewSaved}
+                />
+              )}
+
+              {/* 기존 리뷰 목록 (작성 폼이 없을 때만 표시) */}
+              {!showWriteReviewForm && (
+                <>
+                  {/* 리뷰 작성 가이드 */}
+                  {showWriteReviewGuide && (
+                <div className="bg-gradient-to-r from-[#F59E0B]/20 to-[#D97706]/20 border border-[#F59E0B]/50 rounded-xl p-6 mb-6">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-8 h-8 bg-gradient-to-r from-[#F59E0B] to-[#D97706] rounded-full flex items-center justify-center">
+                      <span className="text-white text-sm">📝</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-white">리뷰 작성 안내</h3>
+                    <button
+                      onClick={() => setShowWriteReviewGuide(false)}
+                      className="ml-auto text-gray-400 hover:text-white transition-colors"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                  <p className="text-gray-300 mb-2">
+                    <strong className="text-[#F59E0B]">구매완료된 상품에 대한 리뷰를 작성해보세요!</strong>
+                  </p>
+                  <p className="text-gray-400 text-sm">
+                    • MY 쇼핑에서 구매완료된 주문의 "리뷰 작성" 버튼을 클릭하세요<br />
+                    • 리뷰는 언제든지 작성 가능하며, 작성 후 14일 이내 수정 가능합니다
+                  </p>
+                </div>
+              )}
+
+              {reviews.length === 0 ? (
+                <div className="text-center py-8">
+                  <Star className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                  <h3 className="text-xl font-semibold text-white mb-2">작성한 리뷰가 없습니다</h3>
+                  <p className="text-gray-400 mb-6">
+                    구매한 상품에 대한 리뷰를 작성해보세요!<br />
+                    다른 고객들에게 도움이 됩니다.
+                  </p>
+                  <button
+                    onClick={handleGoToProducts}
+                    className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                  >
+                    상품 둘러보기
+                  </button>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-semibold text-white">작성한 리뷰 ({reviews.length}개)</h3>
+                    <p className="text-sm text-gray-400">구매 완료 후 14일 이내 수정 가능</p>
+                  </div>
+
+                  {reviews.map(review => (
+                    <div key={review.id} className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6 hover:border-[#F59E0B] transition-colors">
+                      {editingReview === review.id ? (
+                        // 수정 모드
+                        <div className="space-y-4">
+                          <div className="flex items-center gap-4 mb-4">
+                            <span className="text-white font-medium">{review.productName}</span>
+                            <div className="flex items-center gap-1">
+                              {[...Array(5)].map((_, i) => (
+                                <Star
+                                  key={i}
+                                  onClick={() => setEditRating(i + 1)}
+                                  className={`w-5 h-5 cursor-pointer transition-colors ${
+                                    i < editRating ? 'text-[#F59E0B] fill-current' : 'text-gray-600 hover:text-[#F59E0B]'
+                                  }`}
+                                />
+                              ))}
+                            </div>
+                          </div>
+
+                          <textarea
+                            value={editContent}
+                            onChange={(e) => setEditContent(e.target.value)}
+                            className="w-full p-4 bg-[#111] border border-[#333] rounded-lg text-white resize-none focus:border-[#F59E0B] focus:ring-2 focus:ring-[#F59E0B]/20"
+                            rows={4}
+                            placeholder="리뷰 내용을 입력하세요..."
+                          />
+
+                          <div className="flex gap-3 justify-end">
+                            <button
+                              onClick={handleCancelEdit}
+                              className="px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg font-medium transition-colors"
+                            >
+                              취소
+                            </button>
+                            <button
+                              onClick={() => handleSaveReview(review.id)}
+                              className="px-4 py-2 bg-[#F59E0B] hover:bg-[#D97706] text-white rounded-lg font-medium transition-colors"
+                            >
+                              저장
+                            </button>
+                          </div>
+                        </div>
+                      ) : (
+                        // 일반 모드
+                        <div>
+                          <div className="flex items-start justify-between mb-4">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3 mb-2">
+                                <span className="text-white font-medium">{review.productName}</span>
+                                <div className="flex items-center gap-1">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`w-4 h-4 ${i < review.rating ? 'text-[#F59E0B] fill-current' : 'text-gray-600'}`}
+                                    />
+                                  ))}
+                                </div>
+                                {review.isEdited && (
+                                  <span className="text-xs text-gray-500 bg-gray-700 px-2 py-1 rounded">수정됨</span>
+                                )}
+                              </div>
+                              <p className="text-white mb-3 leading-relaxed">{review.content}</p>
+                              <div className="flex items-center gap-4 text-sm text-gray-400">
+                                <span>작성일: {review.createdAt?.toDate?.()?.toLocaleDateString()}</span>
+                                {review.updatedAt && (
+                                  <span>수정일: {review.updatedAt?.toDate?.()?.toLocaleDateString()}</span>
+                                )}
+                              </div>
+                            </div>
+
+                            {canEditReview(review) && (
+                              <button
+                                onClick={() => handleEditReview(review)}
+                                className="ml-4 px-3 py-1.5 bg-[#F59E0B]/20 hover:bg-[#F59E0B]/30 text-[#F59E0B] rounded-lg text-sm font-medium transition-colors"
+                              >
+                                ✏️ 수정
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {/* 하단 액션 버튼 */}
+                  <div className="mt-8 pt-6 border-t border-[#333]">
+                    <div className="flex gap-4 justify-center">
+                      <button
+                        onClick={handleGoToProducts}
+                        className="bg-gradient-to-r from-[#F59E0B] to-[#D97706] hover:from-[#D97706] hover:to-[#B45309] text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg"
+                      >
+                        🔍 상품 다시 둘러보기
+                      </button>
+                      <button
+                        onClick={() => setLocation('/reviews')}
+                        className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] hover:from-[#9333EA] hover:to-[#DB2777] text-white px-8 py-3 rounded-xl font-medium transition-all transform hover:scale-105 shadow-lg"
+                      >
+                        📝 리뷰 페이지 보기
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+                </>
+              )}
+            </>
+          )}
+
+          {/* 보유 쿠폰 탭 */}
+          {activeTab === 'coupons' && (
+            <>
+                  {coupons.filter(c => !c.isUsed).length === 0 ? (
+                    <div className="text-center py-8">
+                      <Gift className="w-16 h-16 text-gray-600 mx-auto mb-4" />
+                      <h3 className="text-xl font-semibold text-white mb-2">사용 가능한 쿠폰이 없습니다</h3>
+                      <p className="text-gray-400 mb-6">
+                        이벤트나 구매를 통해 쿠폰을 받아보세요!<br />
+                        할인 혜택을 놓치지 마세요.
+                      </p>
+                      <button
+                        onClick={handleGoToProducts}
+                        className="bg-[#10B981] hover:bg-[#059669] text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      >
+                        상품 둘러보기
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <h3 className="text-lg font-semibold text-white mb-4">보유 쿠폰 ({coupons.filter(c => !c.isUsed).length}장)</h3>
+                      {coupons.filter(c => !c.isUsed).map(coupon => (
+                        <div key={coupon.id} className="bg-[#0A0A0A] border border-[#333] rounded-lg p-4 hover:border-[#10B981] transition-colors">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              <div className="p-3 bg-[#10B981]/20 rounded-lg">
+                                <Gift className="w-6 h-6 text-[#10B981]" />
+                              </div>
+                              <div>
+                                <h4 className="font-semibold text-white">{coupon.title}</h4>
+                                <p className="text-gray-400 text-sm">
+                                  유효기간: {coupon.expiryDate?.toDate?.()?.toLocaleDateString()}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-bold text-[#10B981] text-xl">{coupon.discount}% 할인</p>
+                              <button className="text-xs text-gray-400 hover:text-white transition-colors">
+                                사용하기
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+            </>
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default ActivitySection;
+
+

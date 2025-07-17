@@ -28,25 +28,98 @@ const B2B = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    toast({
-      title: "문의가 접수되었습니다",
-      description: "빠른 시일 내에 담당자가 연락드리겠습니다.",
-    });
-    
-    setFormData({
-      companyName: '',
-      contactName: '',
-      email: '',
-      phone: '',
-      message: '',
-      employees: '10-50'
-    });
-    
-    setIsSubmitting(false);
+
+    try {
+      // 입력 검증
+      if (!formData.companyName || !formData.contactName || !formData.email || !formData.phone || !formData.message) {
+        toast({
+          title: "입력 오류",
+          description: "모든 필수 항목을 입력해주세요.",
+          variant: "destructive",
+        });
+        setIsSubmitting(false);
+        return;
+      }
+
+      // SMTP를 통해 직접 메일 전송
+      const emailData = {
+        to: 'yhs85844@gmail.com',
+        subject: `[더 온밀 기업제휴 문의] ${formData.companyName} - ${formData.contactName}`,
+        html: `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; background-color: #f9f9f9;">
+            <div style="background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+              <h2 style="color: #8B5CF6; text-align: center; margin-bottom: 30px;">🏢 더 온밀 기업제휴 문의</h2>
+
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #333; margin-top: 0;">🏢 회사 정보</h3>
+                <p><strong>회사명:</strong> ${formData.companyName}</p>
+                <p><strong>담당자명:</strong> ${formData.contactName}</p>
+                <p><strong>임직원 수:</strong> ${formData.employees}</p>
+              </div>
+
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #333; margin-top: 0;">📧 연락처 정보</h3>
+                <p><strong>이메일:</strong> <a href="mailto:${formData.email}">${formData.email}</a></p>
+                <p><strong>전화번호:</strong> <a href="tel:${formData.phone}">${formData.phone}</a></p>
+              </div>
+
+              <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin-bottom: 20px;">
+                <h3 style="color: #333; margin-top: 0;">📝 문의 내용</h3>
+                <div style="background-color: white; padding: 15px; border-radius: 5px; border-left: 4px solid #8B5CF6;">
+                  ${formData.message.replace(/\n/g, '<br>')}
+                </div>
+              </div>
+
+              <div style="text-align: center; padding: 20px; background-color: #8B5CF6; color: white; border-radius: 8px;">
+                <p style="margin: 0;"><strong>문의 일시:</strong> ${new Date().toLocaleString('ko-KR')}</p>
+                <p style="margin: 5px 0 0 0;"><strong>사이트:</strong> 더 온밀 기업제휴 페이지</p>
+              </div>
+            </div>
+          </div>
+        `
+      };
+
+      console.log('📧 기업제휴 문의 SMTP 전송:', emailData);
+
+      // 백엔드 API로 메일 전송 요청
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(emailData)
+      });
+
+      if (response.ok) {
+        toast({
+          title: "문의가 접수되었습니다! ✅",
+          description: "빠른 시일 내에 담당자가 연락드리겠습니다.",
+          variant: "default",
+        });
+
+        // 폼 초기화
+        setFormData({
+          companyName: '',
+          contactName: '',
+          email: '',
+          phone: '',
+          message: '',
+          employees: '10-50'
+        });
+      } else {
+        throw new Error('메일 전송 실패');
+      }
+
+    } catch (error) {
+      console.error('❌ 기업제휴 문의 전송 실패:', error);
+      toast({
+        title: "문의 전송 실패",
+        description: "다시 시도해주세요.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   return (
@@ -83,10 +156,10 @@ const B2B = () => {
           {/* Text Content */}
           <motion.div variants={slideInFromRight} className="md:w-1/2">
             <h2 className="text-3xl font-bold font-montserrat mb-6 text-white">
-              빵답게와 특별한 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">비즈니스 파트너십</span>을 맺어보세요
+              더 온밀과 특별한 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">비즈니스 파트너십</span>을 맺어보세요
             </h2>
             <p className="font-pretendard text-lg mb-6 text-gray-300">
-              기업 행사, 케이터링, 직원 선물을 위한 대량 주문 및 정기 납품 서비스를 제공합니다. 빵답게와 함께 특별한 비즈니스 파트너십을 맺어보세요.
+              기업 행사, 케이터링, 직원 선물을 위한 대량 주문 및 정기 납품 서비스를 제공합니다. 더 온밀과 함께 특별한 비즈니스 파트너십을 맺어보세요.
             </p>
             <ul className="space-y-4 mb-8">
               <li className="flex items-start">
@@ -141,7 +214,7 @@ const B2B = () => {
               </div>
               <h3 className="font-montserrat text-xl font-semibold text-white mb-2">정기 납품</h3>
               <p className="font-pretendard text-gray-300">
-                카페, 레스토랑, 호텔 등 외식업체에 빵답게의 프리미엄 베이커리 제품을 정기적으로 납품합니다.
+                카페, 레스토랑, 호텔 등 외식업체에 더 온밀의 프리미엄 베이커리 제품을 정기적으로 납품합니다.
               </p>
             </div>
           </div>
