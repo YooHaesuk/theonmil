@@ -1,9 +1,15 @@
 import { VercelRequest, VercelResponse } from '@vercel/node';
-import admin from 'firebase-admin';
 
-// Firebase Admin 초기화 (Vercel 환경용)
-if (!admin.apps.length) {
+// Firebase Admin 초기화 함수
+const initFirebaseAdmin = () => {
   try {
+    // 동적 import 사용
+    const admin = require('firebase-admin');
+
+    if (admin.apps && admin.apps.length > 0) {
+      return admin;
+    }
+
     console.log('🔍 Firebase 환경변수 확인:');
     console.log('- PROJECT_ID:', process.env.FIREBASE_PROJECT_ID ? '✅' : '❌');
     console.log('- CLIENT_EMAIL:', process.env.FIREBASE_CLIENT_EMAIL ? '✅' : '❌');
@@ -21,15 +27,17 @@ if (!admin.apps.length) {
     };
 
     admin.initializeApp({
-      credential: admin.credential.cert(serviceAccount as any),
+      credential: admin.credential.cert(serviceAccount),
       projectId: process.env.FIREBASE_PROJECT_ID,
     });
 
     console.log('✅ Firebase Admin initialized successfully');
+    return admin;
   } catch (error) {
     console.error('❌ Firebase Admin initialization failed:', error);
+    throw error;
   }
-}
+};
 
 export default async function handler(req: VercelRequest, res: VercelResponse) {
   // CORS 헤더 설정
@@ -43,16 +51,10 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
   }
 
   try {
-    // Firebase Admin 앱 확인
-    if (!admin.apps.length) {
-      console.error('❌ Firebase Admin이 초기화되지 않았습니다');
-      return res.status(500).json({
-        error: "Firebase Admin 초기화 실패",
-        details: "서버 설정 오류"
-      });
-    }
-
+    // Firebase Admin 초기화
+    const admin = initFirebaseAdmin();
     console.log('🔥 Firebase Admin 앱 수:', admin.apps.length);
+
     const db = admin.firestore();
     console.log('🔥 Firestore 인스턴스 생성 완료');
 
