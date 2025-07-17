@@ -270,7 +270,8 @@ const AlternativeEditor = ({
         data-placeholder={placeholder}
       />
 
-      <style jsx>{`
+      <style dangerouslySetInnerHTML={{
+        __html: `
         .wysiwyg-editor:empty:before {
           content: attr(data-placeholder);
           color: #666;
@@ -297,7 +298,8 @@ const AlternativeEditor = ({
         .wysiwyg-editor a {
           color: #A78BFA !important;
         }
-      `}</style>
+        `
+      }} />
 
 
     </div>
