@@ -1,5 +1,12 @@
 {
-  "framework": "vite",
+  "functions": {
+    "api/products.ts": {
+      "runtime": "nodejs18.x"
+    },
+    "api/health.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "buildCommand": "npm run build",
   "outputDirectory": "dist/public",
   "images": {
@@ -20,7 +27,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }
