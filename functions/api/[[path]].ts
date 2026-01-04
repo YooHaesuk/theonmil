@@ -6,14 +6,14 @@ import { setRuntimeEnv } from "../../server/lib/env";
 
 const app = new Hono().basePath("/api");
 
-// Global error handler
+// Global error handler for Hono
 app.onError((err, c) => {
-    console.error(`[Critical Edge Error]: ${err.message}`);
+    console.error(`[Hono Edge Error]: ${err.message}`);
     const envKeys = c.env ? Object.keys(c.env).join(", ") : "none";
-    return c.text(`Global Edge Error:\nMessage: ${err.message}\nStack: ${err.stack}\nEnv Keys: ${envKeys}`, 500);
+    return c.text(`Hono Edge Error:\nMessage: ${err.message}\nStack: ${err.stack}\nEnv Keys: ${envKeys}`, 500);
 });
 
-// Middleware to inject environment variables at the start of every request
+// Middleware to inject environment variables
 app.use("*", async (c, next) => {
     setRuntimeEnv(c.env);
     await next();
@@ -23,13 +23,12 @@ app.use("*", async (c, next) => {
 app.all("/auth/*", async (c) => {
     try {
         const authInstance = getAuth(c.env);
-        console.log(`[Edge Auth Request]: ${c.req.method} ${c.req.path}`);
         const res = await authInstance.handler(c.req.raw);
         return res;
     } catch (error: any) {
-        console.error(`[Edge Auth Error]: ${error.message}\nStack: ${error.stack}`);
+        console.error(`[Auth Logic Error]: ${error.message}\nStack: ${error.stack}`);
         const envKeys = c.env ? Object.keys(c.env).join(", ") : "none";
-        return c.text(`CRITICAL AUTH ERROR (Diagnostic Mode):\nMessage: ${error.message}\nStack: ${error.stack}\nEnv Keys: ${envKeys}`, 500);
+        return c.text(`CRITICAL AUTH ERROR:\nMessage: ${error.message}\nStack: ${error.stack}\nEnv Keys: ${envKeys}`, 500);
     }
 });
 
@@ -98,7 +97,7 @@ app.get("/health", async (c) => {
         return c.json({
             status: "ok",
             runtime: "cloudflare-pages",
-            database: "connected",
+            database: "connected (http)",
             userCount: users.length,
             envKeys: Object.keys(c.env || {}),
             timestamp: new Date().toISOString()
@@ -114,4 +113,24 @@ app.get("/health", async (c) => {
     }
 });
 
-export const onRequest = handle(app);
+/**
+ * Bare-Metal Entry Point Entry
+ * Wrapping everything in a top-level try-catch to catch evaluation errors 
+ * and middleware crashes that bypass Hono.
+ */
+const honoHandler = handle(app);
+
+export const onRequest = async (context: any) => {
+    try {
+        return await honoHandler(context);
+    } catch (err: any) {
+        console.error(`[Bare-Metal Crash]: ${err.message}`);
+        return new Response(
+            `BARE-METAL WORKER CRASH:\nMessage: ${err.message}\nStack: ${err.stack}\nEnv Keys: ${context.env ? Object.keys(context.env).join(", ") : "none"}`,
+            {
+                status: 500,
+                headers: { "Content-Type": "text/plain; charset=utf-8" }
+            }
+        );
+    }
+};

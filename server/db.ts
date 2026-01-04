@@ -1,29 +1,19 @@
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { neonConfig, Pool } from "@neondatabase/serverless";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
 import * as schema from "@shared/schema";
 import { getEnv } from "./lib/env";
-
-/**
- * Configure Neon for the specific runtime environment.
- */
-function configureNeonRuntime() {
-    if (typeof WebSocket !== 'undefined') {
-        neonConfig.webSocketConstructor = WebSocket;
-    }
-}
 
 // Map to cache database instances per connection string
 const dbCache = new Map<string, any>();
 
 /**
- * Get the initialized Drizzle database instance.
+ * Get the initialized Drizzle database instance using the HTTP driver.
  * @param env Optional environment context (c.env)
  * 
- * We cache the instance based on the DATABASE_URL to avoid re-opening pools 
- * unnecessarily while ensuring the correct context is used.
+ * We use the neon-http driver for better performance and lower memory 
+ * footprint in Cloudflare Edge compared to WebSockets.
  */
 export const getDb = (env?: any) => {
-    configureNeonRuntime();
     const databaseUrl = getEnv("DATABASE_URL", env);
 
     if (!databaseUrl) {
@@ -35,12 +25,12 @@ export const getDb = (env?: any) => {
     }
 
     try {
-        const pool = new Pool({ connectionString: databaseUrl });
-        const db = drizzle(pool, { schema });
+        const sql = neon(databaseUrl);
+        const db = drizzle(sql, { schema });
         dbCache.set(databaseUrl, db);
         return db;
     } catch (e: any) {
-        console.error("Database Pool creation failed:", e.message);
+        console.error("Database initialization failed:", e.message);
         throw e;
     }
 };
