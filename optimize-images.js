@@ -10,7 +10,8 @@ const param = process.argv[2];
 
 const TARGET_DIRS = [
     './client/public/assets',
-    './client/public/images'
+    './client/public/images',
+    './client/src/assets/images'
 ];
 
 async function optimize() {
