@@ -1,9 +1,10 @@
 import { signIn, signOut, useSession } from "@/lib/auth-client";
+import { useMemo } from "react";
 
 export const useAuth = () => {
   const { data: session, isPending, error } = useSession();
 
-  const user = session?.user ? {
+  const user = useMemo(() => session?.user ? {
     ...session.user,
     id: session.user.id,
     email: session.user.email,
@@ -13,7 +14,7 @@ export const useAuth = () => {
     createdAt: (session.user as any).createdAt,
     provider: (session.user as any).provider || 'social',
     isAdmin: session.user.email === 'yhs85844@gmail.com' || (session.user as any).role === 'admin'
-  } : null;
+  } : null, [session?.user]);
 
   const loginWithSocial = async (provider: 'google' | 'naver' | 'kakao') => {
     await signIn.social({

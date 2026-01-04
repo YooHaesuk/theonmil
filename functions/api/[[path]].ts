@@ -23,6 +23,7 @@ app.use("*", async (c, next) => {
 app.all("/auth/*", async (c) => {
     try {
         const authInstance = getAuth(c.env);
+        console.log(`[Edge Auth Request]: ${c.req.method} ${c.req.path}`);
         const res = await authInstance.handler(c.req.raw);
         return res;
     } catch (error: any) {
@@ -32,8 +33,17 @@ app.all("/auth/*", async (c) => {
     }
 });
 
-// User Profile & Addresses
-app.get("/user/addresses", async (c) => {
+// --- User Profile & Addresses ---
+
+// Get addresses for a specific user
+app.get("/users/addresses/:userId", async (c) => {
+    const userId = c.req.param("userId");
+    const addresses = await storage.getUserAddresses(userId, c.env);
+    return c.json(addresses);
+});
+
+// Get addresses (legacy/generic path)
+app.get("/users/addresses", async (c) => {
     const auth = getAuth(c.env);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
@@ -41,7 +51,7 @@ app.get("/user/addresses", async (c) => {
     return c.json(addresses);
 });
 
-app.post("/user/addresses", async (c) => {
+app.post("/users/addresses", async (c) => {
     const auth = getAuth(c.env);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
@@ -50,16 +60,39 @@ app.post("/user/addresses", async (c) => {
     return c.json(address);
 });
 
-app.delete("/user/addresses/:id", async (c) => {
-    const auth = getAuth(c.env);
-    const session = await auth.api.getSession({ headers: c.req.raw.headers });
-    if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
+app.patch("/api/users/profile", async (c) => {
+    const body = await c.req.json();
+    const { id, ...data } = body;
+    if (!id) return c.json({ error: "User ID required" }, 400);
+    const user = await storage.updateUser(id, data, c.env);
+    return c.json(user);
+});
+
+app.delete("/users/addresses/:id", async (c) => {
     const id = parseInt(c.req.param("id"));
     await storage.deleteAddress(id, c.env);
     return c.json({ success: true });
 });
 
-// Products
+// --- Orders ---
+
+// Get orders by user ID
+app.get("/orders/user/:userId", async (c) => {
+    const userId = c.req.param("userId");
+    const orders = await storage.getOrdersByUser(userId, c.env);
+    return c.json(orders);
+});
+
+// Get specific order
+app.get("/orders/:id", async (c) => {
+    const id = parseInt(c.req.param("id"));
+    const order = await storage.getOrderById(id, c.env);
+    if (!order) return c.json({ error: "Order not found" }, 404);
+    return c.json(order);
+});
+
+// --- Products ---
+
 app.get("/products", async (c) => {
     const products = await storage.getAllProducts(c.env);
     return c.json(products);
@@ -72,13 +105,15 @@ app.get("/products/:id", async (c) => {
     return c.json(product);
 });
 
-// Stores
+// --- Stores ---
+
 app.get("/stores", async (c) => {
     const stores = await storage.getStores(c.env);
     return c.json(stores);
 });
 
-// Reviews
+// --- Reviews ---
+
 app.get("/reviews", async (c) => {
     const reviews = await storage.getAllReviews(c.env);
     return c.json(reviews);
@@ -90,7 +125,8 @@ app.post("/reviews", async (c) => {
     return c.json(review);
 });
 
-// Health Check
+// --- Health Check ---
+
 app.get("/health", async (c) => {
     try {
         const users = await storage.getUsers(c.env);
@@ -115,8 +151,6 @@ app.get("/health", async (c) => {
 
 /**
  * Bare-Metal Entry Point Entry
- * Wrapping everything in a top-level try-catch to catch evaluation errors 
- * and middleware crashes that bypass Hono.
  */
 const honoHandler = handle(app);
 
