@@ -162,6 +162,18 @@ const AlternativeEditor = ({
     }
   }, [value]);
 
+  // 요소 클릭 시 선택 처리 (특히 이미지)
+  const handleClick = (e: React.MouseEvent) => {
+    const target = e.target as HTMLElement;
+    if (target.tagName === 'IMG') {
+      const selection = window.getSelection();
+      const range = document.createRange();
+      range.selectNode(target);
+      selection?.removeAllRanges();
+      selection?.addRange(range);
+    }
+  };
+
   // 특별한 요소 삽입
   const insertElement = (element: string) => {
     if (!editorRef.current) return;
@@ -335,6 +347,7 @@ const AlternativeEditor = ({
         onInput={updateContent}
         onFocus={() => setIsEditing(true)}
         onBlur={() => setIsEditing(false)}
+        onClick={handleClick}
         suppressContentEditableWarning={true}
         data-placeholder={placeholder}
       />
