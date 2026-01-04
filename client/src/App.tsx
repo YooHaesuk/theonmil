@@ -70,13 +70,14 @@ import NaverCallback from "@/pages/naver-callback";
 import MyPage from "@/pages/mypage";
 import MyPageTest from "@/pages/mypage-test";
 import OrderDetail from "@/pages/order-detail";
+import Support from "@/pages/support";
 import { Header } from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { AnimatePresence } from "framer-motion";
 
 function Router() {
   const [location] = useLocation();
-  
+
   return (
     <>
       <Header />
@@ -99,6 +100,12 @@ function Router() {
           <Route path="/mypage/order/:orderId" component={OrderDetail} />
           <Route path="/mypage-test" component={MyPageTest} />
           <Route path="/auth/naver/callback" component={NaverCallback} />
+          <Route path="/faq" component={Support} />
+          <Route path="/shipping" component={Support} />
+          <Route path="/returns" component={Support} />
+          <Route path="/privacy" component={Support} />
+          <Route path="/terms" component={Support} />
+          <Route path="/business-info" component={Support} />
           <Route component={NotFound} />
         </Switch>
       </AnimatePresence>

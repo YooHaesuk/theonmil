@@ -9,20 +9,20 @@ const FeaturedProducts = () => {
   const featuredProducts = getFeaturedProducts();
 
   return (
-    <section id="featured" className="py-20 bg-[#0F0F1A]">
+    <section id="featured" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h2 
-            className="text-4xl font-bold font-montserrat mb-4 text-white"
+          <motion.h2
+            className="text-4xl font-bold font-montserrat mb-4 text-foreground"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            대표 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제품</span>
+            대표 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">제품</span>
           </motion.h2>
-          <motion.p 
-            className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto"
+          <motion.p
+            className="font-pretendard text-lg text-muted-foreground max-w-2xl mx-auto"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -31,9 +31,9 @@ const FeaturedProducts = () => {
             지금 가장 사랑받는 더 온밀의 대표 제품들을 만나보세요.
           </motion.p>
         </div>
-        
+
         {/* Featured products grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           variants={staggerContainer}
           initial="hidden"
@@ -44,24 +44,24 @@ const FeaturedProducts = () => {
             <ProductCard key={product.id} product={product} />
           ))}
         </motion.div>
-        
+
         {/* View all button */}
-        <motion.div 
+        <motion.div
           className="text-center mt-12"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <Link 
-            href="/products" 
-            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+          <Link
+            href="/products"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-medium shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
           >
             모든 제품 보기
           </Link>
         </motion.div>
       </div>
-    </section>
+    </section >
   );
 };
 

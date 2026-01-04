@@ -1,6 +1,4 @@
-// 환경변수 먼저 로드 (Firebase Admin 초기화 전에!)
-import dotenv from 'dotenv';
-dotenv.config();
+
 
 // 환경변수 먼저 로드 (Firebase Admin 초기화 전에!)
 import dotenv from 'dotenv';
@@ -44,7 +42,7 @@ const initializeFirebaseAdmin = () => {
       };
 
       admin.initializeApp({
-        credential: admin.credential.cert(serviceAccount),
+        credential: admin.credential.cert(serviceAccount as admin.ServiceAccount),
         projectId: process.env.FIREBASE_PROJECT_ID,
       });
 

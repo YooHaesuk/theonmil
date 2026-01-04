@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
@@ -57,56 +57,55 @@ const stores: Store[] = [
 
 const Stores = () => {
   const [selectedRegion, setSelectedRegion] = useState<string>('전체');
-  
+
   // Regions for filtering
   const regions = ['전체', '서울', '경기', '인천', '부산'];
-  
+
   // Filter stores based on selected region
-  const filteredStores = selectedRegion === '전체' 
-    ? stores 
+  const filteredStores = selectedRegion === '전체'
+    ? stores
     : stores.filter(store => store.address.includes(selectedRegion));
-  
+
   return (
     <motion.div
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-[#0A0A0A]"
+      className="min-h-screen pt-24 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-4">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">오프라인 매장 안내</span>
+            <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">오프라인 매장 안내</span>
           </motion.h1>
-          <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-gray-300">
+          <motion.p variants={fadeIn} className="font-pretendard text-lg max-w-3xl mx-auto text-muted-foreground">
             더 온밀을 직접 보고 맛볼 수 있는 오프라인 매장을 소개합니다.
           </motion.p>
         </div>
-        
+
         {/* Region Filter */}
         <motion.div variants={fadeIn} className="flex justify-center mb-12">
-          <div className="inline-flex bg-[#111111] rounded-full p-1 border border-[#222222]">
+          <div className="inline-flex bg-secondary rounded-full p-1 border border-border">
             {regions.map(region => (
               <button
                 key={region}
                 onClick={() => setSelectedRegion(region)}
-                className={`px-6 py-2 rounded-full font-montserrat text-sm transition-colors ${
-                  selectedRegion === region 
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
-                    : 'text-white hover:bg-[#1A1A2A]'
-                }`}
+                className={`px-6 py-2 rounded-full font-montserrat text-sm transition-colors ${selectedRegion === region
+                  ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground'
+                  : 'text-foreground hover:bg-muted'
+                  }`}
               >
                 {region}
               </button>
             ))}
           </div>
         </motion.div>
-        
+
         {/* Stores Grid */}
-        <motion.div 
-          variants={staggerContainer} 
-          initial="hidden" 
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
           animate="visible"
           className="grid grid-cols-1 md:grid-cols-2 gap-8"
         >
@@ -114,27 +113,27 @@ const Stores = () => {
             <motion.div
               key={store.id}
               variants={fadeIn}
-              className="bg-[#111111] rounded-lg overflow-hidden shadow-md border border-[#222222]"
+              className="bg-secondary rounded-lg overflow-hidden shadow-md border border-border"
             >
               <div className="h-64 overflow-hidden">
                 <img src={store.image} alt={store.name} className="w-full h-full object-cover" />
               </div>
               <div className="p-6">
-                <h3 className="font-montserrat text-xl font-semibold text-white mb-2">{store.name}</h3>
-                <p className="font-pretendard text-sm text-gray-400 mb-4">{store.address}</p>
+                <h3 className="font-montserrat text-xl font-semibold text-foreground mb-2">{store.name}</h3>
+                <p className="font-pretendard text-sm text-muted-foreground mb-4">{store.address}</p>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-clock text-[#A78BFA] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-300">{store.hours}</span>
+                  <i className="fa-solid fa-clock text-primary mr-2"></i>
+                  <span className="font-pretendard text-sm text-muted-foreground">{store.hours}</span>
                 </div>
                 <div className="flex items-center mb-4">
-                  <i className="fa-solid fa-phone text-[#A78BFA] mr-2"></i>
-                  <span className="font-pretendard text-sm text-gray-300">{store.phone}</span>
+                  <i className="fa-solid fa-phone text-primary mr-2"></i>
+                  <span className="font-pretendard text-sm text-muted-foreground">{store.phone}</span>
                 </div>
-                <a 
+                <a
                   href={`https://maps.google.com/search?q=${encodeURIComponent(store.address)}`}
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="inline-block bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-all"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text hover:opacity-80 transition-all font-medium"
                 >
                   <i className="fa-solid fa-map-marker-alt mr-1"></i> 지도 보기
                 </a>
@@ -142,15 +141,15 @@ const Stores = () => {
             </motion.div>
           ))}
         </motion.div>
-        
+
         {/* Store Map */}
         <motion.div variants={fadeIn} className="mt-16">
-          <h2 className="text-3xl font-bold font-montserrat mb-8 text-center text-white">
-            매장 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">지도</span>
+          <h2 className="text-3xl font-bold font-montserrat mb-8 text-center text-foreground">
+            매장 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">지도</span>
           </h2>
-          <div className="bg-[#111111] border border-[#222222] h-96 rounded-lg flex items-center justify-center">
-            <p className="text-gray-400 font-pretendard">
-              <i className="fa-solid fa-map-location-dot text-3xl mb-4 block bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text"></i>
+          <div className="bg-secondary border border-border h-96 rounded-lg flex items-center justify-center">
+            <p className="text-muted-foreground font-pretendard">
+              <i className="fa-solid fa-map-location-dot text-3xl mb-4 block bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text"></i>
               지도 API가 연동되어 매장 위치를 표시합니다
             </p>
           </div>

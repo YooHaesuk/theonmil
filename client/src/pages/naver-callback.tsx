@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { signInWithCustomToken } from 'firebase/auth';
@@ -207,7 +207,7 @@ const NaverCallback = () => {
             <p className="text-gray-400">잠시만 기다려주세요.</p>
           </>
         )}
-        
+
         {status === 'success' && (
           <>
             <i className="fa-solid fa-check-circle text-4xl mb-4 text-green-500"></i>
@@ -215,7 +215,7 @@ const NaverCallback = () => {
             <p className="text-gray-400">환영합니다. 홈페이지로 이동합니다.</p>
           </>
         )}
-        
+
         {status === 'error' && (
           <>
             <i className="fa-solid fa-exclamation-triangle text-4xl mb-4 text-red-500"></i>

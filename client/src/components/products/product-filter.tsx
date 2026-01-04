@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { ProductCategory, categoryDisplayNames } from '@/lib/products';
 
@@ -17,11 +17,11 @@ const ProductFilter = ({
 }: ProductFilterProps) => {
   const [location, setLocation] = useLocation();
   const [tempSearchQuery, setTempSearchQuery] = useState(searchQuery);
-  
+
   // Handle category change
   const handleCategoryChange = (category: ProductCategory | '') => {
     setSelectedCategory(category);
-    
+
     // Update URL with the selected category
     if (category) {
       setLocation(`/products?category=${category}`, { replace: true });
@@ -29,21 +29,21 @@ const ProductFilter = ({
       setLocation('/products', { replace: true });
     }
   };
-  
+
   // Handle search form submission
   const handleSearchSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setSearchQuery(tempSearchQuery);
   };
-  
+
   // Update tempSearchQuery when searchQuery changes
   useEffect(() => {
     setTempSearchQuery(searchQuery);
   }, [searchQuery]);
-  
+
   return (
     <div className="mb-8">
-      <div className="bg-[#111111] rounded-lg shadow-md p-6 mb-8 border border-[#222222]">
+      <div className="bg-secondary rounded-lg shadow-md p-6 mb-8 border border-border">
         {/* Search form */}
         <form className="mb-6" onSubmit={handleSearchSubmit}>
           <div className="relative">
@@ -52,11 +52,11 @@ const ProductFilter = ({
               placeholder="제품명 또는 키워드로 검색"
               value={tempSearchQuery}
               onChange={(e) => setTempSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 rounded-full bg-[#1A1A2A] border border-[#333333] text-white focus:outline-none focus:ring-2 focus:ring-[#A78BFA] focus:border-transparent"
+              className="w-full pl-10 pr-4 py-2 rounded-full bg-background border border-border text-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
             <button
               type="submit"
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground"
             >
               <i className="fa-solid fa-search"></i>
             </button>
@@ -67,25 +67,24 @@ const ProductFilter = ({
                   setTempSearchQuery('');
                   setSearchQuery('');
                 }}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
               >
                 <i className="fa-solid fa-times"></i>
               </button>
             )}
           </div>
         </form>
-        
+
         {/* Categories */}
         <div>
-          <h3 className="font-montserrat font-semibold mb-3 text-white">카테고리</h3>
+          <h3 className="font-montserrat font-semibold mb-3 text-foreground">카테고리</h3>
           <div className="flex flex-wrap gap-2">
             <button
               onClick={() => handleCategoryChange('')}
-              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                selectedCategory === '' 
-                  ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
-                  : 'bg-[#1A1A2A] text-white hover:bg-[#222233]'
-              }`}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategory === ''
+                  ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground'
+                  : 'bg-background text-muted-foreground hover:bg-secondary border border-border'
+                }`}
             >
               전체
             </button>
@@ -93,11 +92,10 @@ const ProductFilter = ({
               <button
                 key={category}
                 onClick={() => handleCategoryChange(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
-                  selectedCategory === category 
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white' 
-                    : 'bg-[#1A1A2A] text-white hover:bg-[#222233]'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${selectedCategory === category
+                    ? 'bg-gradient-to-r from-primary to-accent text-primary-foreground'
+                    : 'bg-background text-muted-foreground hover:bg-secondary border border-border'
+                  }`}
               >
                 {categoryDisplayNames[category]}
               </button>
@@ -105,13 +103,13 @@ const ProductFilter = ({
           </div>
         </div>
       </div>
-      
+
       {/* Active filters indicators */}
       {(selectedCategory || searchQuery) && (
         <div className="flex items-center gap-2 mb-6">
-          <span className="text-sm text-gray-300">활성 필터:</span>
+          <span className="text-sm text-muted-foreground">활성 필터:</span>
           {selectedCategory && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-accent text-primary-foreground">
               {categoryDisplayNames[selectedCategory]}
               <button
                 onClick={() => handleCategoryChange('')}
@@ -122,7 +120,7 @@ const ProductFilter = ({
             </span>
           )}
           {searchQuery && (
-            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white">
+            <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-primary to-accent text-primary-foreground">
               "{searchQuery}"
               <button
                 onClick={() => setSearchQuery('')}
@@ -139,7 +137,7 @@ const ProductFilter = ({
                 setSearchQuery('');
                 setLocation('/products', { replace: true });
               }}
-              className="text-sm bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text hover:opacity-80 transition-opacity ml-auto"
+              className="text-sm bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text hover:opacity-80 transition-opacity ml-auto"
             >
               모든 필터 지우기
             </button>

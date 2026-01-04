@@ -9,53 +9,68 @@
 
 @layer base {
   :root {
-    --background: 0, 0%, 4%;
-    --foreground: 0, 0%, 98%;
-    
-    --card: 240, 10%, 7%;
-    --card-foreground: 0, 0%, 98%;
-    
-    --popover: 240, 10%, 7%;
-    --popover-foreground: 0, 0%, 98%;
-    
-    --primary: 262, 83%, 76%;
-    --primary-foreground: 0, 0%, 100%;
-    
-    --secondary: 240, 10%, 14%;
-    --secondary-foreground: 0, 0%, 98%;
-    
-    --muted: 240, 10%, 10%;
-    --muted-foreground: 240, 5%, 65%;
-    
-    --accent: 327, 73%, 62%;
-    --accent-foreground: 0, 0%, 100%;
-    
+    /* Background: #FCFAF7 (Creamy Off-white) -> HSL(40, 33%, 98%) */
+    --background: 40, 33%, 98%;
+    /* Foreground: #2C1810 (Deep Chocolate Brown) -> HSL(18, 47%, 12%) */
+    --foreground: 18, 47%, 12%;
+
+    /* Card: Pure White */
+    --card: 0, 0%, 100%;
+    --card-foreground: 18, 47%, 12%;
+
+    --popover: 0, 0%, 100%;
+    --popover-foreground: 18, 47%, 12%;
+
+    /* Primary (Gold): #B8860B -> HSL(43, 89%, 38%) */
+    --primary: 43, 89%, 38%;
+    --primary-foreground: 40, 33%, 98%;
+
+    /* Secondary (Creamy Accent): #F4F0E8 -> HSL(40, 31%, 93%) */
+    --secondary: 40, 31%, 93%;
+    --secondary-foreground: 18, 47%, 12%;
+
+    --muted: 40, 20%, 90%;
+    --muted-foreground: 18, 20%, 40%;
+
+    /* Accent: #CEB372 -> HSL(42, 50%, 63%) */
+    --accent: 42, 50%, 63%;
+    --accent-foreground: 18, 47%, 12%;
+
     --destructive: 0, 84%, 60%;
     --destructive-foreground: 0, 0%, 98%;
 
-    --border: 240, 10%, 14%;
-    --input: 240, 10%, 14%;
-    --ring: 262, 83%, 76%;
-    
-    --radius: 0.75rem;
+    --border: 18, 15%, 85%;
+    --input: 18, 15%, 85%;
+    --ring: 43, 89%, 38%;
+
+    --radius: 0.5rem;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    word-break: keep-all; /* 한글 단어 단위 줄바꿈 */
-    overflow-wrap: break-word; /* 긴 단어 처리 */
+    word-break: keep-all;
+    /* 한글 단어 단위 줄바꿈 */
+    overflow-wrap: break-word;
+    /* 긴 단어 처리 */
   }
 
   body {
     @apply font-pretendard antialiased bg-background text-foreground overflow-x-hidden;
-    word-break: keep-all; /* 한글 단어 단위 줄바꿈 보강 */
+    word-break: keep-all;
+    /* 한글 단어 단위 줄바꿈 보강 */
   }
-  
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     @apply font-playfair;
-    word-break: keep-all; /* 제목에도 적용 */
+    word-break: keep-all;
+    /* 제목에도 적용 */
   }
 }
 
@@ -64,43 +79,55 @@
   .fade-in {
     @apply animate-fade-in;
   }
-  
+
   .slide-in {
     @apply animate-slide-in;
   }
-  
+
   /* Gold underline effect */
   .gold-underline {
     @apply relative inline-block;
   }
-  
+
   .gold-underline::after {
     content: '';
     @apply absolute w-full h-0.5 -bottom-1 left-0 bg-primary transform scale-x-0 origin-bottom-right transition-transform duration-300 ease-out;
   }
-  
+
   .gold-underline:hover::after {
     @apply transform scale-x-100 origin-bottom-left;
   }
-  
+
   /* Product card hover effect */
   .product-card {
     @apply transition-all duration-300 ease-in-out;
   }
-  
+
   .product-card:hover {
     @apply -translate-y-1 shadow-md;
   }
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { transform: translateY(20px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Custom animation durations */
@@ -112,19 +139,17 @@
   animation: slideIn 0.6s ease-out forwards;
 }
 
-/* Text gradient effect */
+/* Gold gradient effect */
 .text-gradient-gold {
-  background: linear-gradient(to right, #A78BFA, #EC4899);
+  background: linear-gradient(to right, #D4AF37, #F4F0E8, #CEB372);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }
 
-.text-gradient-purple {
-  background: linear-gradient(to right, #A78BFA, #EC4899);
+.text-gradient-bronze {
+  background: linear-gradient(to right, #B8860B, #D4AF37);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  text-fill-color: transparent;
 }

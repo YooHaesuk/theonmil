@@ -21,51 +21,52 @@ const categories: Category[] = [
   {
     id: 'regular',
     name: '상시 운영 제품',
-    description: '언제나 만나볼 수 있는 더 온밀의 시그니처 제품들',
+    description: '처음 만나는 분들께 가장 추천하는 더 온밀의 시그니처 제품',
     image: regularProductImg
   },
   {
     id: 'custom',
     name: '주문 제작 제품',
-    description: '특별한 날을 위한 맞춤형 케이크와 디저트',
+    description: '생일·기념일에 맞춰 주문 후 제작되는 맞춤 케이크 & 디저트',
     image: customProductImg
   },
   {
     id: 'gift',
     name: '기념일 이벤트 제품',
-    description: '꽃과 메시지 카드로 특별함을 더한 선물용 세트',
+    description: '선물 고민 없이 바로 선택하는 기념일 & 이벤트 전용 세트',
     image: giftProductImg
   }
 ];
 
 const ProductCategories = () => {
   return (
-    <section id="categories" className="py-20 bg-[#0F0F1A]">
+    <section id="categories" className="py-20 bg-background">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h2 
-            className="text-4xl font-bold font-montserrat mb-4 text-white"
+          <motion.h2
+            className="text-4xl font-bold font-montserrat mb-4 text-foreground"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            제품 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">카테고리</span>
+            제품 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">카테고리</span>
           </motion.h2>
-          <motion.p 
-            className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto"
+          <motion.p
+            className="font-pretendard text-lg text-muted-foreground max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
           >
-            더 온밀이 만드는 다양한 종류의 빵을 카테고리별로 살펴보세요.
+            어떤 빵을 고를지 고민된다면,<br className="hidden sm:block" />
+            카테고리별로 가장 잘 어울리는 제품을 만나보세요.
           </motion.p>
         </div>
-        
+
         {/* Categories grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
           variants={staggerContainer}
           initial="hidden"
@@ -75,28 +76,28 @@ const ProductCategories = () => {
           {categories.map((category) => (
             <motion.div
               key={category.id}
-              className="bg-[#111111] rounded-lg overflow-hidden shadow-md group border border-[#222222]"
+              className="bg-secondary rounded-lg overflow-hidden shadow-md group border border-border"
               variants={fadeIn}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="h-64 overflow-hidden relative">
-                <img 
-                  src={category.image} 
-                  alt={category.name} 
+                <img
+                  src={category.image}
+                  alt={category.name}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
-                <div className="absolute inset-0 bg-black bg-opacity-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Link 
+                <div className="absolute inset-0 bg-black/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <Link
                     href={`/products?category=${category.id}`}
-                    className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white py-2 px-6 rounded-full font-montserrat font-medium transform -translate-y-4 group-hover:translate-y-0 transition-transform duration-300"
+                    className="bg-gradient-to-r from-primary to-accent text-white py-2 px-6 rounded-full font-montserrat font-medium shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300 transform -translate-y-4 group-hover:translate-y-0"
                   >
                     둘러보기
                   </Link>
                 </div>
               </div>
               <div className="p-6">
-                <h3 className="font-montserrat text-xl font-semibold text-white mb-2">{category.name}</h3>
-                <p className="font-pretendard text-sm text-gray-400">{category.description}</p>
+                <h3 className="font-montserrat text-xl font-semibold text-foreground mb-2">{category.name}</h3>
+                <p className="font-pretendard text-sm text-muted-foreground">{category.description}</p>
               </div>
             </motion.div>
           ))}

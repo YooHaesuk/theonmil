@@ -50,20 +50,20 @@ const reviews: Review[] = [
 
 const ReviewsSection = () => {
   return (
-    <section id="reviews" className="py-20 bg-[#0F0F1A]">
+    <section id="reviews" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <motion.h2 
-            className="text-4xl font-bold font-montserrat mb-4 text-white"
+          <motion.h2
+            className="text-4xl font-bold font-montserrat mb-4 text-foreground"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            고객 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">후기</span>
+            고객 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">후기</span>
           </motion.h2>
-          <motion.p 
-            className="font-pretendard text-lg text-gray-300 max-w-2xl mx-auto"
+          <motion.p
+            className="font-pretendard text-lg text-muted-foreground max-w-2xl mx-auto"
             variants={fadeIn}
             initial="hidden"
             whileInView="visible"
@@ -73,9 +73,9 @@ const ReviewsSection = () => {
             대형마트와 온라인에서 더 온밀을 만난 고객님들의 소중한 후기입니다.
           </motion.p>
         </div>
-        
+
         {/* Reviews grid */}
-        <motion.div 
+        <motion.div
           className="grid grid-cols-1 md:grid-cols-3 gap-6"
           variants={staggerContainer}
           initial="hidden"
@@ -85,15 +85,15 @@ const ReviewsSection = () => {
           {reviews.map((review) => (
             <motion.div
               key={review.id}
-              className="bg-[#111111] rounded-lg p-6 shadow-md border border-[#222222]"
+              className="bg-background rounded-lg p-6 shadow-md border border-border"
               variants={fadeIn}
               whileHover={{ y: -5, transition: { duration: 0.3 } }}
             >
               <div className="mb-4">
                 <div className="mb-3 rounded-lg overflow-hidden border border-[#333333]">
-                  <img 
-                    src={review.productImage} 
-                    alt={`${review.name}님이 구매한 제품`} 
+                  <img
+                    src={review.productImage}
+                    alt={`${review.name}님이 구매한 제품`}
                     className="w-full h-40 object-cover"
                   />
                 </div>
@@ -101,7 +101,7 @@ const ReviewsSection = () => {
                   <h4 className="font-montserrat font-semibold text-white">{review.name}</h4>
                   <span className="text-sm text-gray-400 font-pretendard">{review.date}</span>
                 </div>
-                <div className="flex mb-2 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">
+                <div className="flex mb-2 bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">
                   {[...Array(Math.floor(review.rating))].map((_, i) => (
                     <i key={i} className="fa-solid fa-star"></i>
                   ))}
@@ -110,13 +110,13 @@ const ReviewsSection = () => {
                   )}
                 </div>
               </div>
-              <p className="font-pretendard text-gray-300">{review.text}</p>
+              <p className="font-pretendard text-muted-foreground">{review.text}</p>
             </motion.div>
           ))}
         </motion.div>
-        
+
         {/* View more reviews button */}
-        <motion.div 
+        <motion.div
           className="text-center mt-12"
           variants={fadeIn}
           initial="hidden"
@@ -124,9 +124,9 @@ const ReviewsSection = () => {
           viewport={{ once: true }}
           transition={{ delay: 0.6 }}
         >
-          <Link 
-            href="/reviews" 
-            className="px-6 py-3 rounded-full bg-[#11111A] border border-[#ffffff20] text-white text-sm font-medium hover:bg-[#1A1A2A] transition-all duration-300"
+          <Link
+            href="/reviews"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-medium shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
           >
             모든 후기 보기
           </Link>

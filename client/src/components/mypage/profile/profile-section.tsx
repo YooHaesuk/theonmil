@@ -3,7 +3,7 @@ import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
-import { getUserProfile, updateUserProfile, addAddress, removeAddress, Address } from '@/lib/mypage-firebase';
+import { getUserProfile, updateUserProfile, addAddress, removeAddress, Address, UserProfile, Timestamp } from '@/lib/mypage-firebase';
 
 // 카카오 우편번호 서비스 타입 선언
 declare global {
@@ -20,32 +20,7 @@ declare global {
   }
 }
 
-interface UserProfile {
-  uid: string;
-  name: string;
-  email: string;
-  phone?: string;
-  addresses: Address[];
-  settings: UserSettings;
-  createdAt: any;
-  lastLoginAt?: any;
-}
 
-interface Address {
-  id: string;
-  name: string;
-  address: string;
-  detailAddress: string;
-  zipCode: string;
-  isDefault: boolean;
-}
-
-interface UserSettings {
-  notifications: boolean;
-  marketing: boolean;
-  sms: boolean;
-  email: boolean;
-}
 
 const ProfileSection = () => {
   const { user } = useAuth();
@@ -74,14 +49,17 @@ const ProfileSection = () => {
     email: '',
     phone: '',
     addresses: [],
+    wishlist: [],
+    recentViews: [],
     settings: {
       notifications: true,
       marketing: false,
       sms: true,
       email: true
     },
-    createdAt: { toDate: () => new Date() },
-    lastLoginAt: { toDate: () => new Date() }
+    createdAt: Timestamp.now(),
+    updatedAt: Timestamp.now(),
+    lastLoginAt: Timestamp.now()
   });
 
   useEffect(() => {
@@ -100,14 +78,17 @@ const ProfileSection = () => {
           email: user.email || '',
           phone: '', // Firebase에서 로딩
           addresses: [], // Firebase에서 로딩
+          wishlist: [],
+          recentViews: [],
           settings: {
             notifications: true,
             marketing: false,
             sms: true,
             email: true
           },
-          createdAt: { toDate: () => new Date('2024-01-15') },
-          lastLoginAt: { toDate: () => new Date() }
+          createdAt: Timestamp.now(),
+          updatedAt: Timestamp.now(),
+          lastLoginAt: Timestamp.now()
         };
 
         // 기존 mypage-firebase 함수 사용해서 user_profiles에서 데이터 로딩
@@ -126,10 +107,13 @@ const ProfileSection = () => {
               notifications: userProfile.settings?.notifications ?? true,
               marketing: userProfile.settings?.marketing ?? false,
               sms: userProfile.settings?.sms ?? true,
-              email: true // 추가 필드
+              email: true, // 추가 필드
             },
+            wishlist: userProfile.wishlist || [],
+            recentViews: userProfile.recentViews || [],
             createdAt: userProfile.createdAt || baseProfile.createdAt,
-            lastLoginAt: { toDate: () => new Date() } // 현재 시간으로 설정
+            updatedAt: userProfile.updatedAt || baseProfile.updatedAt,
+            lastLoginAt: Timestamp.now() // 현재 시간으로 설정
           };
 
           setProfile(mergedProfile);
@@ -236,7 +220,7 @@ const ProfileSection = () => {
   // 주소 검색 함수 (카카오 우편번호 서비스)
   const handleAddressSearch = () => {
     new (window as any).daum.Postcode({
-      oncomplete: function(data: any) {
+      oncomplete: function (data: any) {
         console.log('🏠 주소 검색 결과:', data);
 
         // 선택된 주소 정보를 폼에 자동 입력
@@ -396,8 +380,8 @@ const ProfileSection = () => {
             <div className="flex items-center gap-2 mt-2">
               <div className="px-2 py-1 bg-[#10B981]/20 text-[#10B981] text-xs rounded-full">
                 {user?.provider === 'google' ? 'Google' :
-                 user?.provider === 'kakao' ? 'Kakao' :
-                 user?.provider === 'naver' ? 'Naver' : '일반'} 계정
+                  user?.provider === 'kakao' ? 'Kakao' :
+                    user?.provider === 'naver' ? 'Naver' : '일반'} 계정
               </div>
               <div className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
                 가입 {membershipDays}일차
@@ -474,44 +458,40 @@ const ProfileSection = () => {
       <div className="flex gap-2 border-b border-[#333]">
         <button
           onClick={() => setActiveTab('personal')}
-          className={`px-4 py-3 font-medium transition-all border-b-2 ${
-            activeTab === 'personal'
-              ? 'text-[#10B981] border-[#10B981]'
-              : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
-          }`}
+          className={`px-4 py-3 font-medium transition-all border-b-2 ${activeTab === 'personal'
+            ? 'text-[#10B981] border-[#10B981]'
+            : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
+            }`}
         >
           <User className="w-4 h-4 inline mr-2" />
           개인정보
         </button>
         <button
           onClick={() => setActiveTab('address')}
-          className={`px-4 py-3 font-medium transition-all border-b-2 ${
-            activeTab === 'address'
-              ? 'text-blue-500 border-blue-500'
-              : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
-          }`}
+          className={`px-4 py-3 font-medium transition-all border-b-2 ${activeTab === 'address'
+            ? 'text-blue-500 border-blue-500'
+            : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
+            }`}
         >
           <MapPin className="w-4 h-4 inline mr-2" />
           배송지
         </button>
         <button
           onClick={() => setActiveTab('payment')}
-          className={`px-4 py-3 font-medium transition-all border-b-2 ${
-            activeTab === 'payment'
-              ? 'text-green-500 border-green-500'
-              : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
-          }`}
+          className={`px-4 py-3 font-medium transition-all border-b-2 ${activeTab === 'payment'
+            ? 'text-green-500 border-green-500'
+            : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
+            }`}
         >
           <CreditCard className="w-4 h-4 inline mr-2" />
           결제정보
         </button>
         <button
           onClick={() => setActiveTab('notifications')}
-          className={`px-4 py-3 font-medium transition-all border-b-2 ${
-            activeTab === 'notifications'
-              ? 'text-yellow-500 border-yellow-500'
-              : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
-          }`}
+          className={`px-4 py-3 font-medium transition-all border-b-2 ${activeTab === 'notifications'
+            ? 'text-yellow-500 border-yellow-500'
+            : 'text-gray-400 border-transparent hover:text-white hover:border-gray-600'
+            }`}
         >
           <Bell className="w-4 h-4 inline mr-2" />
           알림
@@ -592,8 +572,8 @@ const ProfileSection = () => {
                     <span className="text-gray-400">계정 유형</span>
                     <span className="text-[#10B981]">
                       {user?.provider === 'google' ? 'Google' :
-                       user?.provider === 'kakao' ? 'Kakao' :
-                       user?.provider === 'naver' ? 'Naver' : '일반'} 계정
+                        user?.provider === 'kakao' ? 'Kakao' :
+                          user?.provider === 'naver' ? 'Naver' : '일반'} 계정
                     </span>
                   </div>
                   <div className="flex justify-between items-center py-3">

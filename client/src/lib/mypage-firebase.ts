@@ -1,13 +1,13 @@
 // 마이페이지 전용 Firebase 유틸리티 함수들
-import { 
-  doc, 
-  getDoc, 
-  setDoc, 
-  updateDoc, 
-  collection, 
-  query, 
-  where, 
-  orderBy, 
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  collection,
+  query,
+  where,
+  orderBy,
   getDocs,
   addDoc,
   deleteDoc,
@@ -15,6 +15,7 @@ import {
   arrayUnion,
   arrayRemove
 } from 'firebase/firestore';
+export { Timestamp };
 import { db } from './firebase';
 
 // 사용자 프로필 확장 인터페이스
@@ -25,24 +26,26 @@ export interface UserProfile {
   phone?: string;
   birthDate?: string;
   profileImage?: string;
-  
+
   // 배송지 정보
   addresses: Address[];
-  
+
   // 활동 정보
   wishlist: string[];           // 상품 ID 배열
   recentViews: RecentView[];    // 최근 본 상품
-  
+
   // 설정
   settings: {
     notifications: boolean;
     marketing: boolean;
     sms: boolean;
+    email: boolean;
   };
-  
+
   // 메타데이터
   createdAt: Timestamp;
   updatedAt: Timestamp;
+  lastLoginAt?: Timestamp;
 }
 
 export interface Address {
@@ -107,11 +110,11 @@ export const getUserProfile = async (uid: string): Promise<UserProfile | null> =
   try {
     const userRef = doc(db, 'user_profiles', uid);
     const userDoc = await getDoc(userRef);
-    
+
     if (userDoc.exists()) {
       return userDoc.data() as UserProfile;
     }
-    
+
     // 프로필이 없으면 기본 프로필 생성
     const defaultProfile: UserProfile = {
       uid,
@@ -123,12 +126,13 @@ export const getUserProfile = async (uid: string): Promise<UserProfile | null> =
       settings: {
         notifications: true,
         marketing: false,
-        sms: true
+        sms: true,
+        email: true
       },
       createdAt: Timestamp.now(),
       updatedAt: Timestamp.now()
     };
-    
+
     await setDoc(userRef, defaultProfile);
     return defaultProfile;
   } catch (error) {
@@ -160,7 +164,7 @@ export const addAddress = async (uid: string, address: Omit<Address, 'id'>): Pro
       ...address,
       id: `addr_${Date.now()}`
     };
-    
+
     await updateDoc(userRef, {
       addresses: arrayUnion(newAddress),
       updatedAt: Timestamp.now()
@@ -177,9 +181,9 @@ export const removeAddress = async (uid: string, addressId: string): Promise<boo
   try {
     const profile = await getUserProfile(uid);
     if (!profile) return false;
-    
+
     const updatedAddresses = profile.addresses.filter(addr => addr.id !== addressId);
-    
+
     const userRef = doc(db, 'user_profiles', uid);
     await updateDoc(userRef, {
       addresses: updatedAddresses,
@@ -227,14 +231,14 @@ export const addToRecentViews = async (uid: string, productId: string): Promise<
   try {
     const profile = await getUserProfile(uid);
     if (!profile) return false;
-    
+
     // 기존에 본 상품이면 제거하고 최신으로 추가
     const filteredViews = profile.recentViews.filter(view => view.productId !== productId);
     const newRecentViews = [
       { productId, viewedAt: Timestamp.now() },
       ...filteredViews.slice(0, 9) // 최대 10개까지만 유지
     ];
-    
+
     const userRef = doc(db, 'user_profiles', uid);
     await updateDoc(userRef, {
       recentViews: newRecentViews,

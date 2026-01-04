@@ -32,13 +32,13 @@ export function HeroGeometric({
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
-  
+
   // 참고 이미지에 나온 캡슐 모양 요소들 (고정 위치)
   const roundedObjects: RoundedObject[] = [
-    { id: 1, x: '15%', y: '20%', width: 300, height: 60, rotate: 30, color: 'from-[#312E81] to-[#4B21A6]', blur: 60, opacity: 0.15 },
-    { id: 2, x: '75%', y: '30%', width: 200, height: 50, rotate: -15, color: 'from-[#4B21A6] to-[#A367DC]', blur: 70, opacity: 0.2 },
-    { id: 3, x: '25%', y: '75%', width: 250, height: 55, rotate: 10, color: 'from-[#A367DC] to-[#EB4D77]', blur: 80, opacity: 0.15 },
-    { id: 4, x: '80%', y: '70%', width: 180, height: 60, rotate: -25, color: 'from-[#0F0F1A] to-[#312E81]', blur: 50, opacity: 0.2 },
+    { id: 1, x: '15%', y: '20%', width: 300, height: 60, rotate: 30, color: 'from-primary/20 to-accent/20', blur: 60, opacity: 0.15 },
+    { id: 2, x: '75%', y: '30%', width: 200, height: 50, rotate: -15, color: 'from-accent/20 to-primary/10', blur: 70, opacity: 0.2 },
+    { id: 3, x: '25%', y: '75%', width: 250, height: 55, rotate: 10, color: 'from-primary/10 to-accent/10', blur: 80, opacity: 0.15 },
+    { id: 4, x: '80%', y: '70%', width: 180, height: 60, rotate: -25, color: 'from-background to-primary/5', blur: 50, opacity: 0.2 },
   ];
 
   // 화면 크기 변경 감지
@@ -53,7 +53,7 @@ export function HeroGeometric({
     // 초기화
     updateDimensions();
     window.addEventListener('resize', updateDimensions);
-    
+
     // 해제
     return () => {
       window.removeEventListener('resize', updateDimensions);
@@ -61,16 +61,16 @@ export function HeroGeometric({
   }, []);
 
   return (
-    <div 
+    <div
       ref={containerRef}
       className="relative w-full overflow-hidden"
     >
       {/* 배경 */}
-      <div className="absolute inset-0 bg-[#0A0A0A] z-0"></div>
-      
+      <div className="absolute inset-0 bg-background z-0"></div>
+
       {/* 참고 이미지에 나온 캡슐형 요소들 */}
       {roundedObjects.map((obj) => (
-        <div 
+        <div
           key={obj.id}
           className={`absolute rounded-full bg-gradient-to-r ${obj.color}`}
           style={{
@@ -84,165 +84,165 @@ export function HeroGeometric({
           }}
         />
       ))}
-      
+
       {/* 큰 크로와상 이미지 - 왼쪽 하단 */}
       <motion.div
         className="absolute left-[5%] bottom-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: -15 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.5, 0.5, 0], // 서서히 나타났다 서서히 사라짐
           scale: [1, 1.03, 0.98, 1],
           rotate: [-5, -8, -3, -5],
           y: [0, -15, 10, 0],
           x: [0, 10, -5, 0]
         }}
-        transition={{ 
-          duration: 15, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 15,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={croissantImage} 
-          alt="크로와상" 
-          className="w-[300px] h-[300px] object-contain brightness-75" 
+        <img
+          src={croissantImage}
+          alt="크로와상"
+          className="w-[300px] h-[300px] object-contain brightness-75"
         />
       </motion.div>
-      
+
       {/* 바게트 이미지 - 오른쪽 상단 */}
       <motion.div
         className="absolute right-[10%] top-[15%] z-10"
         initial={{ opacity: 0, scale: 0.8, rotate: 15 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.5, 0.5, 0], // 서서히 나타났다 서서히 사라짐
           scale: [1, 1.02, 0.97, 1],
           rotate: [10, 8, 12, 10],
           y: [0, 10, -8, 0],
           x: [0, -15, 8, 0]
         }}
-        transition={{ 
-          duration: 18, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 18,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           delay: 0.2,
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={baguetteImage} 
-          alt="바게트" 
-          className="w-[350px] h-[350px] object-contain brightness-75" 
+        <img
+          src={baguetteImage}
+          alt="바게트"
+          className="w-[350px] h-[350px] object-contain brightness-75"
         />
       </motion.div>
-      
+
       {/* 작은 크로와상 - 오른쪽 하단 */}
       <motion.div
         className="absolute right-[20%] bottom-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: -10 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.4, 0.4, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.9, 0.93, 0.88, 0.9],
           rotate: [-5, -3, -8, -5],
           y: [0, -10, 5, 0],
           x: [0, -8, 12, 0]
         }}
-        transition={{ 
-          duration: 12, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 12,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           delay: 0.4,
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={croissantImage} 
-          alt="작은 크로와상" 
-          className="w-[200px] h-[200px] object-contain brightness-75" 
+        <img
+          src={croissantImage}
+          alt="작은 크로와상"
+          className="w-[200px] h-[200px] object-contain brightness-75"
         />
       </motion.div>
-      
+
       {/* 작은 바게트 - 왼쪽 상단 */}
       <motion.div
         className="absolute left-[15%] top-[25%] z-10"
         initial={{ opacity: 0, scale: 0.7, rotate: 20 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.4, 0.4, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.9, 0.92, 0.87, 0.9],
           rotate: [15, 18, 12, 15],
           y: [0, 8, -12, 0],
           x: [0, 12, -5, 0]
         }}
-        transition={{ 
-          duration: 14, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 14,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           delay: 0.3,
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={baguetteImage} 
-          alt="작은 바게트" 
-          className="w-[250px] h-[250px] object-contain brightness-75" 
+        <img
+          src={baguetteImage}
+          alt="작은 바게트"
+          className="w-[250px] h-[250px] object-contain brightness-75"
         />
       </motion.div>
-      
+
       {/* 추가 작은 크로와상 - 중앙 위쪽 */}
       <motion.div
         className="absolute left-[45%] top-[20%] z-10 rotate-12"
         initial={{ opacity: 0, scale: 0.5, rotate: 25 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.35, 0.35, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.65, 0.68, 0.62, 0.65],
           rotate: [25, 30, 20, 25],
           y: [0, -12, 8, 0],
           x: [0, 15, -10, 0]
         }}
-        transition={{ 
-          duration: 16, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 16,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           delay: 1.2,
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={croissantImage} 
-          alt="아주 작은 크로와상" 
-          className="w-[150px] h-[150px] object-contain brightness-70" 
+        <img
+          src={croissantImage}
+          alt="아주 작은 크로와상"
+          className="w-[150px] h-[150px] object-contain brightness-70"
         />
       </motion.div>
-      
+
       {/* 추가 작은 바게트 - 중앙 아래쪽 */}
       <motion.div
         className="absolute left-[48%] bottom-[15%] z-10 rotate-[-5deg]"
         initial={{ opacity: 0, scale: 0.6, rotate: -20 }}
-        animate={{ 
+        animate={{
           opacity: [0, 0.3, 0.3, 0], // 서서히 나타났다 서서히 사라짐
           scale: [0.6, 0.63, 0.58, 0.6],
           rotate: [-20, -25, -15, -20],
           y: [0, 15, -10, 0],
           x: [0, -10, 5, 0]
         }}
-        transition={{ 
-          duration: 14, 
-          ease: "easeInOut", 
+        transition={{
+          duration: 14,
+          ease: "easeInOut",
           repeat: Infinity,
           repeatType: "loop",
           delay: 0.8,
           times: [0, 0.2, 0.8, 1] // 타이밍 조절
         }}
       >
-        <img 
-          src={baguetteImage} 
-          alt="아주 작은 바게트" 
-          className="w-[170px] h-[170px] object-contain brightness-70" 
+        <img
+          src={baguetteImage}
+          alt="아주 작은 바게트"
+          className="w-[170px] h-[170px] object-contain brightness-70"
         />
       </motion.div>
 
@@ -255,7 +255,7 @@ export function HeroGeometric({
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-6 inline-block rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] px-6 sm:px-8 py-3 text-lg font-semibold text-white shadow-lg shadow-purple-500/20"
+          className="mb-6 inline-block rounded-full bg-gradient-to-r from-primary to-accent px-6 sm:px-8 py-3 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/20"
           style={{ wordBreak: 'keep-all' }}
         >
           {badge}
@@ -268,13 +268,13 @@ export function HeroGeometric({
           style={{ wordBreak: 'keep-all' }}
         >
           <span className="font-montserrat text-white">{title1}</span> <br />
-          <span className="font-montserrat bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">{title2}</span>
+          <span className="font-montserrat bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">{title2}</span>
         </motion.h1>
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.7 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="font-pretendard text-gray-400 text-lg max-w-full sm:max-w-xl mx-auto mb-8 mt-8 text-center"
+          className="font-pretendard text-muted-foreground text-lg max-w-full sm:max-w-xl mx-auto mb-8 mt-8 text-center"
           style={{ wordBreak: 'keep-all', overflowWrap: 'break-word' }}
         >
           수도권 120여 개 지역중형마트에서 이미 검증된 빵을,<br />

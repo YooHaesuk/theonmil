@@ -9,15 +9,11 @@ dotenv.config();
 
 const app = express();
 
-// 개발 환경 강제 설정 (Windows 환경변수 문제 해결)
-if (!process.env.NODE_ENV) {
-  process.env.NODE_ENV = 'development';
-}
-// 공백 제거
-process.env.NODE_ENV = process.env.NODE_ENV.trim();
-app.set('env', process.env.NODE_ENV);
+// 환경 설정
+const nodeEnv = process.env.NODE_ENV?.trim() || 'development';
+app.set('env', nodeEnv);
 
-console.log('🔧 Environment:', process.env.NODE_ENV);
+console.log('🔧 Environment:', nodeEnv);
 console.log('🔧 App Environment:', app.get('env'));
 
 app.use(express.json());
@@ -29,7 +25,7 @@ app.use(session({
   resave: false,
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV === 'production',
+    secure: nodeEnv === 'production',
     maxAge: 24 * 60 * 60 * 1000 // 24시간
   }
 }));
@@ -75,23 +71,18 @@ app.use((req, res, next) => {
     throw err;
   });
 
-  // Vite 설정을 건너뛰고 정적 파일 서빙만 사용
-  console.log('🔧 Setting up static file serving...');
-  try {
+  // ALWAYS setup Vite in development
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
     serveStatic(app);
-  } catch (error) {
-    console.log('⚠️ Static serving failed, continuing without it...');
-    // 정적 파일 서빙 실패해도 계속 진행
   }
 
   // ALWAYS serve the app on port 5000
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
   const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
   server.listen({
     port,
     host: "0.0.0.0",
-    reusePort: true,
   }, () => {
     log(`serving on port ${port}`);
   });

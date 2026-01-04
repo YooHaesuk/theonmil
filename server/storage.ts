@@ -1,4 +1,4 @@
-import { 
+import {
   users, type User, type InsertUser,
   products, type Product, type InsertProduct,
   cartItems, type CartItem, type InsertCartItem,
@@ -12,27 +12,34 @@ export interface IStorage {
   getUser(id: number): Promise<User | undefined>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
-  
+
   // Product operations
   getAllProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
   getProductsByCategory(category: string): Promise<Product[]>;
-  
+
   // Cart operations
   getCartItemsByUser(userId: number): Promise<(CartItem & { product: Product })[]>;
   addToCart(userId: number, productId: number, quantity: number): Promise<CartItem>;
   updateCartItemQuantity(id: number, quantity: number): Promise<CartItem>;
   removeFromCart(id: number): Promise<void>;
-  
+
   // Order operations
   createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order>;
   getOrdersByUser(userId: number): Promise<Order[]>;
   getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined>;
-  
+
   // Review operations
   getAllReviews(): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'>, product: Pick<Product, 'id' | 'name' | 'nameKorean'> })[]>;
   getReviewsByProduct(productId: number): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'> })[]>;
   createReview(review: InsertReview): Promise<Review>;
+
+  // Aliases for routes.ts compatibility
+  insertUser(user: InsertUser): Promise<User>;
+  getUsers(): Promise<User[]>;
+  insertReview(review: InsertReview): Promise<Review>;
+  getReviews(): Promise<any[]>;
+  getStores(): Promise<any[]>;
 }
 
 export class MemStorage implements IStorage {
@@ -42,14 +49,14 @@ export class MemStorage implements IStorage {
   private orders: Map<number, Order>;
   private orderItems: Map<number, OrderItem>;
   private reviews: Map<number, Review>;
-  
+
   private userIdCounter: number;
   private productIdCounter: number;
   private cartItemIdCounter: number;
   private orderIdCounter: number;
   private orderItemIdCounter: number;
   private reviewIdCounter: number;
-  
+
   constructor() {
     this.users = new Map();
     this.products = new Map();
@@ -57,48 +64,64 @@ export class MemStorage implements IStorage {
     this.orders = new Map();
     this.orderItems = new Map();
     this.reviews = new Map();
-    
+
     this.userIdCounter = 1;
     this.productIdCounter = 1;
     this.cartItemIdCounter = 1;
     this.orderIdCounter = 1;
     this.orderItemIdCounter = 1;
     this.reviewIdCounter = 1;
-    
+
     // Initialize with sample products
     this.initializeProducts();
   }
-  
+
   // User operations
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
-  
+
   async getUserByUsername(username: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(user => user.username === username);
   }
-  
+
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.userIdCounter++;
-    const user: User = { 
-      ...insertUser, 
-      id, 
-      role: "user", 
-      createdAt: new Date() 
+    const user: User = {
+      ...insertUser,
+      id,
+      role: (insertUser as any).role || "user",
+      name: insertUser.name || '',
+      email: insertUser.email || '',
+      password: insertUser.password || '',
+      username: insertUser.username || '',
+      address: (insertUser as any).address || '',
+      detailAddress: (insertUser as any).detailAddress || '',
+      zipCode: (insertUser as any).zipCode || '',
+      phone: (insertUser as any).phone || '',
+      createdAt: new Date()
     };
     this.users.set(id, user);
     return user;
   }
-  
+
+  async insertUser(user: InsertUser): Promise<User> {
+    return this.createUser(user);
+  }
+
+  async getUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
+
   // Product operations
   async getAllProducts(): Promise<Product[]> {
     return Array.from(this.products.values());
   }
-  
+
   async getProduct(id: number): Promise<Product | undefined> {
     return this.products.get(id);
   }
-  
+
   async getProductsByCategory(category: string): Promise<Product[]> {
     return Array.from(this.products.values()).filter(product => product.category === category);
   }
@@ -109,8 +132,8 @@ export class MemStorage implements IStorage {
       ...productData,
       id,
       // tags가 문자열로 오면 배열로 변환
-      tags: typeof productData.tags === 'string'
-        ? productData.tags.split(',').filter(tag => tag.trim())
+      tags: typeof (productData as any).tags === 'string'
+        ? (productData as any).tags.split(',').filter((tag: string) => tag.trim())
         : productData.tags || [],
       // 기본값 설정
       isBestseller: productData.isBestseller || false,
@@ -141,8 +164,8 @@ export class MemStorage implements IStorage {
       // tags가 문자열로 오면 배열로 변환
       tags: Array.isArray(productData.tags)
         ? productData.tags
-        : (typeof productData.tags === 'string'
-          ? productData.tags.split(',').map(tag => tag.trim())
+        : (typeof (productData as any).tags === 'string'
+          ? (productData as any).tags.split(',').map((tag: string) => tag.trim())
           : existingProduct.tags)
     };
 
@@ -155,7 +178,7 @@ export class MemStorage implements IStorage {
   async getCartItemsByUser(userId: number): Promise<(CartItem & { product: Product })[]> {
     const items = Array.from(this.cartItems.values())
       .filter(item => item.userId === userId);
-    
+
     return items.map(item => {
       const product = this.products.get(item.productId);
       if (!product) {
@@ -164,80 +187,93 @@ export class MemStorage implements IStorage {
       return { ...item, product };
     });
   }
-  
+
   async addToCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
     // Check if product exists
     const product = this.products.get(productId);
     if (!product) {
       throw new Error(`Product not found: ${productId}`);
     }
-    
+
     // Check if already in cart
     const existingItem = Array.from(this.cartItems.values()).find(
       item => item.userId === userId && item.productId === productId
     );
-    
+
     if (existingItem) {
       return this.updateCartItemQuantity(existingItem.id, existingItem.quantity + quantity);
     }
-    
+
     // Add new cart item
     const id = this.cartItemIdCounter++;
     const cartItem: CartItem = { id, userId, productId, quantity };
     this.cartItems.set(id, cartItem);
     return cartItem;
   }
-  
+
   async updateCartItemQuantity(id: number, quantity: number): Promise<CartItem> {
     const cartItem = this.cartItems.get(id);
     if (!cartItem) {
       throw new Error(`Cart item not found: ${id}`);
     }
-    
+
     const updatedItem = { ...cartItem, quantity };
     this.cartItems.set(id, updatedItem);
     return updatedItem;
   }
-  
+
   async removeFromCart(id: number): Promise<void> {
     this.cartItems.delete(id);
   }
-  
+
   // Order operations
   async createOrder(orderData: InsertOrder, itemsData: InsertOrderItem[]): Promise<Order> {
     const id = this.orderIdCounter++;
     const order: Order = {
       ...orderData,
       id,
+      status: (orderData as any).status || "pending",
+      message: (orderData as any).message || "",
+      recipientName: (orderData as any).recipientName || "",
+      paymentMethod: (orderData as any).paymentMethod || "",
+      userId: orderData.userId || 0,
+      total: orderData.total || 0,
+      shippingAddress: (orderData as any).shippingAddress || "",
+      shippingDetailAddress: (orderData as any).shippingDetailAddress || "",
+      shippingZipCode: (orderData as any).shippingZipCode || "",
+      recipientPhone: (orderData as any).recipientPhone || "",
       createdAt: new Date()
     };
-    
+
     this.orders.set(id, order);
-    
+
     // Create order items
     for (const itemData of itemsData) {
       const orderItemId = this.orderItemIdCounter++;
       const orderItem: OrderItem = {
         ...itemData,
         id: orderItemId,
-        orderId: id
+        orderId: id,
+        price: itemData.price || 0,
+        quantity: itemData.quantity || 0,
+        productId: itemData.productId || 0
       };
       this.orderItems.set(orderItemId, orderItem);
     }
-    
+
     return order;
   }
-  
+
   async getOrdersByUser(userId: number): Promise<Order[]> {
     return Array.from(this.orders.values())
       .filter(order => order.userId === userId)
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   }
-  
+
   async getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined> {
     const order = this.orders.get(id);
     if (!order) return undefined;
-    
+
     const items = Array.from(this.orderItems.values())
       .filter(item => item.orderId === id)
       .map(item => {
@@ -247,20 +283,20 @@ export class MemStorage implements IStorage {
         }
         return { ...item, product };
       });
-    
+
     return { ...order, items };
   }
-  
+
   // Review operations
   async getAllReviews(): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'>, product: Pick<Product, 'id' | 'name' | 'nameKorean'> })[]> {
     return Array.from(this.reviews.values()).map(review => {
       const user = this.users.get(review.userId);
       const product = this.products.get(review.productId);
-      
+
       if (!user || !product) {
         throw new Error(`User or product not found for review: ${review.id}`);
       }
-      
+
       return {
         ...review,
         user: {
@@ -276,17 +312,17 @@ export class MemStorage implements IStorage {
       };
     });
   }
-  
+
   async getReviewsByProduct(productId: number): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'> })[]> {
     return Array.from(this.reviews.values())
       .filter(review => review.productId === productId)
       .map(review => {
         const user = this.users.get(review.userId);
-        
+
         if (!user) {
           throw new Error(`User not found for review: ${review.id}`);
         }
-        
+
         return {
           ...review,
           user: {
@@ -297,19 +333,36 @@ export class MemStorage implements IStorage {
         };
       });
   }
-  
+
   async createReview(reviewData: InsertReview): Promise<Review> {
     const id = this.reviewIdCounter++;
     const review: Review = {
       ...reviewData,
       id,
+      text: (reviewData as any).text || "",
+      images: (reviewData as any).images || [],
+      userId: reviewData.userId || 0,
+      rating: reviewData.rating || 0,
+      productId: reviewData.productId || 0,
       createdAt: new Date()
     };
-    
+
     this.reviews.set(id, review);
     return review;
   }
-  
+
+  async insertReview(review: InsertReview): Promise<Review> {
+    return this.createReview(review);
+  }
+
+  async getReviews(): Promise<any[]> {
+    return this.getAllReviews();
+  }
+
+  async getStores(): Promise<any[]> {
+    return [];
+  }
+
   // Initialize with sample products
   private initializeProducts() {
     const sampleProducts: Omit<Product, 'id'>[] = [
@@ -386,7 +439,7 @@ export class MemStorage implements IStorage {
         isPopular: false
       }
     ];
-    
+
     sampleProducts.forEach(product => {
       const id = this.productIdCounter++;
       this.products.set(id, {

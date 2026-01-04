@@ -1,13 +1,13 @@
 // Firestore 데이터베이스 유틸리티 함수들
-import { 
-  collection, 
-  doc, 
-  getDoc, 
-  getDocs, 
-  setDoc, 
-  updateDoc, 
-  query, 
-  orderBy, 
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  updateDoc,
+  query,
+  orderBy,
   where,
   Timestamp,
   increment
@@ -40,6 +40,7 @@ export interface FirestoreProduct {
   image: string;
   images?: string[]; // 추가 상품 이미지들 (썸네일용)
   detailImage?: string; // 상세페이지 이미지 URL
+  detailContent?: string; // 상세페이지 HTML 콘텐츠
   isBestseller: boolean;
   isNew: boolean;
   isPopular: boolean;
@@ -65,7 +66,7 @@ export const createOrUpdateUser = async (
     console.log('Attempting to get user document from Firestore...');
     const userSnap = await getDoc(userRef);
     console.log('Firestore document fetch result:', userSnap.exists());
-    
+
     if (userSnap.exists()) {
       // 기존 사용자 - 로그인 정보 업데이트
       console.log('Updating existing user in Firestore...');
@@ -77,7 +78,7 @@ export const createOrUpdateUser = async (
         loginCount: (existingData.loginCount || 0) + 1,
         updatedAt: Timestamp.now()
       };
-      
+
       await updateDoc(userRef, updatedData);
       console.log('User updated successfully in Firestore');
 
@@ -100,7 +101,7 @@ export const createOrUpdateUser = async (
         lastLogin: Timestamp.now(),
         loginCount: 1
       };
-      
+
       await setDoc(userRef, newUserData);
       console.log('New user created successfully in Firestore');
 
@@ -144,14 +145,14 @@ export const getUser = async (uid: string): Promise<FirestoreUser | null> => {
   try {
     const userRef = doc(db, 'users', uid);
     const userSnap = await getDoc(userRef);
-    
+
     if (userSnap.exists()) {
       return {
         uid,
         ...userSnap.data()
       } as FirestoreUser;
     }
-    
+
     return null;
   } catch (error) {
     console.error('Error getting user:', error);
@@ -165,7 +166,7 @@ export const getAllUsers = async (): Promise<FirestoreUser[]> => {
     const usersRef = collection(db, 'users');
     const q = query(usersRef, orderBy('createdAt', 'desc'));
     const querySnapshot = await getDocs(q);
-    
+
     return querySnapshot.docs.map(doc => ({
       uid: doc.id,
       ...doc.data()
@@ -184,7 +185,7 @@ export const updateUserAdminStatus = async (uid: string, isAdmin: boolean): Prom
       isAdmin,
       updatedAt: Timestamp.now()
     });
-    
+
     return true;
   } catch (error) {
     console.error('Error updating user admin status:', error);
@@ -196,23 +197,23 @@ export const updateUserAdminStatus = async (uid: string, isAdmin: boolean): Prom
 export const getUserStats = async () => {
   try {
     const usersRef = collection(db, 'users');
-    
+
     // 전체 사용자 수
     const allUsersSnapshot = await getDocs(usersRef);
     const totalUsers = allUsersSnapshot.size;
-    
+
     // 오늘 가입한 사용자 수
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     const todayTimestamp = Timestamp.fromDate(today);
-    
+
     const todayUsersQuery = query(
-      usersRef, 
+      usersRef,
       where('createdAt', '>=', todayTimestamp)
     );
     const todayUsersSnapshot = await getDocs(todayUsersQuery);
     const todayUsers = todayUsersSnapshot.size;
-    
+
     // 프로바이더별 통계
     const providerStats: Record<string, number> = {};
     allUsersSnapshot.docs.forEach(doc => {
@@ -220,7 +221,7 @@ export const getUserStats = async () => {
       const provider = userData.provider || 'unknown';
       providerStats[provider] = (providerStats[provider] || 0) + 1;
     });
-    
+
     return {
       totalUsers,
       todayUsers,
@@ -248,7 +249,7 @@ export const logAdminActivity = async (
       details: details || null,
       timestamp: Timestamp.now()
     };
-    
+
     await setDoc(doc(logsRef), logData);
     return true;
   } catch (error) {

@@ -1,7 +1,7 @@
 // Firebase OIDC를 사용한 네이버 인증
-import { 
-  signInWithPopup, 
-  signInWithRedirect, 
+import {
+  signInWithPopup,
+  signInWithRedirect,
   getRedirectResult,
   linkWithPopup,
   reauthenticateWithPopup,
@@ -32,15 +32,15 @@ export const createNaverOIDCProvider = () => {
 export const signInWithNaverPopup = async (): Promise<FirebaseUser> => {
   try {
     console.log('🚀 네이버 OIDC 팝업 로그인 시작');
-    
+
     const provider = createNaverOIDCProvider();
     const result = await signInWithPopup(auth, provider);
-    
+
     console.log('✅ 네이버 OIDC 로그인 성공:', result.user.email);
-    
+
     // 사용자 정보를 Firestore에 저장
-    await saveNaverUser(result.user, 'naver');
-    
+    await saveNaverUser(result.user);
+
     // OIDC 크리덴셜에서 추가 정보 가져오기
     const credential = OAuthProvider.credentialFromResult(result);
     if (credential) {
@@ -49,7 +49,7 @@ export const signInWithNaverPopup = async (): Promise<FirebaseUser> => {
         idToken: credential.idToken
       });
     }
-    
+
     return result.user;
   } catch (error) {
     console.error('❌ 네이버 OIDC 팝업 로그인 실패:', error);
@@ -61,7 +61,7 @@ export const signInWithNaverPopup = async (): Promise<FirebaseUser> => {
 export const signInWithNaverRedirect = async (): Promise<void> => {
   try {
     console.log('🚀 네이버 OIDC 리다이렉트 로그인 시작');
-    
+
     const provider = createNaverOIDCProvider();
     await signInWithRedirect(auth, provider);
   } catch (error) {
@@ -74,15 +74,15 @@ export const signInWithNaverRedirect = async (): Promise<void> => {
 export const handleNaverRedirectResult = async (): Promise<FirebaseUser | null> => {
   try {
     console.log('🔍 네이버 OIDC 리다이렉트 결과 확인');
-    
+
     const result = await getRedirectResult(auth);
-    
+
     if (result) {
       console.log('✅ 네이버 OIDC 리다이렉트 로그인 성공:', result.user.email);
-      
+
       // 사용자 정보를 Firestore에 저장
-      await saveNaverUser(result.user, 'naver');
-      
+      await saveNaverUser(result.user);
+
       // OIDC 크리덴셜에서 추가 정보 가져오기
       const credential = OAuthProvider.credentialFromResult(result);
       if (credential) {
@@ -91,10 +91,10 @@ export const handleNaverRedirectResult = async (): Promise<FirebaseUser | null> 
           idToken: credential.idToken
         });
       }
-      
+
       return result.user;
     }
-    
+
     return null;
   } catch (error) {
     console.error('❌ 네이버 OIDC 리다이렉트 결과 처리 실패:', error);
@@ -106,12 +106,12 @@ export const handleNaverRedirectResult = async (): Promise<FirebaseUser | null> 
 export const linkWithNaverAccount = async (user: FirebaseUser): Promise<FirebaseUser> => {
   try {
     console.log('🔗 네이버 계정 연결 시작');
-    
+
     const provider = createNaverOIDCProvider();
     const result = await linkWithPopup(user, provider);
-    
+
     console.log('✅ 네이버 계정 연결 성공');
-    
+
     return result.user;
   } catch (error) {
     console.error('❌ 네이버 계정 연결 실패:', error);
@@ -123,12 +123,12 @@ export const linkWithNaverAccount = async (user: FirebaseUser): Promise<Firebase
 export const reauthenticateWithNaver = async (user: FirebaseUser): Promise<FirebaseUser> => {
   try {
     console.log('🔄 네이버 계정 재인증 시작');
-    
+
     const provider = createNaverOIDCProvider();
     const result = await reauthenticateWithPopup(user, provider);
-    
+
     console.log('✅ 네이버 계정 재인증 성공');
-    
+
     return result.user;
   } catch (error) {
     console.error('❌ 네이버 계정 재인증 실패:', error);
@@ -139,7 +139,7 @@ export const reauthenticateWithNaver = async (user: FirebaseUser): Promise<Fireb
 // 네이버 OIDC 에러 처리 헬퍼
 export const handleNaverOIDCError = (error: any): string => {
   console.error('네이버 OIDC 에러:', error);
-  
+
   if (error.code) {
     switch (error.code) {
       case 'auth/popup-closed-by-user':
@@ -160,6 +160,6 @@ export const handleNaverOIDCError = (error: any): string => {
         return error.message || '네이버 로그인 중 오류가 발생했습니다.';
     }
   }
-  
+
   return error.message || '알 수 없는 오류가 발생했습니다.';
 };

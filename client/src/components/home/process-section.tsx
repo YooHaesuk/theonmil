@@ -49,20 +49,20 @@ const ProcessSection = () => {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
   return (
-    <section id="process" className="py-20 bg-[#0A0A0A] text-white">
+    <section id="process" className="py-20 bg-background text-foreground">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <motion.h2 
-            className="text-4xl font-bold font-montserrat mb-4 text-white"
+          <motion.h2
+            className="text-4xl font-bold font-montserrat mb-4 text-foreground"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            우리의 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">제조 과정</span>
+            우리의 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">제조 과정</span>
           </motion.h2>
-          <motion.p 
-            className="font-pretendard text-lg max-w-2xl mx-auto text-gray-300"
+          <motion.p
+            className="font-pretendard text-lg max-w-2xl mx-auto text-muted-foreground"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -71,11 +71,11 @@ const ProcessSection = () => {
             모든 빵은 정직한 재료와 전통적인 방식으로 만들어집니다.
           </motion.p>
         </div>
-        
+
         {/* Process steps */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {processSteps.map((step, index) => (
-            <motion.div 
+            <motion.div
               key={step.number}
               className="text-center"
               initial={{ opacity: 0, y: 30 }}
@@ -84,17 +84,17 @@ const ProcessSection = () => {
               transition={{ duration: 0.6, delay: index * 0.2 }}
             >
               <div className="relative mb-6 mx-auto">
-                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] flex items-center justify-center text-white text-2xl font-bold mx-auto">
+                <div className="w-24 h-24 rounded-full bg-gradient-to-r from-primary to-accent flex items-center justify-center text-white text-2xl font-bold mx-auto">
                   {step.number}
                 </div>
 
               </div>
-              <h3 className="font-montserrat text-xl font-semibold mb-3 text-white">{step.title}</h3>
-              <p className="font-pretendard text-gray-300">{step.description}</p>
-              <div className="mt-6 rounded-lg overflow-hidden bg-[#111111] border border-[#222222]">
-                <motion.img 
-                  src={step.image} 
-                  alt={step.title} 
+              <h3 className="font-montserrat text-xl font-semibold mb-3 text-foreground">{step.title}</h3>
+              <p className="font-pretendard text-muted-foreground">{step.description}</p>
+              <div className="mt-6 rounded-lg overflow-hidden bg-secondary border-border">
+                <motion.img
+                  src={step.image}
+                  alt={step.title}
                   className="w-full h-60 object-cover"
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.3 }}
@@ -103,18 +103,18 @@ const ProcessSection = () => {
             </motion.div>
           ))}
         </div>
-        
+
         {/* CTA */}
-        <motion.div 
+        <motion.div
           className="text-center mt-16"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <Link 
-            href="/brand" 
-            className="px-6 py-3 rounded-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-sm font-medium hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+          <Link
+            href="/brand"
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-medium shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
           >
             제조 과정 자세히 보기
           </Link>

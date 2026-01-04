@@ -55,150 +55,157 @@ export function Header() {
   }, [isMenuOpen]);
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${isScrolled ? 'bg-[#0A0A0A] shadow-md' : 'bg-[#0A0A0A] shadow-sm'} backdrop-blur-sm bg-opacity-90`}
-      style={{ zIndex: 50 }}
-    >
-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-        {/* Logo */}
-        <Link href="/" className="flex items-center">
-          <div className="text-2xl md:text-3xl font-bold font-montserrat">
-            <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">더 온밀</span>
-          </div>
-        </Link>
-        
-        {/* Desktop Navigation */}
-        <nav className="hidden md:flex space-x-8 items-center">
-          <Link href="/brand" className="font-montserrat text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group">
-            <span>브랜드 소개</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transition-all duration-300 group-hover:w-full"></span>
+    <>
+      <header
+        className={`fixed top-0 left-0 right-0 transition-all duration-300 ${isScrolled ? 'bg-[#3B1A0F] shadow-md' : 'bg-[#3B1A0F] shadow-sm'} backdrop-blur-sm bg-opacity-95`}
+        style={{ zIndex: 50 }}
+      >
+        <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <div className="text-2xl md:text-3xl font-bold font-montserrat">
+              <span className="text-[#CEB372]">더 온밀</span>
+            </div>
           </Link>
-          <Link href="/products" className="font-montserrat text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group">
-            <span>제품 보기</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link href="/stores" className="font-montserrat text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group">
-            <span>매장 안내</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link href="/reviews" className="font-montserrat text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group">
-            <span>리뷰</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <Link href="/b2b" className="font-montserrat text-sm font-medium text-gray-300 hover:text-white transition-colors duration-300 relative group">
-            <span>기업 제휴</span>
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] transition-all duration-300 group-hover:w-full"></span>
-          </Link>
-          <div className="flex items-center space-x-4 ml-4">
-            <button aria-label="검색" className="text-gray-300 hover:text-white transition-colors duration-300">
-              <i className="fa-solid fa-search text-lg"></i>
-            </button>
-            <Link href="/cart" className="text-gray-300 hover:text-white transition-colors duration-300 relative">
-              <i className="fa-solid fa-shopping-bag text-lg"></i>
-              {/* <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span> */}
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex space-x-8 items-center">
+            <Link href="/brand" className="font-montserrat text-sm font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative group">
+              <span>브랜드 소개</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CEB372] transition-all duration-300 group-hover:w-full"></span>
             </Link>
-            {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                {user?.isAdmin && (
+            <Link href="/products" className="font-montserrat text-sm font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative group">
+              <span>제품 보기</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CEB372] transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link href="/stores" className="font-montserrat text-sm font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative group">
+              <span>매장 안내</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CEB372] transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link href="/reviews" className="font-montserrat text-sm font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative group">
+              <span>리뷰</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CEB372] transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <Link href="/b2b" className="font-montserrat text-sm font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative group">
+              <span>기업 제휴</span>
+              <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-[#CEB372] transition-all duration-300 group-hover:w-full"></span>
+            </Link>
+            <div className="flex items-center space-x-4 ml-4">
+              <button aria-label="검색" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300">
+                <i className="fa-solid fa-search text-lg"></i>
+              </button>
+              <Link href="/cart" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative">
+                <i className="fa-solid fa-shopping-bag text-lg"></i>
+              </Link>
+              {isAuthenticated ? (
+                <div className="flex items-center space-x-4">
+                  {user?.isAdmin && (
+                    <Link
+                      href="/admin"
+                      className="text-white/80 hover:text-[#CEB372] transition-colors duration-300"
+                      title="관리자 대시보드"
+                    >
+                      <i className="fa-solid fa-cog text-lg"></i>
+                    </Link>
+                  )}
                   <Link
-                    href="/admin"
-                    className="text-gray-300 hover:text-white transition-colors duration-300"
-                    title="관리자 대시보드"
+                    href="/mypage"
+                    className="text-white/80 hover:text-[#CEB372] transition-colors duration-300"
+                    title="마이페이지"
                   >
-                    <i className="fa-solid fa-cog text-lg"></i>
+                    <i className="fa-solid fa-user text-lg"></i>
                   </Link>
-                )}
-                <Link
-                  href="/mypage"
-                  className="text-gray-300 hover:text-white transition-colors duration-300"
-                  title="마이페이지"
-                >
+                  <span className="text-white/80 text-sm">
+                    {user?.name}님
+                  </span>
+                  <button
+                    onClick={logout}
+                    className="text-white/80 hover:text-[#CEB372] transition-colors duration-300"
+                    title="로그아웃"
+                  >
+                    <i className="fa-solid fa-sign-out-alt text-lg"></i>
+                  </button>
+                </div>
+              ) : (
+                <Link href="/login" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300">
                   <i className="fa-solid fa-user text-lg"></i>
                 </Link>
-                <span className="text-gray-300 text-sm">
-                  {user?.name}님
-                </span>
-                <button
-                  onClick={logout}
-                  className="text-gray-300 hover:text-white transition-colors duration-300"
-                  title="로그아웃"
-                >
-                  <i className="fa-solid fa-sign-out-alt text-lg"></i>
-                </button>
-              </div>
-            ) : (
-              <Link href="/login" className="text-gray-300 hover:text-white transition-colors duration-300">
-                <i className="fa-solid fa-user text-lg"></i>
-              </Link>
-            )}
-          </div>
-        </nav>
-        
-        {/* Mobile Menu Button */}
-        <button 
-          aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"} 
-          onClick={toggleMenu} 
-          className="md:hidden flex flex-col justify-center items-center w-6 h-6 relative z-50"
-        >
-          <span className={`block w-6 h-0.5 bg-white mb-1.5 transition-transform duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-white mb-1.5 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
-          <span className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
-        </button>
-      </div>
+              )}
+            </div>
+          </nav>
+
+          {/* Mobile Menu Button */}
+          <button
+            aria-label={isMenuOpen ? "메뉴 닫기" : "메뉴 열기"}
+            onClick={toggleMenu}
+            className="md:hidden flex flex-col justify-center items-center w-6 h-6 relative z-50"
+          >
+            <span className={`block w-6 h-0.5 bg-white mb-1.5 transition-transform duration-300 ${isMenuOpen ? 'rotate-45 translate-y-2' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-white mb-1.5 transition-opacity duration-300 ${isMenuOpen ? 'opacity-0' : ''}`}></span>
+            <span className={`block w-6 h-0.5 bg-white transition-transform duration-300 ${isMenuOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
+          </button>
+        </div>
+      </header>
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="fixed inset-0 bg-black bg-opacity-50 z-30 md:hidden backdrop-blur-sm"
+            className="fixed inset-0 bg-black/40 z-[60] md:hidden backdrop-blur-sm"
             onClick={toggleMenu}
           />
         )}
       </AnimatePresence>
-      
+
       {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
-          <motion.div 
+          <motion.div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "tween", duration: 0.4 }}
-            className="fixed top-0 right-0 bottom-0 w-4/5 bg-[#0F0F1A] shadow-lg z-40 p-8 flex flex-col justify-start pt-20 md:hidden"
+            className="fixed top-0 right-0 bottom-0 w-4/5 bg-[#3B1A0F] shadow-2xl z-[70] p-8 flex flex-col justify-start pt-24 md:hidden border-l border-[#CEB372]/30"
           >
+            <button
+              onClick={toggleMenu}
+              className="absolute top-6 right-6 text-white/80 hover:text-[#CEB372] transition-colors duration-300"
+              aria-label="메뉴 닫기"
+            >
+              <i className="fa-solid fa-xmark text-2xl"></i>
+            </button>
             <nav className="flex flex-col space-y-6">
-              <Link href="/brand" className="font-montserrat text-lg font-medium text-gray-300 hover:text-white transition-colors duration-300">브랜드 소개</Link>
-              <Link href="/products" className="font-montserrat text-lg font-medium text-gray-300 hover:text-white transition-colors duration-300">제품 보기</Link>
-              <Link href="/stores" className="font-montserrat text-lg font-medium text-gray-300 hover:text-white transition-colors duration-300">매장 안내</Link>
-              <Link href="/reviews" className="font-montserrat text-lg font-medium text-gray-300 hover:text-white transition-colors duration-300">리뷰</Link>
-              <Link href="/b2b" className="font-montserrat text-lg font-medium text-gray-300 hover:text-white transition-colors duration-300">기업 제휴</Link>
-              <div className="pt-6 border-t border-[#222222] flex items-center space-x-8">
-                <button aria-label="검색" className="text-gray-300 hover:text-white transition-colors duration-300">
+              <Link href="/brand" className="font-montserrat text-lg font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300">브랜드 소개</Link>
+              <Link href="/products" className="font-montserrat text-lg font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300">제품 보기</Link>
+              <Link href="/stores" className="font-montserrat text-lg font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300">매장 안내</Link>
+              <Link href="/reviews" className="font-montserrat text-lg font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300">리뷰</Link>
+              <Link href="/b2b" className="font-montserrat text-lg font-medium text-white/80 hover:text-[#CEB372] transition-colors duration-300">기업 제휴</Link>
+              <div className="pt-6 border-t border-[#CEB372]/20 flex items-center space-x-8">
+                <button aria-label="검색" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300">
                   <i className="fa-solid fa-search text-xl"></i>
                 </button>
-                <Link href="/cart" className="text-gray-300 hover:text-white transition-colors duration-300 relative">
+                <Link href="/cart" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300 relative">
                   <i className="fa-solid fa-shopping-bag text-xl"></i>
-                  {/* <span className="absolute -top-1 -right-1 bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span> */}
                 </Link>
                 {isAuthenticated ? (
                   <div className="flex items-center space-x-4">
-                    <span className="text-gray-300 text-sm">
+                    <span className="text-white/80 text-sm">
                       {user?.name}님
                     </span>
                     <button
                       onClick={logout}
-                      className="text-gray-300 hover:text-white transition-colors duration-300"
+                      className="text-white/80 hover:text-[#CEB372] transition-colors duration-300"
                       title="로그아웃"
                     >
                       <i className="fa-solid fa-sign-out-alt text-xl"></i>
                     </button>
                   </div>
                 ) : (
-                  <Link href="/login" className="text-gray-300 hover:text-white transition-colors duration-300">
+                  <Link href="/login" className="text-white/80 hover:text-[#CEB372] transition-colors duration-300">
                     <i className="fa-solid fa-user text-xl"></i>
                   </Link>
                 )}
@@ -206,18 +213,18 @@ export function Header() {
               <div className="mt-auto pt-8">
                 {isAuthenticated ? (
                   <div className="space-y-3">
-                    <div className="text-center text-white">
+                    <div className="text-center text-white/90">
                       <span className="text-sm">{user?.name}님 환영합니다!</span>
                     </div>
                     <Link
                       href="/mypage"
-                      className="block w-full bg-gradient-to-r from-[#6366F1] to-[#8B5CF6] text-white font-medium py-2.5 px-4 rounded-full text-center hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+                      className="block w-full bg-[#CEB372] text-[#3B1A0F] font-bold py-2.5 px-4 rounded-full text-center hover:bg-[#F7E1AA] transition-all duration-300"
                     >
                       마이페이지
                     </Link>
                     <button
                       onClick={logout}
-                      className="block w-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium py-2.5 px-4 rounded-full text-center hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+                      className="block w-full border border-[#CEB372]/30 text-white font-medium py-2.5 px-4 rounded-full text-center mt-3 hover:bg-white/10 transition-all duration-300"
                     >
                       로그아웃
                     </button>
@@ -226,13 +233,13 @@ export function Header() {
                   <>
                     <Link
                       href="/login"
-                      className="block w-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white font-medium py-2.5 px-4 rounded-full text-center hover:shadow-lg hover:shadow-purple-500/20 transition-all duration-300"
+                      className="block w-full bg-[#CEB372] text-[#3B1A0F] font-bold py-2.5 px-4 rounded-full text-center hover:bg-[#F7E1AA] transition-all duration-300"
                     >
                       로그인
                     </Link>
                     <Link
                       href="/register"
-                      className="block w-full border border-[#333333] text-white font-medium py-2.5 px-4 rounded-full text-center mt-3 hover:bg-[#222222] transition-all duration-300"
+                      className="block w-full border border-[#CEB372]/30 text-white font-medium py-2.5 px-4 rounded-full text-center mt-3 hover:bg-white/10 transition-all duration-300"
                     >
                       회원가입
                     </Link>
@@ -243,6 +250,6 @@ export function Header() {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 };

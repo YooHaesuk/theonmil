@@ -1,6 +1,15 @@
-import NextAuth, { type NextAuthOptions } from 'next-auth'
+import NextAuth, { type NextAuthOptions, DefaultSession } from 'next-auth'
 import GoogleProvider from 'next-auth/providers/google'
 import KakaoProvider from 'next-auth/providers/kakao'
+
+declare module 'next-auth' {
+  interface Session {
+    user: {
+      id: string
+      isAdmin: boolean
+    } & DefaultSession['user']
+  }
+}
 
 export const authOptions: NextAuthOptions = {
   providers: [

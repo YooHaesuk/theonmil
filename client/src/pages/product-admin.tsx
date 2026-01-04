@@ -1,3 +1,4 @@
+import React from 'react';
 import { motion } from 'framer-motion';
 import { pageTransition, fadeIn } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';

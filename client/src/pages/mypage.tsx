@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useParams, useLocation } from 'wouter';
 import { pageTransition, fadeIn, slideInFromBottom } from '@/lib/animations';
@@ -13,7 +13,7 @@ import SupportSection from '@/components/mypage/support/support-section';
 const MyPage = () => {
   const { user, loading } = useAuth();
   const { toast } = useToast();
-  const { section } = useParams();
+  const { section, orderId } = useParams<{ section?: string; orderId?: string }>();
   const [, setLocation] = useLocation();
   const [activeTab, setActiveTab] = useState<'shopping' | 'activity' | 'profile' | 'support'>('shopping');
 
@@ -161,15 +161,15 @@ const MyPage = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen bg-[#0A0A0A] text-white pt-20"
+      className="min-h-screen bg-background text-foreground pt-20"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <motion.div variants={fadeIn} className="mb-8">
-          <h1 className={`${headingClasses} text-4xl mb-4`}>
-            마이<span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">페이지</span>
+          <h1 className={`${headingClasses} text-4xl mb-4 text-foreground`}>
+            마이<span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">페이지</span>
           </h1>
-          <p className="text-gray-400">
-            안녕하세요, <span className="font-semibold text-[#A78BFA]">{user?.name || '사용자'}</span>님!
+          <p className="text-muted-foreground">
+            안녕하세요, <span className="font-semibold text-primary">{user?.name || '사용자'}</span>님!
             더 온밀에서 따뜻한 하루 보내세요 🍞
           </p>
 
@@ -179,44 +179,40 @@ const MyPage = () => {
             <div className="hidden md:flex flex-wrap gap-4">
               <button
                 onClick={() => handleTabChange('shopping')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  activeTab === 'shopping'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'shopping'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-shopping-bag mr-2"></i>
                 MY 쇼핑
               </button>
               <button
                 onClick={() => handleTabChange('activity')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  activeTab === 'activity'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'activity'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-heart mr-2"></i>
                 MY 활동
               </button>
               <button
                 onClick={() => handleTabChange('profile')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  activeTab === 'profile'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'profile'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-user mr-2"></i>
                 MY 정보
               </button>
               <button
                 onClick={() => handleTabChange('support')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${
-                  activeTab === 'support'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'support'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-headset mr-2"></i>
                 고객지원
@@ -227,44 +223,40 @@ const MyPage = () => {
             <div className="md:hidden grid grid-cols-2 gap-3">
               <button
                 onClick={() => handleTabChange('shopping')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${
-                  activeTab === 'shopping'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'shopping'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-shopping-bag mr-1"></i>
                 MY 쇼핑
               </button>
               <button
                 onClick={() => handleTabChange('activity')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${
-                  activeTab === 'activity'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'activity'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-heart mr-1"></i>
                 MY 활동
               </button>
               <button
                 onClick={() => handleTabChange('profile')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${
-                  activeTab === 'profile'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'profile'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-user mr-1"></i>
                 MY 정보
               </button>
               <button
                 onClick={() => handleTabChange('support')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${
-                  activeTab === 'support'
-                    ? 'bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white'
-                    : 'bg-[#222222] text-gray-400 hover:text-white hover:bg-[#333333]'
-                }`}
+                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'support'
+                  ? 'bg-gradient-to-r from-primary to-accent text-white'
+                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                  }`}
               >
                 <i className="fa-solid fa-headset mr-1"></i>
                 고객지원
@@ -274,7 +266,7 @@ const MyPage = () => {
         </motion.div>
 
         {/* 탭 컨텐츠 */}
-        <motion.div variants={slideInFromBottom} className="bg-[#111111] rounded-lg border border-[#222222] p-4 sm:p-6 md:p-8">
+        <motion.div variants={slideInFromBottom} className="bg-secondary rounded-lg border border-border p-4 sm:p-6 md:p-8">
           {renderTabContent()}
         </motion.div>
       </div>

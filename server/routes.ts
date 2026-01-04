@@ -1,7 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { insertUserSchema, insertReviewSchema } from "@shared/schema";
+import { insertUserSchema, insertReviewSchema, type InsertUser, type InsertReview } from "@shared/schema";
 import { createCustomToken, saveUserToFirestore } from "./firebase-admin";
 import { checkCloudinaryConfig, uploadImage, deleteImage, getImageUrl } from "./cloudinary";
 import { getFirestore, Timestamp } from 'firebase-admin/firestore';
@@ -100,7 +100,7 @@ export function registerRoutes(app: Express): Server {
     try {
       // 클라이언트에서 Firebase Auth로 관리자 권한 확인 후 요청
       // Firestore에서 직접 사용자 목록 조회하도록 안내
-      res.json({ 
+      res.json({
         message: "Firebase Firestore에서 직접 사용자 데이터를 조회하세요.",
         collection: "users"
       });
@@ -187,12 +187,12 @@ export function registerRoutes(app: Express): Server {
 
 
   // API Routes - prefix all with /api
-  
+
   // User routes
   app.post("/api/users/register", async (req, res) => {
     try {
       const parsedData = insertUserSchema.parse(req.body);
-      const user = await storage.insertUser(parsedData);
+      const user = await storage.insertUser(parsedData as InsertUser);
       res.json(user);
     } catch (error: any) {
       if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
@@ -216,7 +216,7 @@ export function registerRoutes(app: Express): Server {
   app.post("/api/reviews", async (req, res) => {
     try {
       const parsedData = insertReviewSchema.parse(req.body);
-      const review = await storage.insertReview(parsedData);
+      const review = await storage.insertReview(parsedData as InsertReview);
       res.json(review);
     } catch (error) {
       res.status(500).json({ error: "Failed to create review" });
@@ -434,8 +434,8 @@ export function registerRoutes(app: Express): Server {
 
   // Health check
   app.get("/api/health", (req, res) => {
-    res.json({ 
-      status: "ok", 
+    res.json({
+      status: "ok",
       timestamp: new Date().toISOString(),
       authProvider: "firebase"
     });

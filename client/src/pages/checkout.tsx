@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
@@ -30,7 +30,7 @@ const Checkout = () => {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
-  
+
   // Form states
   const [formData, setFormData] = useState({
     recipientName: '',
@@ -43,12 +43,12 @@ const Checkout = () => {
     paymentMethod: 'card',
     isGift: false
   });
-  
+
   // Calculated prices
   const subtotal = cartItems.reduce((total, item) => total + (item.price * item.quantity), 0);
   const shippingFee = subtotal >= 50000 ? 0 : 3000;
   const total = subtotal + shippingFee;
-  
+
   // Handle form input changes
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value, type } = e.target as HTMLInputElement;
@@ -57,40 +57,40 @@ const Checkout = () => {
       [name]: type === 'checkbox' ? (e.target as HTMLInputElement).checked : value
     });
   };
-  
+
   // Handle form submission
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
+
     // Simulate payment processing
     setTimeout(() => {
       toast({
         title: "주문이 완료되었습니다",
         description: "빠른 시일 내에 배송이 시작됩니다.",
       });
-      
+
       setIsSubmitting(false);
       setLocation('/', { replace: true });
     }, 2000);
   };
-  
+
   return (
     <motion.div
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20"
+      className="min-h-screen pt-24 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
-        <motion.h1 variants={fadeIn} className={headingClasses.h1 + " text-[#1B1B1B] mb-8 text-center"}>
-          주문 결제
+        <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-8 text-center text-foreground">
+          <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">주문 결제</span>
         </motion.h1>
-        
+
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Checkout form */}
-          <motion.div 
+          <motion.div
             variants={staggerContainer}
             initial="hidden"
             animate="visible"
@@ -98,20 +98,20 @@ const Checkout = () => {
           >
             <form onSubmit={handleSubmit}>
               {/* Shipping information */}
-              <motion.div 
-                variants={fadeIn} 
-                className="bg-white rounded-lg shadow-md overflow-hidden mb-8"
+              <motion.div
+                variants={fadeIn}
+                className="bg-card rounded-lg shadow-md overflow-hidden mb-8"
               >
-                <div className="p-6 bg-[#F5F3EF] border-b border-gray-200">
-                  <h2 className="font-playfair text-xl font-semibold text-[#1B1B1B]">
+                <div className="p-6 bg-secondary border-b border-border">
+                  <h2 className="font-montserrat text-xl font-semibold text-foreground">
                     배송 정보
                   </h2>
                 </div>
-                
+
                 <div className="p-6 space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label htmlFor="recipientName" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="recipientName" className="block text-sm font-medium text-muted-foreground mb-1">
                         받는 분 이름
                       </label>
                       <input
@@ -121,11 +121,11 @@ const Checkout = () => {
                         value={formData.recipientName}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     </div>
                     <div>
-                      <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground mb-1">
                         연락처
                       </label>
                       <input
@@ -135,13 +135,13 @@ const Checkout = () => {
                         value={formData.phone}
                         onChange={handleChange}
                         required
-                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                        className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                       />
                     </div>
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-1">
                       이메일
                     </label>
                     <input
@@ -151,13 +151,13 @@ const Checkout = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
-                  
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="col-span-1">
-                      <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+                      <label htmlFor="zipCode" className="block text-sm font-medium text-muted-foreground mb-1">
                         우편번호
                       </label>
                       <div className="flex">
@@ -168,20 +168,20 @@ const Checkout = () => {
                           value={formData.zipCode}
                           onChange={handleChange}
                           required
-                          className="w-full px-3 py-2 border border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                          className="w-full px-3 py-2 bg-background border border-border rounded-l-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                         />
                         <button
                           type="button"
-                          className="bg-[#F5F3EF] text-[#1B1B1B] px-4 py-2 rounded-r-md border border-gray-300 border-l-0 hover:bg-[#E5E3DF]"
+                          className="bg-muted text-foreground px-4 py-2 rounded-r-md border border-border border-l-0 hover:bg-muted-foreground/20"
                         >
                           검색
                         </button>
                       </div>
                     </div>
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="address" className="block text-sm font-medium text-muted-foreground mb-1">
                       주소
                     </label>
                     <input
@@ -191,12 +191,12 @@ const Checkout = () => {
                       value={formData.address}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="detailAddress" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="detailAddress" className="block text-sm font-medium text-muted-foreground mb-1">
                       상세주소
                     </label>
                     <input
@@ -206,12 +206,12 @@ const Checkout = () => {
                       value={formData.detailAddress}
                       onChange={handleChange}
                       required
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     />
                   </div>
-                  
+
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-1">
                       배송 메시지
                     </label>
                     <textarea
@@ -220,10 +220,10 @@ const Checkout = () => {
                       value={formData.message}
                       onChange={handleChange}
                       rows={3}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#D4AF37]"
+                      className="w-full px-3 py-2 bg-background border border-border rounded-md text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
                     ></textarea>
                   </div>
-                  
+
                   <div className="flex items-center">
                     <input
                       type="checkbox"
@@ -231,29 +231,29 @@ const Checkout = () => {
                       name="isGift"
                       checked={formData.isGift}
                       onChange={handleChange}
-                      className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
+                      className="h-4 w-4 text-primary focus:ring-primary border-border bg-background rounded"
                     />
-                    <label htmlFor="isGift" className="ml-2 block text-sm text-gray-700">
+                    <label htmlFor="isGift" className="ml-2 block text-sm text-muted-foreground">
                       선물용으로 포장해 주세요 (+ ₩3,000)
                     </label>
                   </div>
                 </div>
               </motion.div>
-              
+
               {/* Payment information */}
-              <motion.div 
-                variants={fadeIn} 
-                className="bg-white rounded-lg shadow-md overflow-hidden mb-8"
+              <motion.div
+                variants={fadeIn}
+                className="bg-card rounded-lg shadow-md overflow-hidden mb-8"
               >
-                <div className="p-6 bg-[#F5F3EF] border-b border-gray-200">
-                  <h2 className="font-playfair text-xl font-semibold text-[#1B1B1B]">
+                <div className="p-6 bg-secondary border-b border-border">
+                  <h2 className="font-montserrat text-xl font-semibold text-foreground">
                     결제 정보
                   </h2>
                 </div>
-                
+
                 <div className="p-6 space-y-4">
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                    <label className="block text-sm font-medium text-muted-foreground mb-2">
                       결제 수단
                     </label>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -269,7 +269,7 @@ const Checkout = () => {
                         />
                         <label
                           htmlFor="card"
-                          className="flex items-center justify-center p-3 border rounded-md peer-checked:border-[#D4AF37] peer-checked:bg-[#F5F3EF] cursor-pointer"
+                          className="flex items-center justify-center p-3 border border-border rounded-md text-muted-foreground peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-foreground cursor-pointer"
                         >
                           <i className="fa-solid fa-credit-card mr-2"></i>
                           신용카드
@@ -287,7 +287,7 @@ const Checkout = () => {
                         />
                         <label
                           htmlFor="bank"
-                          className="flex items-center justify-center p-3 border rounded-md peer-checked:border-[#D4AF37] peer-checked:bg-[#F5F3EF] cursor-pointer"
+                          className="flex items-center justify-center p-3 border border-border rounded-md text-muted-foreground peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-foreground cursor-pointer"
                         >
                           <i className="fa-solid fa-building-columns mr-2"></i>
                           무통장입금
@@ -305,7 +305,7 @@ const Checkout = () => {
                         />
                         <label
                           htmlFor="phone"
-                          className="flex items-center justify-center p-3 border rounded-md peer-checked:border-[#D4AF37] peer-checked:bg-[#F5F3EF] cursor-pointer"
+                          className="flex items-center justify-center p-3 border border-border rounded-md text-muted-foreground peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-foreground cursor-pointer"
                         >
                           <i className="fa-solid fa-mobile-screen mr-2"></i>
                           휴대폰결제
@@ -323,7 +323,7 @@ const Checkout = () => {
                         />
                         <label
                           htmlFor="kakao"
-                          className="flex items-center justify-center p-3 border rounded-md peer-checked:border-[#D4AF37] peer-checked:bg-[#F5F3EF] cursor-pointer"
+                          className="flex items-center justify-center p-3 border border-border rounded-md text-muted-foreground peer-checked:border-primary peer-checked:bg-primary/10 peer-checked:text-foreground cursor-pointer"
                         >
                           <i className="fa-solid fa-comment mr-2"></i>
                           카카오페이
@@ -331,19 +331,19 @@ const Checkout = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Payment gateway related UI */}
-                  <div className="border border-gray-200 rounded-md p-4 mt-4 bg-[#F9F7F4]">
+                  <div className="border border-border rounded-md p-4 mt-4 bg-background">
                     <div className="flex items-center mb-4">
-                      <img src="https://static.toss.im/icons/svg/logo-tosspayments-blue.svg" alt="TossPayments Logo" className="h-6 mr-2" />
-                      <span className="text-gray-500 text-sm">
+                      <img src="https://static.toss.im/icons/svg/logo-tosspayments-blue.svg" alt="TossPayments Logo" className="h-6 mr-2 opacity-80" />
+                      <span className="text-muted-foreground text-sm">
                         결제는 토스페이먼츠를 통해 안전하게 처리됩니다.
                       </span>
                     </div>
-                    
+
                     {formData.paymentMethod === 'card' && (
-                      <div className="p-4 bg-white border border-gray-200 rounded-md">
-                        <p className="text-center text-gray-500">
+                      <div className="p-4 bg-secondary border border-border rounded-md">
+                        <p className="text-center text-muted-foreground">
                           <i className="fa-solid fa-lock mr-2"></i>
                           결제 진행 시 안전한 결제창으로 이동합니다
                         </p>
@@ -352,11 +352,11 @@ const Checkout = () => {
                   </div>
                 </div>
               </motion.div>
-              
+
               {/* Terms agreement */}
-              <motion.div 
+              <motion.div
                 variants={fadeIn}
-                className="bg-white rounded-lg shadow-md overflow-hidden mb-8"
+                className="bg-secondary rounded-lg shadow-md overflow-hidden mb-8 border border-border"
               >
                 <div className="p-6">
                   <div className="flex items-center mb-4">
@@ -364,9 +364,9 @@ const Checkout = () => {
                       type="checkbox"
                       id="agreement"
                       required
-                      className="h-4 w-4 text-[#D4AF37] focus:ring-[#D4AF37] border-gray-300 rounded"
+                      className="h-4 w-4 text-primary focus:ring-primary border-border bg-background rounded"
                     />
-                    <label htmlFor="agreement" className="ml-2 block text-sm text-gray-700">
+                    <label htmlFor="agreement" className="ml-2 block text-sm text-muted-foreground">
                       주문 내용을 확인하였으며, 개인정보 수집 및 이용 약관에 동의합니다.
                     </label>
                   </div>
@@ -374,19 +374,19 @@ const Checkout = () => {
               </motion.div>
             </form>
           </motion.div>
-          
+
           {/* Order summary */}
-          <motion.div 
+          <motion.div
             variants={fadeIn}
             className="lg:w-96 flex-shrink-0"
           >
-            <div className="bg-white rounded-lg shadow-md overflow-hidden sticky top-24">
-              <div className="p-6 bg-[#F5F3EF] border-b border-gray-200">
-                <h2 className="font-playfair text-xl font-semibold text-[#1B1B1B]">
+            <div className="bg-secondary rounded-lg shadow-md overflow-hidden sticky top-24 border border-border">
+              <div className="p-6 bg-secondary border-b border-border">
+                <h2 className="font-montserrat text-xl font-semibold text-foreground">
                   주문 요약
                 </h2>
               </div>
-              
+
               <div className="p-6">
                 {/* Order items */}
                 <div className="mb-6">
@@ -395,18 +395,18 @@ const Checkout = () => {
                     {cartItems.map(item => (
                       <div key={item.id} className="flex items-center gap-3">
                         <div className="w-16 h-16 flex-shrink-0">
-                          <img 
-                            src={item.image} 
-                            alt={item.nameKorean} 
+                          <img
+                            src={item.image}
+                            alt={item.nameKorean}
                             className="w-full h-full object-cover rounded"
                           />
                         </div>
                         <div className="flex-grow">
-                          <p className="font-pretendard font-medium">{item.nameKorean}</p>
-                          <p className="text-sm text-gray-500">{item.quantity}개</p>
+                          <p className="font-pretendard font-medium text-foreground">{item.nameKorean}</p>
+                          <p className="text-sm text-muted-foreground">{item.quantity}개</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-montserrat font-semibold">
+                          <p className="font-montserrat font-semibold text-foreground">
                             {formatPrice(item.price * item.quantity)}
                           </p>
                         </div>
@@ -414,36 +414,36 @@ const Checkout = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Price calculation */}
                 <div className="space-y-3 mb-6">
                   <div className="flex justify-between">
-                    <span className="font-pretendard text-gray-600">상품 금액</span>
-                    <span className="font-montserrat font-semibold">{formatPrice(subtotal)}</span>
+                    <span className="font-pretendard text-muted-foreground">상품 금액</span>
+                    <span className="font-montserrat font-semibold text-foreground">{formatPrice(subtotal)}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="font-pretendard text-gray-600">배송비</span>
-                    <span className="font-montserrat font-semibold">
+                    <span className="font-pretendard text-muted-foreground">배송비</span>
+                    <span className="font-montserrat font-semibold text-foreground">
                       {shippingFee === 0 ? '무료' : formatPrice(shippingFee)}
                     </span>
                   </div>
                   {formData.isGift && (
                     <div className="flex justify-between">
-                      <span className="font-pretendard text-gray-600">선물 포장</span>
-                      <span className="font-montserrat font-semibold">+ ₩3,000</span>
+                      <span className="font-pretendard text-muted-foreground">선물 포장</span>
+                      <span className="font-montserrat font-semibold text-foreground">+ ₩3,000</span>
                     </div>
                   )}
                 </div>
-                
-                <div className="border-t border-gray-200 pt-4 mb-6">
+
+                <div className="border-t border-border pt-4 mb-6">
                   <div className="flex justify-between">
-                    <span className="font-pretendard font-medium">총 결제 금액</span>
-                    <span className="font-montserrat font-bold text-[#D4AF37] text-xl">
+                    <span className="font-pretendard font-medium text-foreground">총 결제 금액</span>
+                    <span className="font-montserrat font-bold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text text-xl">
                       {formatPrice(total + (formData.isGift ? 3000 : 0))}
                     </span>
                   </div>
                 </div>
-                
+
                 <button
                   type="submit"
                   disabled={isSubmitting}
@@ -462,9 +462,9 @@ const Checkout = () => {
                     </>
                   )}
                 </button>
-                
+
                 <div className="text-center mt-4">
-                  <Link href="/cart" className="text-sm text-gray-500 hover:text-[#D4AF37]">
+                  <Link href="/cart" className="text-sm text-muted-foreground hover:text-foreground">
                     <i className="fa-solid fa-arrow-left mr-1"></i> 장바구니로 돌아가기
                   </Link>
                 </div>

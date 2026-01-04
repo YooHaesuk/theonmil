@@ -213,7 +213,7 @@ export const useAuth = () => {
               console.log('🔥 네이버 사용자 객체 생성:', mockFirebaseUser.email);
 
               // Firestore에 사용자 정보 저장
-              await saveNaverUser(mockFirebaseUser as any, 'naver');
+              await saveNaverUser(mockFirebaseUser as any);
               console.log('💾 네이버 사용자 정보 Firestore 저장 완료');
 
               // 인증 상태 업데이트

@@ -81,7 +81,7 @@ export const getUser = async (uid: string) => {
   try {
     const userRef = doc(db, 'users', uid);
     const userDoc = await getDoc(userRef);
-    
+
     if (userDoc.exists()) {
       return userDoc.data() as UserData;
     }
@@ -103,7 +103,7 @@ export const saveGoogleUser = async (firebaseUser: any) => {
       profileImage: firebaseUser.photoURL || '',
       lastLoginAt: new Date()
     };
-    
+
     await createOrUpdateUser(userData);
     return userData;
   } catch (error) {
@@ -169,15 +169,6 @@ export const saveNaverUser = async (naverUserInfo: any) => {
 
       return userData;
     }
-
-    console.log('📦 Firestore에 저장할 데이터:', userData);
-    console.log('📞 createOrUpdateUser 함수 호출 중...');
-
-    const result = await createOrUpdateUser(userData);
-    console.log('✅ createOrUpdateUser 결과:', result);
-    console.log('✅ saveNaverUser 완료!');
-
-    return userData;
   } catch (error) {
     console.error('❌ saveNaverUser 함수에서 오류 발생:', error);
     console.error('❌ 오류 상세:', error);

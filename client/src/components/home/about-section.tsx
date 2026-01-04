@@ -8,11 +8,11 @@ import factoryImg from '@/assets/images/about/factory.png';
 
 const AboutSection = () => {
   return (
-    <section id="about" className="py-20 bg-[#0A0A0A]">
+    <section id="about" className="py-20 bg-secondary">
       <div className="container mx-auto px-4">
         <div className="flex flex-col md:flex-row items-center gap-12">
           {/* Image column */}
-          <motion.div 
+          <motion.div
             className="md:w-1/2"
             variants={slideInFromLeft}
             initial="hidden"
@@ -20,77 +20,86 @@ const AboutSection = () => {
             viewport={{ once: true }}
           >
             <div className="relative">
-              <img 
+              <img
                 src={factoryImg}
-                alt="빵 공장 생산 현장" 
+                alt="빵 공장 생산 현장"
                 className="rounded-lg shadow-lg w-full brightness-90"
               />
               {/* 15+년 베이킹 장인 경력 버튼이 삭제되었습니다 */}
             </div>
           </motion.div>
-          
+
           {/* Text column */}
-          <motion.div 
+          <motion.div
             className="md:w-1/2"
             variants={slideInFromRight}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <h2 className="text-4xl font-bold font-montserrat mb-6 text-white">
-              우리의 <span className="bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">이야기</span>
+            <h2 className="text-4xl font-bold font-montserrat mb-6 text-foreground">
+              우리가 이 <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">빵을 만드는 이유</span>
             </h2>
-            <p className="font-pretendard text-lg text-gray-300 mb-6">
-              더 온밀은 2023년, 단 하나의 작은 오븐으로 시작했습니다. 처음부터 우리는 '온전한 밀의 맛'이라는 단순한 철학을 고수했습니다.
+            <p className="font-pretendard text-lg text-muted-foreground mb-6">
+              가족에게 먹일 수 있는 가장 정직한 빵을 만들고 싶었습니다. 작은 오븐 하나로 시작했지만, '온전한 밀의 맛'을 전하겠다는 마음만은 변함없습니다.
             </p>
-            <p className="font-pretendard text-lg text-gray-300 mb-6">
-              국내산 밀가루, 천연 발효종, 그리고 최소한의 첨가물만을 사용해 건강하고 맛있는 빵을 굽는 것. 그 철학은 지금도 변함없이 지켜지고 있습니다.
+            <p className="font-pretendard text-lg text-muted-foreground mb-6">
+              엄선된 국내산 밀가루와 천연 발효종. 타협하지 않는 건강한 재료만이 우리 아이와 가족의 식탁을 지킬 수 있다고 믿기 때문입니다.
             </p>
-            <p className="font-pretendard text-lg text-gray-300 mb-8">
-              지역 중형마트 120여 곳에서 판매되며 많은 분들의 사랑을 받고 있는 더 온밀이 이제 온라인에서도 여러분을 찾아갑니다.
+            <p className="font-pretendard text-lg text-muted-foreground mb-8">
+              이러한 고집스러움이 수도권 120여 개 지역 마트에서 인정받은 이유입니다. 이제 온라인을 통해 더 많은 분들께 그 가치를 직접 전달하려 합니다.
             </p>
-            
+
             <div className="grid grid-cols-3 gap-4 mb-8">
-              <motion.div 
-                className="text-center p-4 bg-[#111111] border border-[#222222] rounded-lg"
+              <motion.div
+                className="text-center p-4 bg-background border-border rounded-lg"
                 variants={fadeIn}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ delay: 0.2 }}
               >
-                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">120+</p>
-                <p className="font-pretendard text-sm text-gray-400">입점 매장</p>
+                <div className="mb-2 flex justify-center">
+                  <i className="fa-solid fa-handshake text-2xl bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text"></i>
+                </div>
+                <p className="font-montserrat text-lg font-bold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">신뢰</p>
+                <p className="font-pretendard text-sm text-muted-foreground mt-1">정직한 공정</p>
               </motion.div>
-              <motion.div 
-                className="text-center p-4 bg-[#111111] border border-[#222222] rounded-lg"
+              <motion.div
+                className="text-center p-4 bg-background border-border rounded-lg"
                 variants={fadeIn}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ delay: 0.4 }}
               >
-                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">30+</p>
-                <p className="font-pretendard text-sm text-gray-400">제품 라인업</p>
+                <div className="mb-2 flex justify-center">
+                  <i className="fa-solid fa-shield-halved text-2xl bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text"></i>
+                </div>
+                <p className="font-montserrat text-lg font-bold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">안전</p>
+                <p className="font-pretendard text-sm text-muted-foreground mt-1">HACCP 인증</p>
               </motion.div>
-              <motion.div 
-                className="text-center p-4 bg-[#111111] border border-[#222222] rounded-lg"
+              <motion.div
+                className="text-center p-4 bg-background border-border rounded-lg"
                 variants={fadeIn}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true, amount: 0.8 }}
                 transition={{ delay: 0.6 }}
               >
-                <p className="font-montserrat text-xl font-bold bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-transparent bg-clip-text">3,000+</p>
-                <p className="font-pretendard text-sm text-gray-400">일 생산량</p>
+                <div className="mb-2 flex justify-center">
+                  <i className="fa-solid fa-utensils text-2xl bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text"></i>
+                </div>
+                <p className="font-montserrat text-lg font-bold bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">맛</p>
+                <p className="font-pretendard text-sm text-muted-foreground mt-1">천연 발효종</p>
               </motion.div>
             </div>
-            
-            <Link 
-              href="/brand" 
-              className="px-6 py-3 rounded-full bg-[#11111A] border border-[#ffffff20] text-white text-sm font-medium hover:bg-[#1A1A2A] transition-all duration-300"
+
+            <Link
+              href="/brand"
+              className="px-6 py-3 rounded-full bg-gradient-to-r from-primary to-accent text-white text-sm font-medium shadow-md hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300"
             >
-              브랜드 철학 더 알아보기
+              더 온밀의 진심 확인하기
             </Link>
           </motion.div>
         </div>
