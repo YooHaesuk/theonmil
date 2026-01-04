@@ -1,5 +1,5 @@
-import { db } from "./db";
-import { eq, desc } from "drizzle-orm";
+import { getDb } from "./db";
+import { eq, desc, and } from "drizzle-orm";
 import {
   users, type User, type InsertUser,
   products, type Product, type InsertProduct,
@@ -7,7 +7,8 @@ import {
   orders, type Order, type InsertOrder,
   orderItems, type OrderItem, type InsertOrderItem,
   reviews, type Review, type InsertReview,
-  userAddresses, type UserAddress, type InsertUserAddress
+  userAddresses, type UserAddress, type InsertUserAddress,
+  sessions, accounts, verifications
 } from "@shared/schema";
 
 export interface IStorage {
@@ -20,204 +21,137 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
 
   // Product operations
-  getAllProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
-  getProductsByCategory(category: string): Promise<Product[]>;
+  getAllProducts(): Promise<Product[]>;
   insertProduct(product: InsertProduct): Promise<Product>;
-  updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product>;
+  updateProduct(id: number, product: Partial<Product>): Promise<Product>;
   deleteProduct(id: number): Promise<void>;
 
-  // Cart operations
-  getCartItemsByUser(userId: string): Promise<(CartItem & { product: Product })[]>;
-  addToCart(userId: string, productId: number, quantity: number): Promise<CartItem>;
-  updateCartItemQuantity(id: number, quantity: number): Promise<CartItem>;
-  removeFromCart(id: number): Promise<void>;
-
-  // Order operations
-  createOrder(orderData: InsertOrder, itemsData: InsertOrderItem[]): Promise<Order>;
-  getOrdersByUser(userId: string): Promise<Order[]>;
-  getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined>;
-
   // Review operations
-  getAllReviews(): Promise<any[]>;
-  getReviewsByProduct(productId: number): Promise<any[]>;
-  createReview(review: InsertReview): Promise<Review>;
+  createReview(review: any): Promise<Review>;
+  getAllReviews(): Promise<Review[]>;
 
   // Address operations
   getUserAddresses(userId: string): Promise<UserAddress[]>;
   addAddress(address: InsertUserAddress): Promise<UserAddress>;
-  updateAddress(id: number, address: Partial<InsertUserAddress>): Promise<UserAddress>;
   deleteAddress(id: number): Promise<void>;
 
+  // Order operations
+  getOrderById(id: number): Promise<Order | undefined>;
+  getOrdersByUser(userId: string): Promise<Order[]>;
   getStores(): Promise<any[]>;
 }
 
 export class DatabaseStorage implements IStorage {
-  // User operations
   async getUser(id: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.id, id));
+    const [user] = await getDb().select().from(users).where(eq(users.id, id));
     return user;
   }
 
   async getUsers(): Promise<User[]> {
-    return await db.select().from(users);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    const [user] = await db.select().from(users).where(eq(users.email, username));
-    return user;
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const [user] = await db.insert(users).values(insertUser).returning();
-    return user;
+    return await getDb().select().from(users);
   }
 
   async updateUser(id: string, data: Partial<InsertUser>): Promise<User> {
-    const [updatedUser] = await db.update(users).set(data).where(eq(users.id, id)).returning();
-    return updatedUser;
+    const [user] = await getDb()
+      .update(users)
+      .set({ ...data, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    if (!user) throw new Error("User not found");
+    return user;
   }
 
   async updateUserRole(id: string, role: string): Promise<User> {
-    const [updatedUser] = await db.update(users).set({ role } as any).where(eq(users.id, id)).returning();
-    return updatedUser;
+    const [user] = await getDb()
+      .update(users)
+      .set({ role, updatedAt: new Date() })
+      .where(eq(users.id, id))
+      .returning();
+    if (!user) throw new Error("User not found");
+    return user;
   }
 
-  // Product operations
-  async getAllProducts(): Promise<Product[]> {
-    return await db.select().from(products).orderBy(desc(products.createdAt));
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    const [user] = await getDb().select().from(users).where(eq(users.name, username));
+    return user;
+  }
+
+  async createUser(user: any): Promise<User> {
+    const [newUser] = await getDb().insert(users).values(user).returning();
+    return newUser;
   }
 
   async getProduct(id: number): Promise<Product | undefined> {
-    const [product] = await db.select().from(products).where(eq(products.id, id));
+    const [product] = await getDb().select().from(products).where(eq(products.id, id));
     return product;
   }
 
-  async getProductsByCategory(category: string): Promise<Product[]> {
-    return await db.select().from(products).where(eq(products.category, category));
+  async getAllProducts(): Promise<Product[]> {
+    return await getDb().select().from(products);
   }
 
-  async insertProduct(product: InsertProduct): Promise<Product> {
-    const [newItem] = await db.insert(products).values(product).returning();
-    return newItem;
+  async insertProduct(product: any): Promise<Product> {
+    const [newProduct] = await getDb().insert(products).values(product).returning();
+    return newProduct;
   }
 
-  async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product> {
-    const [updatedItem] = await db.update(products)
-      .set({ ...product, updatedAt: new Date() } as any)
+  async updateProduct(id: number, product: Partial<Product>): Promise<Product> {
+    const [updatedProduct] = await getDb()
+      .update(products)
+      .set({ ...product, updatedAt: new Date() })
       .where(eq(products.id, id))
       .returning();
-    return updatedItem;
+    if (!updatedProduct) throw new Error("Product not found");
+    return updatedProduct;
   }
 
   async deleteProduct(id: number): Promise<void> {
-    await db.delete(products).where(eq(products.id, id));
+    await getDb().delete(products).where(eq(products.id, id));
   }
 
-  // Cart operations
-  async getCartItemsByUser(userId: string): Promise<(CartItem & { product: Product })[]> {
-    const results = await db.select({
-      cartItem: cartItems,
-      product: products
-    })
-      .from(cartItems)
-      .where(eq(cartItems.userId, userId))
-      .innerJoin(products, eq(cartItems.productId, products.id));
-
-    return results.map(r => ({ ...r.cartItem, product: r.product }));
+  async createReview(review: any): Promise<Review> {
+    const [newReview] = await getDb().insert(reviews).values(review).returning();
+    return newReview;
   }
 
-  async addToCart(userId: string, productId: number, quantity: number): Promise<CartItem> {
-    const [item] = await db.insert(cartItems).values({
-      userId,
-      productId,
-      quantity
-    } as any).returning();
-    return item;
+  async getAllReviews(): Promise<Review[]> {
+    return await getDb().select().from(reviews).orderBy(desc(reviews.createdAt));
   }
 
-  async updateCartItemQuantity(id: number, quantity: number): Promise<CartItem> {
-    const [item] = await db.update(cartItems)
-      .set({ quantity })
-      .where(eq(cartItems.id, id))
-      .returning();
-    return item;
+  async getUserAddresses(userId: string): Promise<UserAddress[]> {
+    return await getDb().select().from(userAddresses).where(eq(userAddresses.userId, userId));
   }
 
-  async removeFromCart(id: number): Promise<void> {
-    await db.delete(cartItems).where(eq(cartItems.id, id));
+  async addAddress(address: InsertUserAddress): Promise<UserAddress> {
+    const [newAddress] = await getDb().insert(userAddresses).values(address).returning();
+    return newAddress;
   }
 
-  // Order operations
-  async createOrder(orderData: InsertOrder, itemsData: InsertOrderItem[]): Promise<Order> {
-    const [order] = await db.insert(orders).values(orderData).returning();
+  async deleteAddress(id: number): Promise<void> {
+    await getDb().delete(userAddresses).where(eq(userAddresses.id, id));
+  }
 
-    for (const item of itemsData) {
-      await db.insert(orderItems).values({ ...item, orderId: order.id });
-    }
-
+  async getOrderById(id: number): Promise<Order | undefined> {
+    const [order] = await getDb().select().from(orders).where(eq(orders.id, id));
     return order;
   }
 
   async getOrdersByUser(userId: string): Promise<Order[]> {
-    return await db.select().from(orders).where(eq(orders.userId, userId)).orderBy(desc(orders.createdAt));
-  }
-
-  async getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined> {
-    const [order] = await db.select().from(orders).where(eq(orders.id, id));
-    if (!order) return undefined;
-
-    const items = await db.select({
-      orderItem: orderItems,
-      product: products
-    })
-      .from(orderItems)
-      .where(eq(orderItems.orderId, id))
-      .innerJoin(products, eq(orderItems.productId, products.id));
-
-    return {
-      ...order,
-      items: items.map(i => ({ ...i.orderItem, product: i.product }))
-    };
-  }
-
-  // Review operations
-  async getAllReviews(): Promise<any[]> {
-    return await db.select().from(reviews).orderBy(desc(reviews.createdAt));
-  }
-
-  async getReviewsByProduct(productId: number): Promise<any[]> {
-    return await db.select().from(reviews)
-      .where(eq(reviews.productId, productId))
-      .orderBy(desc(reviews.createdAt));
-  }
-
-  async createReview(reviewData: InsertReview): Promise<Review> {
-    const [review] = await db.insert(reviews).values(reviewData).returning();
-    return review;
-  }
-
-  // Address operations
-  async getUserAddresses(userId: string): Promise<UserAddress[]> {
-    return await db.select().from(userAddresses).where(eq(userAddresses.userId, userId));
-  }
-
-  async addAddress(address: InsertUserAddress): Promise<UserAddress> {
-    const [newItem] = await db.insert(userAddresses).values(address).returning();
-    return newItem;
-  }
-
-  async updateAddress(id: number, address: Partial<InsertUserAddress>): Promise<UserAddress> {
-    const [updatedItem] = await db.update(userAddresses).set(address).where(eq(userAddresses.id, id)).returning();
-    return updatedItem;
-  }
-
-  async deleteAddress(id: number): Promise<void> {
-    await db.delete(userAddresses).where(eq(userAddresses.id, id));
+    return await getDb()
+      .select()
+      .from(orders)
+      .where(eq(orders.userId, userId))
+      .orderBy(desc(orders.createdAt));
   }
 
   async getStores(): Promise<any[]> {
-    return [];
+    return [
+      { id: 1, name: "강남점", address: "서울특별시 강남구 테헤란로 123", phone: "02-123-4567" },
+      { id: 2, name: "성수점", address: "서울특별시 성동구 아차산로 456", phone: "02-456-7890" },
+      { id: 3, name: "잠실점", address: "서울특별시 송파구 올림픽로 789", phone: "02-789-0123" },
+      { id: 4, name: "홍대점", address: "서울특별시 마포구 양화로 101", phone: "02-101-2345" }
+    ];
   }
 }
 

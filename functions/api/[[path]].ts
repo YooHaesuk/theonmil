@@ -98,8 +98,25 @@ app.get("/reviews", async (c) => {
 });
 
 // Health
-app.get("/health", (c) => {
-    return c.json({ status: "ok", runtime: "cloudflare-pages" });
+app.get("/health", async (c) => {
+    try {
+        // Test database connection
+        const usersCount = await storage.getUsers();
+        return c.json({
+            status: "ok",
+            runtime: "cloudflare-pages",
+            database: "connected",
+            userCount: usersCount.length,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error: any) {
+        return c.json({
+            status: "error",
+            database: "failed",
+            error: error.message,
+            timestamp: new Date().toISOString()
+        }, 500);
+    }
 });
 
 export const onRequest = handle(app);

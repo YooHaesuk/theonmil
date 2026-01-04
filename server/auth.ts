@@ -48,15 +48,3 @@ export const getAuth = () => {
   }
   return _auth;
 };
-
-// Export auth as a getter for backward compatibility
-export const auth = new Proxy({} as any, {
-  get(target, prop) {
-    const instance = getAuth();
-    const value = instance[prop];
-    if (typeof value === 'function') {
-      return value.bind(instance);
-    }
-    return value;
-  }
-});

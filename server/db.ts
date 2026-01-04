@@ -22,21 +22,10 @@ export const getDb = () => {
         const databaseUrl = getEnv("DATABASE_URL");
         if (!databaseUrl) {
             console.error("DATABASE_URL is missing in runtime environment!");
+            throw new Error("DATABASE_URL is required but was not found.");
         }
         _pool = new Pool({ connectionString: databaseUrl });
         _db = drizzle(_pool, { schema });
     }
     return _db;
 };
-
-// Export db as a getter for backward compatibility
-export const db = new Proxy({} as any, {
-    get(target, prop) {
-        const instance = getDb();
-        const value = instance[prop];
-        if (typeof value === 'function') {
-            return value.bind(instance);
-        }
-        return value;
-    }
-});
