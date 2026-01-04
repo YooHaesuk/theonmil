@@ -1,35 +1,47 @@
-import { config } from "dotenv";
-
-let globalRuntimeEnv: any = null;
-
 /**
- * Injects Cloudflare runtime environment variables into our utility and process.env.
+ * Environment access utility.
+ * In Cloudflare, environment variables are per-request context (c.env).
+ * We avoid modifying global process.env to prevent "read-only" crashes on Edge.
  */
+
+let _globalEnv: any = null;
+
 export function setRuntimeEnv(env: any) {
-    globalRuntimeEnv = env;
-
-    if (typeof process === 'undefined') {
-        (globalThis as any).process = { env: {} };
-    } else if (!process.env) {
-        (process as any).env = {};
-    }
-
-    if (env && process.env) {
-        for (const [key, value] of Object.entries(env)) {
-            try {
-                if (!process.env[key] || key.startsWith('BETTER_AUTH')) {
-                    (process.env as any)[key] = value;
-                }
-            } catch (e) { }
-        }
-    }
+    _globalEnv = env;
 }
 
 /**
- * Get an environment variable with a layered priority system.
- * Priority: 1. Passed context (current request), 2. globalRuntimeEnv (last request), 3. process.env
+ * Get environment variable with fallback.
+ * Priority: 1. Passed context, 2. Global runtime context, 3. process.env
  */
 export function getEnv(key: string, contextEnv?: any): string | undefined {
-    const value = contextEnv?.[key] || globalRuntimeEnv?.[key] || process.env[key];
-    return value;
+    // Check if we have c.env (Cloudflare)
+    if (contextEnv && typeof contextEnv === 'object' && key in contextEnv) {
+        return contextEnv[key];
+    }
+
+    // Check global runtime cache
+    if (_globalEnv && typeof _globalEnv === 'object' && key in _globalEnv) {
+        return _globalEnv[key];
+    }
+
+    // Fallback to process.env (Node.js)
+    if (typeof process !== 'undefined' && process.env) {
+        return process.env[key];
+    }
+
+    return undefined;
+}
+
+/**
+ * Diagnostic helper to list available environment keys (without leaking values).
+ */
+export function getAvailableKeys(contextEnv?: any): string[] {
+    const keys = new Set<string>();
+
+    if (contextEnv) Object.keys(contextEnv).forEach(k => keys.add(k));
+    if (_globalEnv) Object.keys(_globalEnv).forEach(k => keys.add(k));
+    if (typeof process !== 'undefined' && process.env) Object.keys(process.env).forEach(k => keys.add(k));
+
+    return Array.from(keys);
 }
