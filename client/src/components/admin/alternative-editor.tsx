@@ -21,6 +21,56 @@ const AlternativeEditor = ({
   const editorRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
 
+  // 🪄 이미지 자동 압축 및 WebP 변환 함수
+  const compressImage = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // 최대 1200px 제한 (화질 유지하며 리사이징)
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // WebP 형식으로 압축 (품질 0.8 / 80%)
+          canvas.toBlob(
+            (blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error('Canvas to Blob conversion failed'));
+            },
+            'image/webp',
+            0.8
+          );
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
   // 이미지 업로드 핸들러
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -38,8 +88,14 @@ const AlternativeEditor = ({
     setUploading(true);
 
     try {
+      // 🚀 이미지 자동 최적화 적용
+      const optimizedBlob = await compressImage(file);
+      const optimizedFile = new File([optimizedBlob], `${file.name.split('.')[0]}.webp`, { type: 'image/webp' });
+
+      console.log(`📉 에디터 이미지 최적화 완료: ${(file.size / 1024).toFixed(1)}KB -> ${(optimizedFile.size / 1024).toFixed(1)}KB`);
+
       const formData = new FormData();
-      formData.append('image', file); // 서버 API와 일치하도록 'image' 사용
+      formData.append('image', optimizedFile); // 서버 API와 일치하도록 'image' 사용
 
       const response = await fetch('/api/images/upload', {
         method: 'POST',
@@ -155,6 +211,36 @@ const AlternativeEditor = ({
               title="밑줄"
             >
               <i className="fa-solid fa-underline text-sm"></i>
+            </button>
+          </div>
+
+          {/* 정렬 */}
+          <div className="flex items-center p-1.5 bg-white/50 rounded-xl space-x-1 border border-border/30">
+            <button
+              type="button"
+              onClick={() => applyStyle('justifyLeft')}
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
+              title="왼쪽 정렬"
+            >
+              <i className="fa-solid fa-align-left text-sm"></i>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => applyStyle('justifyCenter')}
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
+              title="가운데 정렬"
+            >
+              <i className="fa-solid fa-align-center text-sm"></i>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => applyStyle('justifyRight')}
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
+              title="오른쪽 정렬"
+            >
+              <i className="fa-solid fa-align-right text-sm"></i>
             </button>
           </div>
 
