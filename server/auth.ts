@@ -62,6 +62,7 @@ export const getAuth = (env?: any) => {
         detailAddress: { type: "string" },
         zipCode: { type: "string" },
         banned: { type: "boolean" },
+        bannedReason: { type: "string" },
       }
     },
     advanced: {
