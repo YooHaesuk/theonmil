@@ -13,20 +13,29 @@ if (typeof window === 'undefined' && typeof process !== 'undefined' && process.v
 let _db: any = null;
 let _pool: Pool | null = null;
 
+/**
+ * Get the initialized Drizzle database instance.
+ * Initializes the connection on the first call.
+ */
+export const getDb = () => {
+    if (!_db) {
+        const databaseUrl = getEnv("DATABASE_URL");
+        if (!databaseUrl) {
+            console.error("DATABASE_URL is missing in runtime environment!");
+        }
+        _pool = new Pool({ connectionString: databaseUrl });
+        _db = drizzle(_pool, { schema });
+    }
+    return _db;
+};
+
+// Export db as a getter for backward compatibility
 export const db = new Proxy({} as any, {
     get(target, prop) {
-        if (!_db) {
-            const databaseUrl = getEnv("DATABASE_URL");
-            if (!databaseUrl) {
-                console.error("DATABASE_URL is missing in runtime environment!");
-            }
-            _pool = new Pool({ connectionString: databaseUrl });
-            _db = drizzle(_pool, { schema });
-        }
-
-        const value = _db[prop];
+        const instance = getDb();
+        const value = instance[prop];
         if (typeof value === 'function') {
-            return value.bind(_db);
+            return value.bind(instance);
         }
         return value;
     }

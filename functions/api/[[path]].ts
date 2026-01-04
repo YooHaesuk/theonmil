@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
-import { auth } from "../../server/auth";
+import { getAuth } from "../../server/auth";
 import { storage } from "../../server/storage";
 import { insertUserAddressSchema } from "../../shared/schema";
 import { setRuntimeEnv } from "../../server/lib/env";
@@ -25,9 +25,9 @@ app.onError((err, c) => {
     }, 500);
 });
 
-// Better Auth
+// Better Auth - Using getAuth() inside the handler call
 app.all("/auth/*", (c) => {
-    return auth.handler(c.req.raw);
+    return getAuth().handler(c.req.raw);
 });
 
 // User Profile & Addresses

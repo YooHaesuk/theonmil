@@ -1,11 +1,12 @@
+import dotenv from 'dotenv';
+// Load environment variables immediately at the top
+dotenv.config();
+
 import express, { type Request, Response, NextFunction } from "express";
-import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-
-// 환경변수 로드
-import dotenv from 'dotenv';
-dotenv.config();
+import { getAuth } from "./auth";
+import { toNodeHandler } from "better-auth/node";
 
 const app = express();
 
@@ -19,21 +20,13 @@ console.log('🔧 App Environment:', app.get('env'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-// 세션 설정
-app.use(session({
-  secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: nodeEnv === 'production',
-    maxAge: 24 * 60 * 60 * 1000 // 24시간
-  }
-}));
-
-import { auth } from "./auth";
-import { toNodeHandler } from "better-auth/node";
-
-app.all("/api/auth/*", toNodeHandler(auth));
+/**
+ * Better Auth handler - mounted as a middleware to ensure getAuth() is called 
+ * within the request cycle, properly capturing initialized env variables.
+ */
+app.all("/api/auth/*", (req, res) => {
+  return toNodeHandler(getAuth())(req, res);
+});
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -73,7 +66,9 @@ app.use((req, res, next) => {
     const message = err.message || "Internal Server Error";
 
     res.status(status).json({ message });
-    throw err;
+    if (nodeEnv !== 'production') {
+      console.error(err);
+    }
   });
 
   // ALWAYS setup Vite in development
@@ -83,8 +78,8 @@ app.use((req, res, next) => {
     serveStatic(app);
   }
 
-  // ALWAYS serve the app on port 5000
   const port = process.env.PORT ? parseInt(process.env.PORT) : 5000;
+
   server.listen({
     port,
     host: "0.0.0.0",
