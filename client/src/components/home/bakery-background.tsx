@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
-import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
-import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.webp';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.webp';
 import { useMobile } from '@/hooks/use-mobile';
 import { motion } from 'framer-motion';
 

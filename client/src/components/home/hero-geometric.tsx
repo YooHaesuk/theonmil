@@ -3,9 +3,9 @@ import { motion } from "framer-motion";
 import { Link } from "wouter";
 import { useRealViewport } from "@/hooks/use-real-viewport";
 // @ts-ignore
-import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.webp';
 // @ts-ignore
-import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.webp';
 
 /**
  * 캡슐형 객체 정의 

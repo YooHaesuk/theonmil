@@ -1,10 +1,10 @@
 // Import product images
-import classicalCroissantImg from '@/assets/images/products/Classical Croissant.png';
-import brunchBaguetteImg from '@/assets/images/products/brunch baguette.png';
-import wholeGrainBreadImg from '@/assets/images/products/whole-grain bread.png';
-import specialChocolateCakeImg from '@/assets/images/products/a special chocolate cake.png';
-import freshFruitTartImg from '@/assets/images/products/fresh fruit tart.png';
-import anniversaryGiftSetImg from '@/assets/images/products/anniversary gift set.png';
+import classicalCroissantImg from '@/assets/images/products/Classical Croissant.webp';
+import brunchBaguetteImg from '@/assets/images/products/brunch baguette.webp';
+import wholeGrainBreadImg from '@/assets/images/products/whole-grain bread.webp';
+import specialChocolateCakeImg from '@/assets/images/products/a special chocolate cake.webp';
+import freshFruitTartImg from '@/assets/images/products/fresh fruit tart.webp';
+import anniversaryGiftSetImg from '@/assets/images/products/anniversary gift set.webp';
 
 // Product types
 export interface Product {

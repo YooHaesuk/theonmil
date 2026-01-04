@@ -4,7 +4,7 @@ import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
 
 // 공장 이미지 임포트
-import factoryImg from '@/assets/images/about/factory.png';
+import factoryImg from '@/assets/images/about/factory.webp';
 
 const AboutSection = () => {
   return (

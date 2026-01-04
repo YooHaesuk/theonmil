@@ -4,10 +4,10 @@ import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
 
 // 로컬 이미지 임포트
-import gangnamImg from '@/assets/images/stores/gangnam-store.png';
-import seongsuImg from '@/assets/images/stores/seongsu-store.png';
-import hongdaeImg from '@/assets/images/stores/hongdae-store.png';
-import jamsilImg from '@/assets/images/stores/jamsil-store.png';
+import gangnamImg from '@/assets/images/stores/gangnam-store.webp';
+import seongsuImg from '@/assets/images/stores/seongsu-store.webp';
+import hongdaeImg from '@/assets/images/stores/hongdae-store.webp';
+import jamsilImg from '@/assets/images/stores/jamsil-store.webp';
 
 // Store type definition
 interface Store {

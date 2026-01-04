@@ -1,5 +1,5 @@
-import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
-import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.webp';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.webp';
 
 // 이미지 import 테스트
 export default function TestImage() {

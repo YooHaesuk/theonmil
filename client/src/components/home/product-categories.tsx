@@ -4,9 +4,9 @@ import { headingClasses } from '@/lib/fonts';
 import { staggerContainer, fadeIn } from '@/lib/animations';
 
 // 로컬 이미지 임포트
-import regularProductImg from '@/assets/images/products/Classical Croissant.png';
-import customProductImg from '@/assets/images/products/a special chocolate cake.png';
-import giftProductImg from '@/assets/images/products/anniversary gift set.png';
+import regularProductImg from '@/assets/images/products/Classical Croissant.webp';
+import customProductImg from '@/assets/images/products/a special chocolate cake.webp';
+import giftProductImg from '@/assets/images/products/anniversary gift set.webp';
 
 // Category type definition
 interface Category {

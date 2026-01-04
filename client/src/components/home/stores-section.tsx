@@ -4,8 +4,8 @@ import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { staggerContainer, fadeIn } from '@/lib/animations';
 
 // 로컬 이미지 임포트
-import gangnamImg from '@/assets/images/stores/gangnam-store.png';
-import seongsuImg from '@/assets/images/stores/seongsu-store.png';
+import gangnamImg from '@/assets/images/stores/gangnam-store.webp';
+import seongsuImg from '@/assets/images/stores/seongsu-store.webp';
 
 // Store type definition
 interface Store {

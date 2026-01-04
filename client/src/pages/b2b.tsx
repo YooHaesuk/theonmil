@@ -5,7 +5,7 @@ import { headingClasses } from '@/lib/fonts';
 import { useToast } from '@/hooks/use-toast';
 
 // 기업 제휴 이미지 임포트
-import partnershipImg from '@/assets/images/about/partnership.png';
+import partnershipImg from '@/assets/images/about/partnership.webp';
 
 const B2B = () => {
   const [formData, setFormData] = useState({

@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { buttonClasses } from '@/lib/fonts';
-import croissantImage from '../../assets/images/bakery/croissant-transparent.png';
-import baguetteImage from '../../assets/images/bakery/baguette-transparent.png';
+import croissantImage from '../../assets/images/bakery/croissant-transparent.webp';
+import baguetteImage from '../../assets/images/bakery/baguette-transparent.webp';
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);

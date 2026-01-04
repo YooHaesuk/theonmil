@@ -4,9 +4,9 @@ import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { slideInFromLeft, slideInFromRight } from '@/lib/animations';
 
 // 선물 관련 이미지
-import giftSetImg from '@/assets/images/products/anniversary gift set.png';
-import cakeImg from '@/assets/images/products/a special chocolate cake.png';
-import fruitTartImg from '@/assets/images/products/fresh fruit tart.png';
+import giftSetImg from '@/assets/images/products/anniversary gift set.webp';
+import cakeImg from '@/assets/images/products/a special chocolate cake.webp';
+import fruitTartImg from '@/assets/images/products/fresh fruit tart.webp';
 
 const GiftSection = () => {
   return (

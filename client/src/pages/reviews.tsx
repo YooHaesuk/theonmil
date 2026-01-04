@@ -7,11 +7,11 @@ import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 
 // 리뷰 이미지 가져오기
-import reviewImage1 from '@/assets/images/reviews/review_image1.png';
-import reviewImage2 from '@/assets/images/reviews/review_image2.png';
-import reviewImage3 from '@/assets/images/reviews/review_image3.png';
-import reviewImage4 from '@/assets/images/reviews/review_image4.png';
-import reviewImage5 from '@/assets/images/reviews/review_image5.png';
+import reviewImage1 from '@/assets/images/reviews/review_image1.webp';
+import reviewImage2 from '@/assets/images/reviews/review_image2.webp';
+import reviewImage3 from '@/assets/images/reviews/review_image3.webp';
+import reviewImage4 from '@/assets/images/reviews/review_image4.webp';
+import reviewImage5 from '@/assets/images/reviews/review_image5.webp';
 
 // Review type definition
 interface Review {

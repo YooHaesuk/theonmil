@@ -130,10 +130,10 @@ const Brand = () => {
               >
                 <div className="relative group p-2 bg-white rounded-lg shadow-xl border border-border">
                   <img
-                    src="/assets/haccp.webP"
+                    src="/assets/haccp.webp"
                     alt="HACCP 인증서"
                     className="rounded-md max-h-[500px] w-auto cursor-pointer transition-transform duration-500 hover:scale-[1.02]"
-                    onClick={() => window.open('/assets/haccp.webP', '_blank')}
+                    onClick={() => window.open('/assets/haccp.webp', '_blank')}
                   />
                   <div className="absolute bottom-6 right-6 bg-black/60 backdrop-blur-md text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-2">
                     <i className="fa-solid fa-magnifying-glass-plus"></i>

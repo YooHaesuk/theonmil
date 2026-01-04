@@ -445,9 +445,9 @@ const ProductManagement = () => {
   // Cloudinary URL에서 public_id 추출
   const extractPublicIdFromUrl = (url: string): string => {
     try {
-      // URL 예시: https://res.cloudinary.com/dnu0dq7hs/image/upload/v1752349376/theonmil-bakery/products/product_1752349374637.jpg
+      // URL 예시: https://res.cloudinary.com/dnu0dq7hs/image/upload/v1752349376/theonmil-bakery/products/product_1752349374637.webp
       const parts = url.split('/');
-      const filename = parts[parts.length - 1]; // product_1752349374637.jpg
+      const filename = parts[parts.length - 1]; // product_1752349374637.webp
       const publicId = filename.split('.')[0]; // product_1752349374637
       return `theonmil-bakery/products/${publicId}`;
     } catch (error) {

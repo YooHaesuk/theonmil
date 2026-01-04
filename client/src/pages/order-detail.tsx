@@ -59,11 +59,11 @@ const OrderDetail = () => {
           status: orderId.includes('1') ? 'delivered' : orderId.includes('2') ? 'shipping' : 'delivered',
           totalAmount: orderId.includes('1') ? 25000 : orderId.includes('2') ? 18000 : 32000,
           items: orderId.includes('1') ? [
-            { productId: 'bread-1', name: '크루아상', quantity: 2, price: 12500, image: '/images/croissant.jpg' }
+            { productId: 'bread-1', name: '크루아상', quantity: 2, price: 12500, image: '/images/croissant.webp' }
           ] : orderId.includes('2') ? [
-            { productId: 'bread-2', name: '바게트', quantity: 1, price: 18000, image: '/images/baguette.jpg' }
+            { productId: 'bread-2', name: '바게트', quantity: 1, price: 18000, image: '/images/baguette.webp' }
           ] : [
-            { productId: 'bread-3', name: '식빵', quantity: 2, price: 16000, image: '/images/bread.jpg' }
+            { productId: 'bread-3', name: '식빵', quantity: 2, price: 16000, image: '/images/bread.webp' }
           ],
           createdAt: { toDate: () => new Date(orderId.includes('1') ? '2024-01-15' : orderId.includes('2') ? '2024-01-20' : '2024-01-10') },
           deliveredAt: orderId.includes('1') || orderId.includes('3') ? { toDate: () => new Date() } : undefined,

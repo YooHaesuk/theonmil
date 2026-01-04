@@ -4,10 +4,10 @@ import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { useMediaQuery } from '@/hooks/use-mobile';
 
 // 이미지 임포트
-import process1 from '@/assets/images/process/process_step1.png';
-import process2 from '@/assets/images/process/process_step2.png';
-import process3 from '@/assets/images/process/process_step3.png';
-import process4 from '@/assets/images/process/process_step4.png';
+import process1 from '@/assets/images/process/process_step1.webp';
+import process2 from '@/assets/images/process/process_step2.webp';
+import process3 from '@/assets/images/process/process_step3.webp';
+import process4 from '@/assets/images/process/process_step4.webp';
 
 // Process step type definition
 interface ProcessStep {
