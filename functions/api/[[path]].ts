@@ -199,6 +199,63 @@ app.post("/reviews", async (c) => {
     return c.json(review);
 });
 
+// --- Images (Cloudflare R2) ---
+
+app.post("/images/upload", async (c) => {
+    try {
+        const formData = await c.req.formData();
+        const file = formData.get("image") as File;
+
+        if (!file) {
+            return c.json({ error: "No image file provided" }, 400);
+        }
+
+        const bucket = (c.env as any).R2;
+        if (!bucket) {
+            return c.json({ error: "R2 bucket not bound. check wrangler.toml" }, 500);
+        }
+
+        const key = `products/${Date.now()}-${file.name}`;
+        const buffer = await file.arrayBuffer();
+
+        await bucket.put(key, buffer, {
+            httpMetadata: {
+                contentType: file.type,
+            },
+        });
+
+        // R2 Public URL
+        const publicUrl = `https://pub-5843aba9a85845b6b019896b3895ab9b.r2.dev/${key}`;
+
+
+        return c.json({
+            success: true,
+            message: "이미지 업로드 성공 (R2)",
+            data: {
+                public_id: key,
+                secure_url: publicUrl,
+                key: key
+            }
+        });
+    } catch (error: any) {
+        console.error(`[R2 Upload Error]: ${error.message}`);
+        return c.json({ error: "Image upload failed", message: error.message }, 500);
+    }
+});
+
+app.delete("/images/:key", async (c) => {
+    try {
+        const key = c.req.param("key");
+        const bucket = (c.env as any).R2;
+        if (!bucket) return c.json({ error: "R2 bucket not bound" }, 500);
+
+        await bucket.delete(key);
+        return c.json({ success: true, message: "이미지 삭제 완료" });
+    } catch (error: any) {
+        return c.json({ error: "Image deletion failed", message: error.message }, 500);
+    }
+});
+
 // --- Health Check ---
 
 app.get("/health", async (c) => {

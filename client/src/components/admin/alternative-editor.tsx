@@ -133,7 +133,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('bold')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="굵게"
             >
               <i className="fa-solid fa-bold text-sm"></i>
@@ -142,7 +142,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('italic')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="기울임"
             >
               <i className="fa-solid fa-italic text-sm"></i>
@@ -151,7 +151,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('underline')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="밑줄"
             >
               <i className="fa-solid fa-underline text-sm"></i>
@@ -165,7 +165,7 @@ const AlternativeEditor = ({
                 key={h}
                 type="button"
                 onClick={() => applyStyle('formatBlock', h.toLowerCase())}
-                className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground font-black text-xs rounded-lg transition-all"
+                className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground font-black text-xs rounded-lg transition-all"
                 title={`제목 ${h.slice(1)}`}
               >
                 {h}
@@ -178,7 +178,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('insertUnorderedList')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="불렛 목록"
             >
               <i className="fa-solid fa-list-ul text-sm"></i>
@@ -187,7 +187,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('insertOrderedList')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="숫자 목록"
             >
               <i className="fa-solid fa-list-ol text-sm"></i>
@@ -199,7 +199,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => insertElement('<blockquote style="border-left: 5px solid #EAB308; padding: 1.5rem; margin: 1.5rem 0; background-color: #FEF9C3; border-radius: 0 1.5rem 1.5rem 0; font-style: italic; color: #854D0E;">인용구를 입력하세요.</blockquote>')}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="인용구"
             >
               <i className="fa-solid fa-quote-left text-sm"></i>
@@ -208,7 +208,7 @@ const AlternativeEditor = ({
             <button
               type="button"
               onClick={() => applyStyle('createLink', prompt('링크 URL을 입력하세요:', 'https://'))}
-              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              className="w-10 h-10 flex items-center justify-center hover:bg-[#9a700a] hover:text-white text-muted-foreground rounded-lg transition-all"
               title="링크"
             >
               <i className="fa-solid fa-link text-sm"></i>

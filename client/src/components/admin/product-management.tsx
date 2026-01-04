@@ -269,11 +269,11 @@ const ProductManagement = () => {
     const files = event.target.files;
     if (!files || files.length === 0) return;
 
-    // 최대 4개까지만 허용 (대표 이미지 + 상품 이미지 4개 = 총 5개)
-    if (uploadedGalleryImages.length + files.length > 4) {
+    // 최대 5개까지만 허용 (대표 이미지 + 상품 이미지 5개 = 총 6개)
+    if (uploadedGalleryImages.length + files.length > 5) {
       toast({
         title: "오류",
-        description: "상품 이미지는 최대 4개까지 업로드 가능합니다.",
+        description: "상품 이미지는 최대 5개까지 업로드 가능합니다.",
         variant: "destructive"
       });
       return;
@@ -437,15 +437,24 @@ const ProductManagement = () => {
   };
 
   // Cloudinary URL에서 public_id 추출
+  // 이미지 URL에서 public_id(또는 R2 key) 추출
   const extractPublicIdFromUrl = (url: string): string => {
+    if (!url) return '';
     try {
-      // URL 예시: https://res.cloudinary.com/dnu0dq7hs/image/upload/v1752349376/theonmil-bakery/products/product_1752349374637.webp
+      // Cloudinary와 R2 모두 대응
       const parts = url.split('/');
-      const filename = parts[parts.length - 1]; // product_1752349374637.webp
-      const publicId = filename.split('.')[0]; // product_1752349374637
+      const filename = parts[parts.length - 1]; // 파일명 추출
+
+      // R2 URL인 경우 (products/... 형식)
+      if (url.includes('.r2.dev/') || url.includes('/products/')) {
+        return `products/${filename}`;
+      }
+
+      // Cloudinary인 경우 (기존 방식 유지)
+      const publicId = filename.split('.')[0];
       return `theonmil-bakery/products/${publicId}`;
     } catch (error) {
-      console.error('public_id 추출 오류:', error);
+      console.error('ID 추출 오류:', error);
       return '';
     }
   };
@@ -490,18 +499,34 @@ const ProductManagement = () => {
     }
   };
 
-  // 태그 추가
+  // 태그 추가 (지능형 콤마 분리 입력)
   const addTag = () => {
-    if (tagInput.trim() && !formData.tags.includes(tagInput.trim()) && formData.tags.length < 5) {
+    if (!tagInput.trim()) return;
+
+    // 콤마나 공백으로 분리하여 배열 생성 (공백 지원 추가)
+    const newTagsRaw = tagInput.split(/[,\s]+/).map(t => t.trim().replace(/^#/, '')).filter(t => t !== '');
+
+    // 기존 태그와 합치기 (중복 제거)
+    const currentTags = [...formData.tags];
+    let addedCount = 0;
+
+    newTagsRaw.forEach(tag => {
+      if (!currentTags.includes(tag) && currentTags.length < 30) {
+        currentTags.push(tag);
+        addedCount++;
+      }
+    });
+
+    if (addedCount > 0) {
       setFormData(prev => ({
         ...prev,
-        tags: [...prev.tags, tagInput.trim()]
+        tags: currentTags
       }));
       setTagInput('');
-    } else if (formData.tags.length >= 5) {
+    } else if (formData.tags.length >= 30) {
       toast({
         title: "태그 제한",
-        description: "태그는 최대 5개까지만 추가할 수 있습니다.",
+        description: "태그는 최대 30개까지만 추가할 수 있습니다.",
         variant: "destructive"
       });
     }
@@ -607,7 +632,7 @@ const ProductManagement = () => {
 
           <button
             onClick={handleCreateNew}
-            className="flex items-center gap-2 px-8 py-3.5 bg-primary hover:bg-primary/90 text-white rounded-2xl font-black transition-all shadow-xl shadow-primary/20 active:scale-95 group"
+            className="flex items-center gap-2 px-8 py-3.5 bg-primary hover:bg-[#9a700a] text-white rounded-2xl font-black transition-all shadow-xl shadow-primary/20 active:scale-95 group"
           >
             <i className="fa-solid fa-plus text-lg group-hover:rotate-90 transition-transform duration-300"></i>
             <span>신규 상품 등록</span>
@@ -702,7 +727,7 @@ const ProductManagement = () => {
             <motion.div variants={slideInFromBottom} className="space-y-5">
               <label className="text-lg font-bold text-foreground flex items-center gap-2">
                 <div className="w-1.5 h-5 bg-primary rounded-full"></div>
-                대표 이미지 <span className="text-primary">*</span>
+                대표이미지!(1장) <span className="text-primary">*</span>
               </label>
 
               {uploadedImage ? (
@@ -740,7 +765,7 @@ const ProductManagement = () => {
                         type="button"
                         onClick={() => fileInputRef.current?.click()}
                         disabled={uploading}
-                        className="bg-primary hover:bg-primary/90 disabled:bg-muted text-white px-12 py-4 rounded-2xl font-black text-lg transition-all shadow-xl shadow-primary/20"
+                        className="bg-primary hover:bg-[#9a700a] disabled:bg-muted text-white px-12 py-4 rounded-2xl font-black text-lg transition-all shadow-xl shadow-primary/20"
                       >
                         {uploading ? (
                           <><i className="fa-solid fa-spinner fa-spin mr-2"></i> 업로드 중...</>
@@ -828,7 +853,7 @@ const ProductManagement = () => {
                   >
                     <option value="regular">🍞 상시 운영 제품</option>
                     <option value="custom">🎂 주문 제작 제품</option>
-                    <option value="gift">🎁 기념일 선물 세트</option>
+                    <option value="gift">🎁 기념일 이벤트 제품</option>
                   </select>
                   <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-muted-foreground/40">
                     <i className="fa-solid fa-chevron-down text-sm"></i>
@@ -840,22 +865,22 @@ const ProductManagement = () => {
             {/* 태그 & 추가 이미지 */}
             <div className="space-y-10 bg-secondary/20 p-8 rounded-[2rem] border border-border/50">
               <div className="space-y-4">
-                <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품 특징 태그 (최대 5개)</label>
+                <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품 특징 태그 (최대 30개)</label>
                 <div className="flex gap-4">
                   <input
                     type="text"
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-                    disabled={formData.tags.length >= 5}
+                    disabled={formData.tags.length >= 30}
                     className="flex-1 bg-white border border-border/60 rounded-xl px-5 py-4 text-foreground font-bold focus:border-primary focus:outline-none transition-all disabled:bg-muted/50"
-                    placeholder="특징 입력 후 엔터 (예: 저온발효, 유기농)"
+                    placeholder="키워드, 키워드, 키워드 식으로 입력 후 엔터"
                   />
                   <button
                     type="button"
                     onClick={addTag}
-                    disabled={formData.tags.length >= 5 || !tagInput.trim()}
-                    className="px-8 bg-white border-2 border-primary/20 text-primary rounded-xl font-black hover:bg-primary hover:text-white transition-all active:scale-95 disabled:bg-muted/50"
+                    disabled={formData.tags.length >= 30 || !tagInput.trim()}
+                    className="px-8 bg-primary/10 border-2 border-primary/20 text-primary rounded-xl font-black hover:bg-primary hover:text-white transition-all active:scale-95 disabled:bg-muted/50"
                   >
                     추가
                   </button>
@@ -874,7 +899,7 @@ const ProductManagement = () => {
               </div>
 
               <div className="space-y-4">
-                <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품 갤러리 이미지 (최대 4개)</label>
+                <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품이미지!(5장)</label>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {uploadedGalleryImages.map((image, index) => (
                     <div key={index} className="relative group aspect-square rounded-2xl overflow-hidden border-2 border-white shadow-md">
@@ -888,7 +913,7 @@ const ProductManagement = () => {
                       </button>
                     </div>
                   ))}
-                  {uploadedGalleryImages.length < 4 && (
+                  {uploadedGalleryImages.length < 5 && (
                     <button
                       type="button"
                       onClick={() => document.getElementById('gallery-upload-input')?.click()}

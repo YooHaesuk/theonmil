@@ -156,13 +156,13 @@ const AdminDashboard = () => {
           <div className="flex p-1.5 bg-secondary/30 rounded-2xl border border-border/50">
             <button
               onClick={() => setActiveTab('users')}
-              className={`px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'users' ? 'bg-white text-primary shadow-md transform scale-[1.02]' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'users' ? 'bg-primary text-white shadow-lg transform scale-[1.02]' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'}`}
             >
               사용자 관리
             </button>
             <button
               onClick={() => setActiveTab('products')}
-              className={`px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'products' ? 'bg-white text-primary shadow-md transform scale-[1.02]' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-8 py-3 rounded-xl font-bold transition-all duration-300 ${activeTab === 'products' ? 'bg-primary text-white shadow-lg transform scale-[1.02]' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'}`}
             >
               상품 관리
             </button>
@@ -274,10 +274,10 @@ const AdminDashboard = () => {
                                   });
                                   setOpenMenuId(null);
                                 }}
-                                className={`w-full px-4 py-3 text-left text-[11px] font-black hover:bg-amber-50 rounded-xl transition-colors flex items-center justify-between group`}
+                                className={`w-full px-4 py-3 text-left text-[11px] font-black hover:bg-primary/5 rounded-xl transition-colors flex items-center justify-between group`}
                               >
                                 <div className="flex items-center gap-3">
-                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${u.banned ? 'bg-green-100 text-green-600 group-hover:bg-green-500' : 'bg-amber-100 text-amber-600 group-hover:bg-amber-500'} group-hover:text-white`}>
+                                  <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all ${u.banned ? 'bg-green-100 text-green-600 group-hover:bg-green-500' : 'bg-primary/10 text-primary group-hover:bg-primary'} group-hover:text-white`}>
                                     <i className={`fa-solid ${u.banned ? 'fa-check-circle' : 'fa-ban'}`}></i>
                                   </div>
                                   <span className="text-foreground/80">{u.banned ? '계정 활동 정지 해제' : '계정 활동 일시 정지'}</span>
