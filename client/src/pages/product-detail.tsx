@@ -244,7 +244,8 @@ const ProductDetail = () => {
               <p className="text-muted-foreground">더 자세한 상품 정보를 확인해보세요</p>
             </div>
 
-            <div className="w-full bg-secondary rounded-2xl border border-border overflow-hidden p-4 md:p-6">
+            {/* 박스 스타일 제거하여 전체 너비로 표시 */}
+            <div className="w-full">
               {/* 🆕 리치 에디터 콘텐츠 우선 표시 */}
               {product.detailContent ? (
                 <HtmlContentRenderer

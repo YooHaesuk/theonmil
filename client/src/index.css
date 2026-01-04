@@ -147,6 +147,13 @@
   background-clip: text;
 }
 
+/* Tailwind Typography (prose) 이미지 정렬 강제 수정 */
+.prose img {
+  display: inline-block !important;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 .text-gradient-bronze {
   background: linear-gradient(to right, #B8860B, #D4AF37);
   -webkit-background-clip: text;
