@@ -116,16 +116,6 @@ export function registerRoutes(app: Express): Server {
   });
 
   // User routes
-  app.post("/api/users/register", async (req, res) => {
-    try {
-      const parsedData = insertUserSchema.parse(req.body);
-      const user = await storage.createUser(parsedData as any);
-      res.json(user);
-    } catch (error: any) {
-      res.status(500).json({ error: "Failed to create user" });
-    }
-  });
-
   app.get("/api/users", async (req, res) => {
     try {
       const users = await storage.getUsers();

@@ -2,7 +2,18 @@
  * Environment variable utility for cross-platform compatibility (Node.js & Cloudflare Workers/Pages)
  */
 
+let runtimeEnv: any = null;
+
+export const setRuntimeEnv = (env: any) => {
+    runtimeEnv = env;
+};
+
 export const getEnv = (key: string): string => {
+    // Try provided runtime env (Cloudflare Pages c.env)
+    if (runtimeEnv && runtimeEnv[key]) {
+        return runtimeEnv[key];
+    }
+
     // Try process.env (Node.js)
     if (typeof process !== 'undefined' && process.env && process.env[key]) {
         return process.env[key] as string;
@@ -10,9 +21,9 @@ export const getEnv = (key: string): string => {
 
     // Try global context (Cloudflare Pages/Workers)
     // @ts-ignore
-    if (typeof globalThis !== 'undefined' && globalThis[key]) {
+    if (typeof globalThis !== 'undefined' && (globalThis as any)[key]) {
         // @ts-ignore
-        return globalThis[key] as string;
+        return (globalThis as any)[key] as string;
     }
 
     // Fallback to empty string

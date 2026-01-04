@@ -10,7 +10,19 @@ if (typeof window === 'undefined' && typeof process !== 'undefined' && process.v
     });
 }
 
-const databaseUrl = getEnv("DATABASE_URL");
+let _db: any = null;
+let _pool: Pool | null = null;
 
-const pool = new Pool({ connectionString: databaseUrl });
-export const db = drizzle(pool, { schema });
+export const db = new Proxy({} as any, {
+    get(target, prop) {
+        if (!_db) {
+            const databaseUrl = getEnv("DATABASE_URL");
+            if (!databaseUrl) {
+                console.error("DATABASE_URL is missing!");
+            }
+            _pool = new Pool({ connectionString: databaseUrl });
+            _db = drizzle(_pool, { schema });
+        }
+        return _db[prop];
+    }
+});

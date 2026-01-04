@@ -1,15 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, slideInFromBottom } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
-import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/use-auth';
-import { testFirestoreWrite, testUserCollection } from '@/lib/firestore-test';
 
 const Login = () => {
   const [, setLocation] = useLocation();
-  const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const {
     signInWithGoogle,
@@ -18,7 +15,10 @@ const Login = () => {
     isAuthenticated
   } = useAuth();
 
-
+  const handleSignIn = (method: () => void) => {
+    setIsLoading(true);
+    method();
+  };
 
   return (
     <motion.div
@@ -46,7 +46,7 @@ const Login = () => {
             <div className="space-y-4">
               {/* Kakao 로그인 */}
               <button
-                onClick={signInWithKakao}
+                onClick={() => handleSignIn(signInWithKakao)}
                 disabled={isLoading}
                 className="w-full flex items-center justify-center px-4 py-3 bg-[#FEE500] text-[#000000] rounded-full font-medium hover:bg-[#FDD835] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -58,7 +58,7 @@ const Login = () => {
 
               {/* Naver 로그인 */}
               <button
-                onClick={signInWithNaver}
+                onClick={() => handleSignIn(signInWithNaver)}
                 disabled={isLoading}
                 className="w-full flex items-center justify-center px-4 py-3 bg-[#03C75A] text-white rounded-full font-medium hover:bg-[#02B351] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -70,7 +70,7 @@ const Login = () => {
 
               {/* Google 로그인 */}
               <button
-                onClick={signInWithGoogle}
+                onClick={() => handleSignIn(signInWithGoogle)}
                 disabled={isLoading}
                 className="w-full flex items-center justify-center px-4 py-3 bg-white text-gray-900 rounded-full font-medium shadow-sm hover:bg-gray-100 transition-colors disabled:opacity-50 disabled:cursor-not-allowed border border-border"
               >
@@ -84,19 +84,14 @@ const Login = () => {
               </button>
             </div>
 
-            <div className="relative flex items-center justify-center my-6">
-              <div className="border-t border-border absolute w-full"></div>
-              <div className="bg-secondary px-4 relative z-10 text-sm text-muted-foreground">간편 로그인</div>
-            </div>
-
-            <p className="text-center text-sm text-muted-foreground">
+            <p className="text-center text-sm text-muted-foreground mt-8 font-pretendard">
               소셜 계정으로 빠르고 안전하게 로그인하세요
             </p>
           </div>
         </motion.div>
 
         <motion.div variants={fadeIn} className="text-center mt-6">
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground font-pretendard">
             아직 계정이 없으신가요?{' '}
             <Link href="/register" className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text hover:opacity-80">
               회원가입

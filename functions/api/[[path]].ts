@@ -8,8 +8,15 @@ import { handle } from "hono/cloudflare-pages";
 import { auth } from "../../server/auth";
 import { storage } from "../../server/storage";
 import { insertUserAddressSchema } from "../../shared/schema";
+import { setRuntimeEnv } from "../../server/lib/env";
 
 const app = new Hono().basePath("/api");
+
+// Middleware to inject environment variables for Edge compatibility
+app.use("*", async (c, next) => {
+    setRuntimeEnv(c.env);
+    await next();
+});
 
 // Better Auth
 app.all("/auth/*", (c) => {
