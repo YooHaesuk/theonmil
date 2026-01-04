@@ -12,8 +12,16 @@ let _auth: any = null;
  */
 export const getAuth = () => {
   if (!_auth) {
-    const baseURL = getEnv("BETTER_AUTH_URL") || getEnv("URL") || "";
+    let baseURL = getEnv("BETTER_AUTH_URL") || getEnv("URL") || "";
+
+    // Ensure baseURL has a protocol for Cloudflare
+    if (baseURL && !baseURL.startsWith('http')) {
+      baseURL = `https://${baseURL}`;
+    }
+
     const secret = getEnv("BETTER_AUTH_SECRET") || "fallback-secret-at-least-thirty-two-chars-long";
+
+    console.log(`[Auth Init] baseURL: ${baseURL}`);
 
     _auth = betterAuth({
       database: drizzleAdapter(getDb(), {
@@ -41,6 +49,11 @@ export const getAuth = () => {
           clientSecret: getEnv("KAKAO_CLIENT_SECRET"),
         },
       },
+      advanced: {
+        // Use 'as any' to avoid lint errors with specific better-auth versions
+        // trustProxy is often needed behind Cloudflare
+        trustProxy: true
+      } as any,
       onUserCreated: async (user) => {
         console.log("New user created via social:", user.email);
       }

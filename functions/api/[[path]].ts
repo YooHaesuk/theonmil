@@ -26,8 +26,16 @@ app.onError((err, c) => {
 });
 
 // Better Auth - Using getAuth() inside the handler call
-app.all("/auth/*", (c) => {
-    return getAuth().handler(c.req.raw);
+app.all("/auth/*", async (c) => {
+    console.log(`[Edge Auth Request]: ${c.req.method} ${c.req.path}`);
+    try {
+        const res = await getAuth().handler(c.req.raw);
+        console.log(`[Edge Auth Response Status]: ${res.status}`);
+        return res;
+    } catch (error: any) {
+        console.error(`[Edge Auth Handler Error]: ${error.message}`);
+        return c.json({ error: "Auth handler failed", message: error.message }, 500);
+    }
 });
 
 // User Profile & Addresses
