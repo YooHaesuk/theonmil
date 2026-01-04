@@ -27,14 +27,14 @@ app.onError((err, c) => {
 
 // Better Auth - Using getAuth() inside the handler call
 app.all("/auth/*", async (c) => {
-    console.log(`[Edge Auth Request]: ${c.req.method} ${c.req.path}`);
     try {
-        const res = await getAuth().handler(c.req.raw);
-        console.log(`[Edge Auth Response Status]: ${res.status}`);
+        const authInstance = getAuth(c.env);
+        const res = await authInstance.handler(c.req.raw);
         return res;
     } catch (error: any) {
-        console.error(`[Edge Auth Handler Error]: ${error.message}`);
-        return c.json({ error: "Auth handler failed", message: error.message }, 500);
+        console.error(`[Edge Auth Error]: ${error.message}`);
+        // Diagnostic Mode: Return the stack trace to the browser to identify the exact cause of the crash
+        return c.text(`Authentication Crash Diagnostic:\nMessage: ${error.message}\nStack: ${error.stack}`, 500);
     }
 });
 
