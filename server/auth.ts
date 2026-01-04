@@ -54,6 +54,16 @@ export const getAuth = (env?: any) => {
         clientSecret: getEnv("KAKAO_CLIENT_SECRET", env) || "",
       },
     },
+    user: {
+      additionalFields: {
+        role: { type: "string" },
+        phone: { type: "string" },
+        address: { type: "string" },
+        detailAddress: { type: "string" },
+        zipCode: { type: "string" },
+        banned: { type: "boolean" },
+      }
+    },
     advanced: {
       trustHost: true
     } as any,

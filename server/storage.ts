@@ -17,6 +17,7 @@ export interface IStorage {
   getUsers(env?: any): Promise<User[]>;
   updateUser(id: string, data: Partial<InsertUser>, env?: any): Promise<User>;
   updateUserRole(id: string, role: string, env?: any): Promise<User>;
+  deleteUser(id: string, env?: any): Promise<void>;
   getUserByUsername(username: string, env?: any): Promise<User | undefined>;
   createUser(user: InsertUser, env?: any): Promise<User>;
 
@@ -70,6 +71,10 @@ export class DatabaseStorage implements IStorage {
       .returning();
     if (!user) throw new Error("User not found");
     return user;
+  }
+
+  async deleteUser(id: string, env?: any): Promise<void> {
+    await getDb(env).delete(users).where(eq(users.id, id));
   }
 
   async getUserByUsername(username: string, env?: any): Promise<User | undefined> {

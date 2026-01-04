@@ -37,6 +37,14 @@ app.all("/auth/*", async (c) => {
 
 // Get addresses for a specific user
 app.get("/users/addresses/:userId", async (c) => {
+    const auth = getAuth(c.env);
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+
+    // Banned check
+    if (session?.user?.banned) {
+        return c.json({ error: "Access denied - Your account has been suspended." }, 403);
+    }
+
     const userId = c.req.param("userId");
     const addresses = await storage.getUserAddresses(userId, c.env);
     return c.json(addresses);
@@ -55,6 +63,12 @@ app.post("/users/addresses", async (c) => {
     const auth = getAuth(c.env);
     const session = await auth.api.getSession({ headers: c.req.raw.headers });
     if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
+
+    // Banned check
+    if (session.user.banned) {
+        return c.json({ error: "Access denied - Your account has been suspended." }, 403);
+    }
+
     const body = await c.req.json();
     const address = await storage.addAddress({ ...body, userId: session.user.id }, c.env);
     return c.json(address);
@@ -72,6 +86,66 @@ app.delete("/users/addresses/:id", async (c) => {
     const id = parseInt(c.req.param("id"));
     await storage.deleteAddress(id, c.env);
     return c.json({ success: true });
+});
+
+// --- Admin - User Management ---
+
+// Update user role (Admin only)
+app.patch("/users/:id/role", async (c) => {
+    const auth = getAuth(c.env);
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+
+    // Admin check
+    if (!session?.user || session.user.role !== 'admin') {
+        return c.json({ error: "Unauthorized - Admin only" }, 403);
+    }
+
+    const id = c.req.param("id");
+    const body = await c.req.json();
+    const user = await storage.updateUser(id, { role: body.role }, c.env);
+    return c.json(user);
+});
+
+// Update user ban status (Admin only)
+app.patch("/users/:id/ban", async (c) => {
+    const auth = getAuth(c.env);
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+
+    if (!session?.user || session.user.role !== 'admin') {
+        return c.json({ error: "Unauthorized - Admin only" }, 403);
+    }
+
+    const id = c.req.param("id");
+    const body = await c.req.json();
+    const user = await storage.updateUser(id, { banned: body.banned, bannedReason: body.reason }, c.env);
+    return c.json(user);
+});
+
+// Delete user (Admin only)
+app.delete("/users/:id", async (c) => {
+    const auth = getAuth(c.env);
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+
+    if (!session?.user || session.user.role !== 'admin') {
+        return c.json({ error: "Unauthorized - Admin only" }, 403);
+    }
+
+    const id = c.req.param("id");
+    await storage.deleteUser(id, c.env);
+    return c.json({ success: true });
+});
+
+// Get all users (Admin only)
+app.get("/users", async (c) => {
+    const auth = getAuth(c.env);
+    const session = await auth.api.getSession({ headers: c.req.raw.headers });
+
+    if (!session?.user || session.user.role !== 'admin') {
+        return c.json({ error: "Unauthorized - Admin only" }, 403);
+    }
+
+    const users = await storage.getUsers(c.env);
+    return c.json(users);
 });
 
 // --- Orders ---

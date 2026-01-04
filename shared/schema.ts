@@ -16,6 +16,8 @@ export const users = pgTable("user", {
   address: text("address"),
   detailAddress: text("detail_address"),
   zipCode: text("zip_code"),
+  banned: boolean("banned").default(false).notNull(),
+  bannedReason: text("banned_reason"),
 });
 
 export const sessions = pgTable("session", {

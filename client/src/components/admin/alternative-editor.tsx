@@ -115,133 +115,112 @@ const AlternativeEditor = ({
     <div className="relative">
       {/* 업로드 로딩 오버레이 */}
       {uploading && (
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center z-50 rounded-lg">
-          <div className="bg-[#1A1A1A] p-4 rounded-lg border border-[#333333]">
-            <div className="flex items-center space-x-3">
-              <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-purple-400"></div>
-              <span className="text-white">이미지 업로드 중...</span>
+        <div className="absolute inset-0 bg-white/60 backdrop-blur-sm flex items-center justify-center z-50 rounded-3xl">
+          <div className="bg-white p-6 rounded-2xl border border-primary/20 shadow-2xl">
+            <div className="flex flex-col items-center space-y-3">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <span className="text-primary font-black text-sm">이미지 업로드 중...</span>
             </div>
           </div>
         </div>
       )}
 
       {/* 툴바 */}
-      <div className="bg-[#1A1A1A] border border-[#333333] border-b-0 rounded-t-lg p-3">
+      <div className="bg-secondary/30 border border-border/50 border-b-0 rounded-t-[2rem] p-4">
         <div className="flex items-center space-x-2 flex-wrap gap-2">
           {/* 텍스트 스타일 */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center p-1.5 bg-white/50 rounded-xl space-x-1 border border-border/30">
             <button
               type="button"
               onClick={() => applyStyle('bold')}
-              className="px-3 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-sm transition-colors"
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
               title="굵게"
             >
-              <strong>B</strong>
+              <i className="fa-solid fa-bold text-sm"></i>
             </button>
 
             <button
               type="button"
               onClick={() => applyStyle('italic')}
-              className="px-3 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-sm transition-colors"
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
               title="기울임"
             >
-              <em>I</em>
+              <i className="fa-solid fa-italic text-sm"></i>
             </button>
 
             <button
               type="button"
               onClick={() => applyStyle('underline')}
-              className="px-3 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-sm transition-colors"
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
               title="밑줄"
             >
-              <u>U</u>
+              <i className="fa-solid fa-underline text-sm"></i>
             </button>
           </div>
 
-          <div className="border-l border-[#555555] h-6"></div>
-
-          {/* 제목 */}
-          <div className="flex items-center space-x-1">
-            <button
-              type="button"
-              onClick={() => applyStyle('formatBlock', 'h1')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
-              title="제목 1"
-            >
-              H1
-            </button>
-
-            <button
-              type="button"
-              onClick={() => applyStyle('formatBlock', 'h2')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
-              title="제목 2"
-            >
-              H2
-            </button>
-
-            <button
-              type="button"
-              onClick={() => applyStyle('formatBlock', 'h3')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
-              title="제목 3"
-            >
-              H3
-            </button>
+          {/* 제목 단계 */}
+          <div className="flex items-center p-1.5 bg-white/50 rounded-xl space-x-1 border border-border/30">
+            {['H1', 'H2', 'H3'].map((h) => (
+              <button
+                key={h}
+                type="button"
+                onClick={() => applyStyle('formatBlock', h.toLowerCase())}
+                className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground font-black text-xs rounded-lg transition-all"
+                title={`제목 ${h.slice(1)}`}
+              >
+                {h}
+              </button>
+            ))}
           </div>
 
-          <div className="border-l border-[#555555] h-6"></div>
-
-          {/* 리스트 */}
-          <div className="flex items-center space-x-1">
+          {/* 목록 */}
+          <div className="flex items-center p-1.5 bg-white/50 rounded-xl space-x-1 border border-border/30">
             <button
               type="button"
               onClick={() => applyStyle('insertUnorderedList')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
-              title="순서 없는 목록"
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              title="불렛 목록"
             >
-              • 목록
+              <i className="fa-solid fa-list-ul text-sm"></i>
             </button>
 
             <button
               type="button"
               onClick={() => applyStyle('insertOrderedList')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
-              title="순서 있는 목록"
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
+              title="숫자 목록"
             >
-              1. 목록
+              <i className="fa-solid fa-list-ol text-sm"></i>
             </button>
           </div>
 
-          <div className="border-l border-[#555555] h-6"></div>
-
-          {/* 특별 요소 */}
-          <div className="flex items-center space-x-1">
+          {/* 특수 효과 */}
+          <div className="flex items-center p-1.5 bg-white/50 rounded-xl space-x-1 border border-border/30">
             <button
               type="button"
-              onClick={() => applyStyle('blockquote', 'style="border-left: 4px solid #A78BFA; padding-left: 16px; margin: 16px 0; font-style: italic; color: #cccccc; background: rgba(167, 139, 250, 0.1); border-radius: 0 4px 4px 0; padding: 12px 16px;"')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
+              onClick={() => insertElement('<blockquote style="border-left: 5px solid #EAB308; padding: 1.5rem; margin: 1.5rem 0; background-color: #FEF9C3; border-radius: 0 1.5rem 1.5rem 0; font-style: italic; color: #854D0E;">인용구를 입력하세요.</blockquote>')}
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
               title="인용구"
             >
-              " 인용
+              <i className="fa-solid fa-quote-left text-sm"></i>
             </button>
 
             <button
               type="button"
-              onClick={() => applyStyle('a', 'href="#" style="color: #A78BFA; text-decoration: underline;"')}
-              className="px-2 py-1 bg-[#333333] hover:bg-[#444444] text-white rounded text-xs transition-colors"
+              onClick={() => applyStyle('createLink', prompt('링크 URL을 입력하세요:', 'https://'))}
+              className="w-10 h-10 flex items-center justify-center hover:bg-primary hover:text-white text-muted-foreground rounded-lg transition-all"
               title="링크"
             >
-              🔗 링크
+              <i className="fa-solid fa-link text-sm"></i>
             </button>
           </div>
 
-          <div className="border-l border-[#555555] h-6"></div>
+          <div className="flex-1"></div>
 
           {/* 이미지 업로드 */}
-          <label className="px-3 py-1 bg-purple-600 hover:bg-purple-700 text-white rounded text-sm transition-colors cursor-pointer">
-            <i className="fa-solid fa-image mr-1"></i>
-            이미지
+          <label className="flex items-center gap-2 px-6 py-2.5 bg-primary hover:scale-105 active:scale-95 text-white rounded-xl text-sm font-black transition-all cursor-pointer shadow-lg shadow-primary/20">
+            <i className="fa-solid fa-image text-lg"></i>
+            <span>이미지 삽입</span>
             <input
               type="file"
               accept="image/*"
@@ -253,15 +232,15 @@ const AlternativeEditor = ({
         </div>
       </div>
 
-      {/* WYSIWYG 에디터 */}
+      {/* WYSIWYG 에디터 본문 */}
       <div
         ref={editorRef}
         contentEditable
-        className="wysiwyg-editor w-full bg-[#111111] border border-[#333333] border-t-0 rounded-b-lg p-4 text-white text-sm resize-none focus:outline-none focus:ring-2 focus:ring-purple-400 overflow-y-auto prose prose-invert max-w-none"
+        className="wysiwyg-editor w-full bg-white border border-border/50 border-t-0 rounded-b-[2rem] p-8 text-foreground text-base resize-none focus:outline-none focus:ring-4 focus:ring-primary/5 overflow-y-auto prose max-w-none transition-all"
         style={{
           height,
-          minHeight: '200px',
-          lineHeight: '1.6'
+          minHeight: '300px',
+          lineHeight: '1.8'
         }}
         onInput={updateContent}
         onFocus={() => setIsEditing(true)}
@@ -274,34 +253,40 @@ const AlternativeEditor = ({
         __html: `
         .wysiwyg-editor:empty:before {
           content: attr(data-placeholder);
-          color: #666;
+          color: #adb5bd;
           font-style: italic;
         }
-        .wysiwyg-editor h1, .wysiwyg-editor h2, .wysiwyg-editor h3 {
-          color: #ffffff !important;
-          font-weight: bold;
-        }
-        .wysiwyg-editor p, .wysiwyg-editor li {
-          color: #ffffff !important;
-        }
+        .wysiwyg-editor h1 { font-size: 2.5rem; font-weight: 900; margin-bottom: 1.5rem; color: #1a1a1a; letter-spacing: -0.05em; }
+        .wysiwyg-editor h2 { font-size: 2rem; font-weight: 800; margin-top: 2rem; margin-bottom: 1rem; color: #2a2a2a; border-left: 4px solid #EAB308; padding-left: 1rem; }
+        .wysiwyg-editor h3 { font-size: 1.5rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.75rem; color: #3a3a3a; }
+        .wysiwyg-editor p { margin-bottom: 1.25rem; color: #4a4a4a; line-height: 1.8; }
+        .wysiwyg-editor ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+        .wysiwyg-editor ol { list-style-type: decimal; padding-left: 1.5rem; margin-bottom: 1.25rem; }
+        .wysiwyg-editor li { margin-bottom: 0.5rem; color: #4a4a4a; }
         .wysiwyg-editor img {
           max-width: 100%;
           height: auto;
-          border-radius: 8px;
-          margin: 10px 0;
+          border-radius: 1.5rem;
+          margin: 2rem 0;
+          box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+          border: 1px solid rgba(0,0,0,0.05);
         }
         .wysiwyg-editor blockquote {
-          border-left: 4px solid #A78BFA;
-          background: rgba(167, 139, 250, 0.1);
-          color: #cccccc !important;
+          border-left: 5px solid #EAB308;
+          background: #FEF9C3;
+          padding: 1.5rem !important;
+          margin: 2rem 0 !important;
+          border-radius: 0 1.5rem 1.5rem 0;
+          font-style: italic;
+          color: #854D0E !important;
         }
         .wysiwyg-editor a {
-          color: #A78BFA !important;
+          color: #EAB308 !important;
+          font-weight: 700;
+          text-decoration: underline;
         }
         `
       }} />
-
-
     </div>
   );
 };

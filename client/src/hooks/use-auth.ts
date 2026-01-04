@@ -13,7 +13,8 @@ export const useAuth = () => {
     phone: (session.user as any).phone,
     createdAt: (session.user as any).createdAt,
     provider: (session.user as any).provider || 'social',
-    isAdmin: session.user.email === 'yhs85844@gmail.com' || (session.user as any).role === 'admin'
+    banned: (session.user as any).banned,
+    isAdmin: ['yhs85844@gmail.com', 'psyjs1@gmail.com'].includes(session.user.email) || (session.user as any).role === 'admin'
   } : null, [session?.user]);
 
   const loginWithSocial = async (provider: 'google' | 'naver' | 'kakao') => {
