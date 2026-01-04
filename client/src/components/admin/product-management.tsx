@@ -159,6 +159,56 @@ const ProductManagement = () => {
     fetchProducts(); // 목록 새로고침
   };
 
+  // 🪄 이미지 자동 압축 및 WebP 변환 함수
+  const compressImage = (file: File): Promise<Blob> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const img = new Image();
+        img.src = event.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+
+          // 최대 1200px 제한 (화질 유지하며 리사이징)
+          const MAX_WIDTH = 1200;
+          const MAX_HEIGHT = 1200;
+
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height *= MAX_WIDTH / width;
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width *= MAX_HEIGHT / height;
+              height = MAX_HEIGHT;
+            }
+          }
+
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+
+          // WebP 형식으로 압축 (품질 0.8 / 80%)
+          canvas.toBlob(
+            (blob) => {
+              if (blob) resolve(blob);
+              else reject(new Error('Canvas to Blob conversion failed'));
+            },
+            'image/webp',
+            0.8
+          );
+        };
+        img.onerror = (err) => reject(err);
+      };
+      reader.onerror = (err) => reject(err);
+    });
+  };
+
   // 🖼️ 이미지 업로드 핸들러
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -187,8 +237,14 @@ const ProductManagement = () => {
     setUploading(true);
 
     try {
+      // 🚀 이미지 자동 최적화 적용
+      const optimizedBlob = await compressImage(file);
+      const optimizedFile = new File([optimizedBlob], `${file.name.split('.')[0]}.webp`, { type: 'image/webp' });
+
+      console.log(`📉 이미지 최적화 완료: ${(file.size / 1024).toFixed(1)}KB -> ${(optimizedFile.size / 1024).toFixed(1)}KB`);
+
       const formData = new FormData();
-      formData.append('image', file);
+      formData.append('image', optimizedFile);
 
       const response = await fetch('/api/images/upload', {
         method: 'POST',
@@ -293,8 +349,14 @@ const ProductManagement = () => {
           throw new Error(`${file.name}: 이미지 파일만 업로드 가능합니다.`);
         }
 
+        // 🚀 이미지 자동 최적화 적용
+        const optimizedBlob = await compressImage(file);
+        const optimizedFile = new File([optimizedBlob], `${file.name.split('.')[0]}.webp`, { type: 'image/webp' });
+
+        console.log(`📉 갤러리 이미지 최적화 완료 (${file.name}): ${(file.size / 1024).toFixed(1)}KB -> ${(optimizedFile.size / 1024).toFixed(1)}KB`);
+
         const formData = new FormData();
-        formData.append('image', file);
+        formData.append('image', optimizedFile);
 
         const response = await fetch('/api/images/upload', {
           method: 'POST',
@@ -725,17 +787,22 @@ const ProductManagement = () => {
           <form onSubmit={handleSubmit} className="space-y-12 max-w-5xl">
             {/* 대표 이미지 섹션 */}
             <motion.div variants={slideInFromBottom} className="space-y-5">
-              <label className="text-lg font-bold text-foreground flex items-center gap-2">
-                <div className="w-1.5 h-5 bg-primary rounded-full"></div>
-                대표이미지!(1장) <span className="text-primary">*</span>
+              <label className="text-lg font-bold text-foreground flex flex-col gap-1">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-5 bg-primary rounded-full"></div>
+                  대표이미지!(1장) <span className="text-primary">*</span>
+                </div>
+                <span className="text-xs text-primary/70 font-medium ml-3.5">
+                  권장: 1200x1200px (1:1 비율), 고화질 WebP 자동 변환
+                </span>
               </label>
 
               {uploadedImage ? (
-                <div className="relative group max-w-2xl overflow-hidden rounded-[2rem] border-2 border-primary/20 shadow-2xl">
+                <div className="relative group max-w-2xl overflow-hidden rounded-[2rem] border-2 border-primary/20 shadow-2xl bg-black/5">
                   <img
                     src={uploadedImage.secure_url}
                     alt="업로드된 이미지"
-                    className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-80 object-contain group-hover:scale-105 transition-transform duration-700"
                   />
                   <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <button
@@ -899,7 +966,10 @@ const ProductManagement = () => {
               </div>
 
               <div className="space-y-4">
-                <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품이미지!(5장)</label>
+                <div className="flex flex-col gap-1 mb-2">
+                  <label className="text-sm font-black text-primary/70 ml-1 uppercase tracking-widest">상품이미지!(5장)</label>
+                  <span className="text-[10px] text-primary/60 ml-1 font-bold">권장: 정방형(1:1) 이미지 사용 시 사이트가 더 예쁘게 보입니다.</span>
+                </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-4">
                   {uploadedGalleryImages.map((image, index) => (
                     <div key={index} className="relative group aspect-square rounded-2xl overflow-hidden border-2 border-white shadow-md">
