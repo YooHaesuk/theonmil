@@ -1,14 +1,23 @@
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { neonConfig, Pool } from "@neondatabase/serverless";
-import ws from "ws";
 import * as schema from "@shared/schema";
 
-// WebSocket support for serverless environments
-neonConfig.webSocketConstructor = ws;
-
-if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL must be set");
+// WebSocket support for serverless environments (Node.js only)
+if (typeof window === 'undefined' && typeof process !== 'undefined' && process.versions && process.versions.node) {
+    import("ws").then(ws => {
+        neonConfig.webSocketConstructor = ws.default;
+    });
 }
 
-const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+// Initial database connection
+const getDatabaseUrl = () => {
+    if (typeof process !== 'undefined' && process.env?.DATABASE_URL) return process.env.DATABASE_URL;
+    // @ts-ignore - Cloudflare global
+    if (typeof DATABASE_URL !== 'undefined') return DATABASE_URL;
+    return "";
+};
+
+const databaseUrl = getDatabaseUrl();
+
+const pool = new Pool({ connectionString: databaseUrl });
 export const db = drizzle(pool, { schema });

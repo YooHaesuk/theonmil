@@ -67,20 +67,25 @@ export const products = pgTable("products", {
   isBestseller: boolean("is_bestseller").default(false),
   isNew: boolean("is_new").default(false),
   isPopular: boolean("is_popular").default(false),
+  images: text("images").array(),
+  detailImage: text("detail_image"),
+  detailContent: text("detail_content"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 // Cart items table
 export const cartItems = pgTable("cart_items", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  productId: integer("product_id").notNull(),
+  userId: text("user_id").notNull().references(() => users.id),
+  productId: integer("product_id").notNull().references(() => products.id),
   quantity: integer("quantity").notNull().default(1),
 });
 
 // Orders table
 export const orders = pgTable("orders", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
+  userId: text("user_id").notNull().references(() => users.id),
   status: text("status").notNull().default("pending"),
   total: integer("total").notNull(),
   shippingAddress: text("shipping_address"),
@@ -105,30 +110,43 @@ export const orderItems = pgTable("order_items", {
 // Reviews table
 export const reviews = pgTable("reviews", {
   id: serial("id").primaryKey(),
-  userId: integer("user_id").notNull(),
-  productId: integer("product_id").notNull(),
+  userId: text("user_id").notNull().references(() => users.id),
+  productId: integer("product_id").notNull().references(() => products.id),
   rating: integer("rating").notNull(),
   text: text("text").notNull(),
   images: text("images").array(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
+// Addresses table
+export const userAddresses = pgTable("user_addresses", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  name: text("name").notNull(), // 예: 집, 회사
+  recipient: text("recipient").notNull(),
+  phone: text("phone").notNull(),
+  zipCode: text("zip_code").notNull(),
+  address: text("address").notNull(),
+  detailAddress: text("detail_address").notNull(),
+  isDefault: boolean("is_default").default(false).notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
 // Insert schemas
 export const insertUserSchema = createInsertSchema(users);
-
+export const insertUserAddressSchema = createInsertSchema(userAddresses);
 export const insertProductSchema = createInsertSchema(products);
-
 export const insertCartItemSchema = createInsertSchema(cartItems);
-
 export const insertOrderSchema = createInsertSchema(orders);
-
 export const insertOrderItemSchema = createInsertSchema(orderItems);
-
 export const insertReviewSchema = createInsertSchema(reviews);
 
 // Types
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
+
+export type UserAddress = typeof userAddresses.$inferSelect;
+export type InsertUserAddress = typeof userAddresses.$inferInsert;
 
 export type Product = typeof products.$inferSelect;
 export type InsertProduct = typeof products.$inferInsert;

@@ -66,9 +66,7 @@ import Login from "@/pages/login";
 import Register from "@/pages/register";
 import Admin from "@/pages/admin";
 import ProductAdmin from "@/pages/product-admin";
-import NaverCallback from "@/pages/naver-callback";
 import MyPage from "@/pages/mypage";
-import MyPageTest from "@/pages/mypage-test";
 import OrderDetail from "@/pages/order-detail";
 import Support from "@/pages/support";
 import WelcomePage from "@/pages/welcome";
@@ -99,8 +97,6 @@ function Router() {
           <Route path="/product-admin" component={ProductAdmin} />
           <Route path="/mypage/:section?" component={MyPage} />
           <Route path="/mypage/order/:orderId" component={OrderDetail} />
-          <Route path="/mypage-test" component={MyPageTest} />
-          <Route path="/auth/naver/callback" component={NaverCallback} />
           <Route path="/faq" component={Support} />
           <Route path="/shipping" component={Support} />
           <Route path="/returns" component={Support} />

@@ -1,15 +1,19 @@
+import { db } from "./db";
+import { eq, desc } from "drizzle-orm";
 import {
   users, type User, type InsertUser,
   products, type Product, type InsertProduct,
   cartItems, type CartItem, type InsertCartItem,
   orders, type Order, type InsertOrder,
   orderItems, type OrderItem, type InsertOrderItem,
-  reviews, type Review, type InsertReview
+  reviews, type Review, type InsertReview,
+  userAddresses, type UserAddress, type InsertUserAddress
 } from "@shared/schema";
 
 export interface IStorage {
   // User operations
-  getUser(id: number): Promise<User | undefined>;
+  getUser(id: string): Promise<User | undefined>;
+  updateUser(id: string, data: Partial<InsertUser>): Promise<User>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
 
@@ -17,22 +21,31 @@ export interface IStorage {
   getAllProducts(): Promise<Product[]>;
   getProduct(id: number): Promise<Product | undefined>;
   getProductsByCategory(category: string): Promise<Product[]>;
+  insertProduct(product: InsertProduct): Promise<Product>;
+  updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product>;
+  deleteProduct(id: number): Promise<void>;
 
   // Cart operations
-  getCartItemsByUser(userId: number): Promise<(CartItem & { product: Product })[]>;
-  addToCart(userId: number, productId: number, quantity: number): Promise<CartItem>;
+  getCartItemsByUser(userId: string): Promise<(CartItem & { product: Product })[]>;
+  addToCart(userId: string, productId: number, quantity: number): Promise<CartItem>;
   updateCartItemQuantity(id: number, quantity: number): Promise<CartItem>;
   removeFromCart(id: number): Promise<void>;
 
   // Order operations
   createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order>;
-  getOrdersByUser(userId: number): Promise<Order[]>;
+  getOrdersByUser(userId: string): Promise<Order[]>;
   getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined>;
 
   // Review operations
-  getAllReviews(): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'>, product: Pick<Product, 'id' | 'name' | 'nameKorean'> })[]>;
-  getReviewsByProduct(productId: number): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'> })[]>;
+  getAllReviews(): Promise<any[]>;
+  getReviewsByProduct(productId: number): Promise<any[]>;
   createReview(review: InsertReview): Promise<Review>;
+
+  // Address operations
+  getUserAddresses(userId: string): Promise<UserAddress[]>;
+  addAddress(address: InsertUserAddress): Promise<UserAddress>;
+  updateAddress(id: number, address: Partial<InsertUserAddress>): Promise<UserAddress>;
+  deleteAddress(id: number): Promise<void>;
 
   // Aliases for routes.ts compatibility
   insertUser(user: InsertUser): Promise<User>;
@@ -42,67 +55,26 @@ export interface IStorage {
   getStores(): Promise<any[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<number, User>;
-  private products: Map<number, Product>;
-  private cartItems: Map<number, CartItem>;
-  private orders: Map<number, Order>;
-  private orderItems: Map<number, OrderItem>;
-  private reviews: Map<number, Review>;
-
-  private userIdCounter: number;
-  private productIdCounter: number;
-  private cartItemIdCounter: number;
-  private orderIdCounter: number;
-  private orderItemIdCounter: number;
-  private reviewIdCounter: number;
-
-  constructor() {
-    this.users = new Map();
-    this.products = new Map();
-    this.cartItems = new Map();
-    this.orders = new Map();
-    this.orderItems = new Map();
-    this.reviews = new Map();
-
-    this.userIdCounter = 1;
-    this.productIdCounter = 1;
-    this.cartItemIdCounter = 1;
-    this.orderIdCounter = 1;
-    this.orderItemIdCounter = 1;
-    this.reviewIdCounter = 1;
-
-    // Initialize with sample products
-    this.initializeProducts();
-  }
-
+export class DatabaseStorage implements IStorage {
   // User operations
-  async getUser(id: number): Promise<User | undefined> {
-    return this.users.get(id);
+  async getUser(id: string): Promise<User | undefined> {
+    const [user] = await db.select().from(users).where(eq(users.id, id));
+    return user;
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.username === username);
+    const [user] = await db.select().from(users).where(eq(users.email, username));
+    return user;
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = this.userIdCounter++;
-    const user: User = {
-      ...insertUser,
-      id,
-      role: (insertUser as any).role || "user",
-      name: insertUser.name || '',
-      email: insertUser.email || '',
-      password: insertUser.password || '',
-      username: insertUser.username || '',
-      address: (insertUser as any).address || '',
-      detailAddress: (insertUser as any).detailAddress || '',
-      zipCode: (insertUser as any).zipCode || '',
-      phone: (insertUser as any).phone || '',
-      createdAt: new Date()
-    };
-    this.users.set(id, user);
+    const [user] = await db.insert(users).values(insertUser).returning();
     return user;
+  }
+
+  async updateUser(id: string, data: Partial<InsertUser>): Promise<User> {
+    const [updatedUser] = await db.update(users).set(data).where(eq(users.id, id)).returning();
+    return updatedUser;
   }
 
   async insertUser(user: InsertUser): Promise<User> {
@@ -110,244 +82,122 @@ export class MemStorage implements IStorage {
   }
 
   async getUsers(): Promise<User[]> {
-    return Array.from(this.users.values());
+    return await db.select().from(users);
   }
 
   // Product operations
   async getAllProducts(): Promise<Product[]> {
-    return Array.from(this.products.values());
+    return await db.select().from(products).orderBy(desc(products.createdAt));
   }
 
   async getProduct(id: number): Promise<Product | undefined> {
-    return this.products.get(id);
-  }
-
-  async getProductsByCategory(category: string): Promise<Product[]> {
-    return Array.from(this.products.values()).filter(product => product.category === category);
-  }
-
-  async insertProduct(productData: Omit<Product, 'id'>): Promise<Product> {
-    const id = this.productIdCounter++;
-    const product: Product = {
-      ...productData,
-      id,
-      // tags가 문자열로 오면 배열로 변환
-      tags: typeof (productData as any).tags === 'string'
-        ? (productData as any).tags.split(',').filter((tag: string) => tag.trim())
-        : productData.tags || [],
-      // 기본값 설정
-      isBestseller: productData.isBestseller || false,
-      isNew: productData.isNew || false,
-      isPopular: productData.isPopular || false
-    };
-
-    this.products.set(id, product);
-    console.log('💾 상품 저장 완료:', product);
+    const [product] = await db.select().from(products).where(eq(products.id, id));
     return product;
   }
 
-  async getProductById(id: number): Promise<Product | null> {
-    return this.products.get(id) || null;
+  async getProductsByCategory(category: string): Promise<Product[]> {
+    return await db.select().from(products).where(eq(products.category, category));
   }
 
-  async updateProduct(id: number, productData: Partial<Omit<Product, 'id'>>): Promise<boolean> {
-    const existingProduct = this.products.get(id);
-    if (!existingProduct) {
-      console.log('❌ 상품을 찾을 수 없음:', id);
-      return false;
-    }
-
-    const updatedProduct: Product = {
-      ...existingProduct,
-      ...productData,
-      id, // ID는 변경되지 않음
-      // tags가 문자열로 오면 배열로 변환
-      tags: Array.isArray(productData.tags)
-        ? productData.tags
-        : (typeof (productData as any).tags === 'string'
-          ? (productData as any).tags.split(',').map((tag: string) => tag.trim())
-          : existingProduct.tags)
-    };
-
-    this.products.set(id, updatedProduct);
-    console.log('💾 상품 수정 완료:', updatedProduct);
-    return true;
+  async insertProduct(product: InsertProduct): Promise<Product> {
+    const [newItem] = await db.insert(products).values(product).returning();
+    return newItem;
   }
 
-  // Cart operations
-  async getCartItemsByUser(userId: number): Promise<(CartItem & { product: Product })[]> {
-    const items = Array.from(this.cartItems.values())
-      .filter(item => item.userId === userId);
-
-    return items.map(item => {
-      const product = this.products.get(item.productId);
-      if (!product) {
-        throw new Error(`Product not found for cart item: ${item.id}`);
-      }
-      return { ...item, product };
-    });
-  }
-
-  async addToCart(userId: number, productId: number, quantity: number): Promise<CartItem> {
-    // Check if product exists
-    const product = this.products.get(productId);
-    if (!product) {
-      throw new Error(`Product not found: ${productId}`);
-    }
-
-    // Check if already in cart
-    const existingItem = Array.from(this.cartItems.values()).find(
-      item => item.userId === userId && item.productId === productId
-    );
-
-    if (existingItem) {
-      return this.updateCartItemQuantity(existingItem.id, existingItem.quantity + quantity);
-    }
-
-    // Add new cart item
-    const id = this.cartItemIdCounter++;
-    const cartItem: CartItem = { id, userId, productId, quantity };
-    this.cartItems.set(id, cartItem);
-    return cartItem;
-  }
-
-  async updateCartItemQuantity(id: number, quantity: number): Promise<CartItem> {
-    const cartItem = this.cartItems.get(id);
-    if (!cartItem) {
-      throw new Error(`Cart item not found: ${id}`);
-    }
-
-    const updatedItem = { ...cartItem, quantity };
-    this.cartItems.set(id, updatedItem);
+  async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product> {
+    const [updatedItem] = await db.update(products)
+      .set({ ...product, updatedAt: new Date() })
+      .where(eq(products.id, id))
+      .returning();
     return updatedItem;
   }
 
+  async deleteProduct(id: number): Promise<void> {
+    await db.delete(products).where(eq(products.id, id));
+  }
+
+  // Cart operations
+  async getCartItemsByUser(userId: string): Promise<(CartItem & { product: Product })[]> {
+    const results = await db.select({
+      cartItem: cartItems,
+      product: products
+    })
+      .from(cartItems)
+      .where(eq(cartItems.userId, userId))
+      .innerJoin(products, eq(cartItems.productId, products.id));
+
+    return results.map(r => ({ ...r.cartItem, product: r.product }));
+  }
+
+  async addToCart(userId: string, productId: number, quantity: number): Promise<CartItem> {
+    const [item] = await db.insert(cartItems).values({
+      userId,
+      productId,
+      quantity
+    } as InsertCartItem).returning();
+    return item;
+  }
+
+  async updateCartItemQuantity(id: number, quantity: number): Promise<CartItem> {
+    const [item] = await db.update(cartItems)
+      .set({ quantity })
+      .where(eq(cartItems.id, id))
+      .returning();
+    return item;
+  }
+
   async removeFromCart(id: number): Promise<void> {
-    this.cartItems.delete(id);
+    await db.delete(cartItems).where(eq(cartItems.id, id));
   }
 
   // Order operations
   async createOrder(orderData: InsertOrder, itemsData: InsertOrderItem[]): Promise<Order> {
-    const id = this.orderIdCounter++;
-    const order: Order = {
-      ...orderData,
-      id,
-      status: (orderData as any).status || "pending",
-      message: (orderData as any).message || "",
-      recipientName: (orderData as any).recipientName || "",
-      paymentMethod: (orderData as any).paymentMethod || "",
-      userId: orderData.userId || 0,
-      total: orderData.total || 0,
-      shippingAddress: (orderData as any).shippingAddress || "",
-      shippingDetailAddress: (orderData as any).shippingDetailAddress || "",
-      shippingZipCode: (orderData as any).shippingZipCode || "",
-      recipientPhone: (orderData as any).recipientPhone || "",
-      createdAt: new Date()
-    };
+    const [order] = await db.insert(orders).values(orderData).returning();
 
-    this.orders.set(id, order);
-
-    // Create order items
-    for (const itemData of itemsData) {
-      const orderItemId = this.orderItemIdCounter++;
-      const orderItem: OrderItem = {
-        ...itemData,
-        id: orderItemId,
-        orderId: id,
-        price: itemData.price || 0,
-        quantity: itemData.quantity || 0,
-        productId: itemData.productId || 0
-      };
-      this.orderItems.set(orderItemId, orderItem);
+    for (const item of itemsData) {
+      await db.insert(orderItems).values({ ...item, orderId: order.id });
     }
 
     return order;
   }
 
-  async getOrdersByUser(userId: number): Promise<Order[]> {
-    return Array.from(this.orders.values())
-      .filter(order => order.userId === userId)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  async getOrdersByUser(userId: string): Promise<Order[]> {
+    return await db.select().from(orders)
+      .where(eq(orders.userId, userId))
+      .orderBy(desc(orders.createdAt));
   }
 
   async getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined> {
-    const order = this.orders.get(id);
+    const [order] = await db.select().from(orders).where(eq(orders.id, id));
     if (!order) return undefined;
 
-    const items = Array.from(this.orderItems.values())
-      .filter(item => item.orderId === id)
-      .map(item => {
-        const product = this.products.get(item.productId);
-        if (!product) {
-          throw new Error(`Product not found for order item: ${item.id}`);
-        }
-        return { ...item, product };
-      });
+    const items = await db.select({
+      orderItem: orderItems,
+      product: products
+    })
+      .from(orderItems)
+      .where(eq(orderItems.orderId, id))
+      .innerJoin(products, eq(orderItems.productId, products.id));
 
-    return { ...order, items };
+    return {
+      ...order,
+      items: items.map(i => ({ ...i.orderItem, product: i.product }))
+    };
   }
 
   // Review operations
-  async getAllReviews(): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'>, product: Pick<Product, 'id' | 'name' | 'nameKorean'> })[]> {
-    return Array.from(this.reviews.values()).map(review => {
-      const user = this.users.get(review.userId);
-      const product = this.products.get(review.productId);
-
-      if (!user || !product) {
-        throw new Error(`User or product not found for review: ${review.id}`);
-      }
-
-      return {
-        ...review,
-        user: {
-          id: user.id,
-          username: user.username,
-          name: user.name
-        },
-        product: {
-          id: product.id,
-          name: product.name,
-          nameKorean: product.nameKorean
-        }
-      };
-    });
+  async getAllReviews(): Promise<any[]> {
+    return await db.select().from(reviews).orderBy(desc(reviews.createdAt));
   }
 
-  async getReviewsByProduct(productId: number): Promise<(Review & { user: Pick<User, 'id' | 'username' | 'name'> })[]> {
-    return Array.from(this.reviews.values())
-      .filter(review => review.productId === productId)
-      .map(review => {
-        const user = this.users.get(review.userId);
-
-        if (!user) {
-          throw new Error(`User not found for review: ${review.id}`);
-        }
-
-        return {
-          ...review,
-          user: {
-            id: user.id,
-            username: user.username,
-            name: user.name
-          }
-        };
-      });
+  async getReviewsByProduct(productId: number): Promise<any[]> {
+    return await db.select().from(reviews)
+      .where(eq(reviews.productId, productId))
+      .orderBy(desc(reviews.createdAt));
   }
 
   async createReview(reviewData: InsertReview): Promise<Review> {
-    const id = this.reviewIdCounter++;
-    const review: Review = {
-      ...reviewData,
-      id,
-      text: (reviewData as any).text || "",
-      images: (reviewData as any).images || [],
-      userId: reviewData.userId || 0,
-      rating: reviewData.rating || 0,
-      productId: reviewData.productId || 0,
-      createdAt: new Date()
-    };
-
-    this.reviews.set(id, review);
+    const [review] = await db.insert(reviews).values(reviewData).returning();
     return review;
   }
 
@@ -359,95 +209,28 @@ export class MemStorage implements IStorage {
     return this.getAllReviews();
   }
 
+  // Address operations
+  async getUserAddresses(userId: string): Promise<UserAddress[]> {
+    return await db.select().from(userAddresses).where(eq(userAddresses.userId, userId));
+  }
+
+  async addAddress(address: InsertUserAddress): Promise<UserAddress> {
+    const [newItem] = await db.insert(userAddresses).values(address).returning();
+    return newItem;
+  }
+
+  async updateAddress(id: number, address: Partial<InsertUserAddress>): Promise<UserAddress> {
+    const [updatedItem] = await db.update(userAddresses).set(address).where(eq(userAddresses.id, id)).returning();
+    return updatedItem;
+  }
+
+  async deleteAddress(id: number): Promise<void> {
+    await db.delete(userAddresses).where(eq(userAddresses.id, id));
+  }
+
   async getStores(): Promise<any[]> {
     return [];
   }
-
-  // Initialize with sample products
-  private initializeProducts() {
-    const sampleProducts: Omit<Product, 'id'>[] = [
-      {
-        name: 'Classic Croissant',
-        nameKorean: '클래식 크로와상',
-        description: '72시간 저온 발효로 완성한 바삭한 겉면과 부드러운 속',
-        price: 4800,
-        image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2232&q=80',
-        category: 'regular',
-        tags: ['바삭함', '크로와상', '아침식사'],
-        isBestseller: true,
-        isNew: false,
-        isPopular: false
-      },
-      {
-        name: 'French Baguette',
-        nameKorean: '프렌치 바게트',
-        description: '국내산 밀과 천연 발효종으로 프랑스 정통 방식 재현',
-        price: 5200,
-        image: 'https://images.unsplash.com/photo-1586444248902-2f64eddc13df?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
-        category: 'regular',
-        tags: ['바게트', '프랑스빵', '저녁식사'],
-        isBestseller: false,
-        isNew: false,
-        isPopular: true
-      },
-      {
-        name: 'Whole Wheat Bread',
-        nameKorean: '통밀 식빵',
-        description: '유기농 통밀과 꿀로 만든 건강한 식빵',
-        price: 6800,
-        image: 'https://images.unsplash.com/photo-1517433670267-08bbd4be890f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=796&q=80',
-        category: 'regular',
-        tags: ['통밀', '건강빵', '샌드위치'],
-        isBestseller: false,
-        isNew: false,
-        isPopular: false
-      },
-      {
-        name: 'Special Chocolate Cake',
-        nameKorean: '스페셜 초콜릿 케이크',
-        description: '벨기에 초콜릿을 사용한 특별한 초콜릿 케이크',
-        price: 38000,
-        image: 'https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1089&q=80',
-        category: 'custom',
-        tags: ['케이크', '초콜릿', '생일'],
-        isBestseller: false,
-        isNew: false,
-        isPopular: false
-      },
-      {
-        name: 'Fresh Fruit Tart',
-        nameKorean: '신선한 과일 타르트',
-        description: '제철 과일로 장식한, 바닐라 커스터드가 가득한 타르트',
-        price: 32000,
-        image: 'https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=765&q=80',
-        category: 'custom',
-        tags: ['타르트', '과일', '디저트'],
-        isBestseller: false,
-        isNew: true,
-        isPopular: false
-      },
-      {
-        name: 'Anniversary Gift Set',
-        nameKorean: '기념일 선물 세트',
-        description: '특별한 날을 위한 케이크와 꽃, 메시지 카드가 포함된 선물 세트',
-        price: 55000,
-        image: 'https://images.unsplash.com/photo-1627834377411-8da5f4f09de8?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1901&q=80',
-        category: 'gift',
-        tags: ['선물', '케이크', '꽃', '기념일'],
-        isBestseller: false,
-        isNew: false,
-        isPopular: false
-      }
-    ];
-
-    sampleProducts.forEach(product => {
-      const id = this.productIdCounter++;
-      this.products.set(id, {
-        ...product,
-        id
-      });
-    });
-  }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

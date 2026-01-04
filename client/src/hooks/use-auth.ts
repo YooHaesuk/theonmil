@@ -4,10 +4,14 @@ export const useAuth = () => {
   const { data: session, isPending, error } = useSession();
 
   const user = session?.user ? {
+    ...session.user,
     id: session.user.id,
     email: session.user.email,
     name: session.user.name,
     image: session.user.image,
+    phone: (session.user as any).phone,
+    createdAt: (session.user as any).createdAt,
+    provider: (session.user as any).provider || 'social',
     isAdmin: session.user.email === 'yhs85844@gmail.com' || (session.user as any).role === 'admin'
   } : null;
 
