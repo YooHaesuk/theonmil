@@ -18,11 +18,16 @@ export const db = new Proxy({} as any, {
         if (!_db) {
             const databaseUrl = getEnv("DATABASE_URL");
             if (!databaseUrl) {
-                console.error("DATABASE_URL is missing!");
+                console.error("DATABASE_URL is missing in runtime environment!");
             }
             _pool = new Pool({ connectionString: databaseUrl });
             _db = drizzle(_pool, { schema });
         }
-        return _db[prop];
+
+        const value = _db[prop];
+        if (typeof value === 'function') {
+            return value.bind(_db);
+        }
+        return value;
     }
 });

@@ -4,8 +4,18 @@
 
 let runtimeEnv: any = null;
 
+// Ensure process.env is polyfilled globally for libraries that expect it
+if (typeof process === 'undefined') {
+    (globalThis as any).process = { env: {} };
+}
+
 export const setRuntimeEnv = (env: any) => {
     runtimeEnv = env;
+
+    // Sync with process.env polyfill
+    if (typeof process !== 'undefined' && process.env) {
+        Object.assign(process.env, env);
+    }
 };
 
 export const getEnv = (key: string): string => {
@@ -14,7 +24,7 @@ export const getEnv = (key: string): string => {
         return runtimeEnv[key];
     }
 
-    // Try process.env (Node.js)
+    // Try process.env (Node.js or polyfilled)
     if (typeof process !== 'undefined' && process.env && process.env[key]) {
         return process.env[key] as string;
     }

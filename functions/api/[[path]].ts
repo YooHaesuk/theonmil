@@ -1,8 +1,3 @@
-// Process polyfill for Cloudflare Edge
-if (typeof process === 'undefined') {
-    (globalThis as any).process = { env: {} };
-}
-
 import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
 import { auth } from "../../server/auth";
@@ -14,8 +9,20 @@ const app = new Hono().basePath("/api");
 
 // Middleware to inject environment variables for Edge compatibility
 app.use("*", async (c, next) => {
+    // Inject c.env into our custom env utility and process.env polyfill
     setRuntimeEnv(c.env);
     await next();
+});
+
+// Error handling for better diagnostics in Cloudflare logs
+app.onError((err, c) => {
+    console.error(`[Edge API Error]: ${err.message}`);
+    console.error(err.stack);
+    return c.json({
+        error: "Internal Server Error",
+        message: err.message,
+        path: c.req.path
+    }, 500);
 });
 
 // Better Auth

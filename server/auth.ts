@@ -9,6 +9,9 @@ let _auth: any = null;
 export const auth = new Proxy({} as any, {
   get(target, prop) {
     if (!_auth) {
+      const baseURL = getEnv("BETTER_AUTH_URL") || getEnv("URL") || "";
+      const secret = getEnv("BETTER_AUTH_SECRET") || "fallback-secret-at-least-thirty-two-chars-long";
+
       _auth = betterAuth({
         database: drizzleAdapter(db, {
           provider: "pg",
@@ -16,8 +19,8 @@ export const auth = new Proxy({} as any, {
             ...schema
           }
         }),
-        secret: getEnv("BETTER_AUTH_SECRET") || "fallback-secret",
-        baseURL: getEnv("BETTER_AUTH_URL"),
+        secret: secret,
+        baseURL: baseURL,
         socialProviders: {
           google: {
             clientId: getEnv("GOOGLE_CLIENT_ID"),
@@ -33,10 +36,15 @@ export const auth = new Proxy({} as any, {
           },
         },
         onUserCreated: async (user) => {
-          console.log("New user created:", user.email);
+          console.log("New user created via social:", user.email);
         }
       });
     }
-    return _auth[prop];
+
+    const value = _auth[prop];
+    if (typeof value === 'function') {
+      return value.bind(_auth);
+    }
+    return value;
   }
 });
