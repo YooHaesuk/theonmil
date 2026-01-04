@@ -43,49 +43,49 @@ const ActivitySection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div
           onClick={() => setActiveTab('wishlist')}
-          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'wishlist' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'wishlist' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50'}`}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary transition-colors">
               <Heart className="w-5 h-5 text-primary group-hover:text-white" />
             </div>
             <h3 className="font-bold text-foreground">찜한 상품</h3>
           </div>
           <div className="flex items-baseline gap-1">
-            <p className="text-3xl font-bold text-primary">2</p>
-            <p className="text-muted-foreground text-sm font-pretendard">개</p>
+            <p className="text-4xl font-black text-primary">2</p>
+            <p className="text-muted-foreground text-sm font-bold font-pretendard">개</p>
           </div>
         </div>
 
         <div
           onClick={() => setActiveTab('reviews')}
-          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'reviews' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'reviews' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50'}`}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+            <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center group-hover:bg-accent transition-colors">
               <Star className="w-5 h-5 text-accent group-hover:text-white" />
             </div>
             <h3 className="font-bold text-foreground">작성한 리뷰</h3>
           </div>
           <div className="flex items-baseline gap-1">
-            <p className="text-3xl font-bold text-accent">2</p>
-            <p className="text-muted-foreground text-sm font-pretendard">개</p>
+            <p className="text-4xl font-black text-accent">2</p>
+            <p className="text-muted-foreground text-sm font-bold font-pretendard">개</p>
           </div>
         </div>
 
         <div
           onClick={() => setActiveTab('coupons')}
-          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'coupons' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'coupons' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50'}`}
         >
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center group-hover:bg-emerald-500 transition-colors">
               <Gift className="w-5 h-5 text-emerald-600 group-hover:text-white" />
             </div>
             <h3 className="font-bold text-foreground">보유 쿠폰</h3>
           </div>
           <div className="flex items-baseline gap-1">
-            <p className="text-3xl font-bold text-emerald-600">2</p>
-            <p className="text-muted-foreground text-sm font-pretendard">장</p>
+            <p className="text-4xl font-black text-emerald-600">2</p>
+            <p className="text-muted-foreground text-sm font-bold font-pretendard">장</p>
           </div>
         </div>
       </div>

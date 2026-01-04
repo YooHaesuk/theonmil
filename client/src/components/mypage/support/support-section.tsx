@@ -249,12 +249,12 @@ const SupportSection = () => {
                 { q: "방금 받은 빵, 어떻게 보관할까요?", a: "모든 빵은 방부제를 쓰지 않습니다. 받으신 당일 드시는 게 가장 좋고, 보관하실 때는 지퍼백에 넣어 실온 2일, 냉동 1개월까지 권장 드립니다." },
                 { q: "환불 처리 기간은 얼마나 걸리나요?", a: "카드 결제 취소 승인 후 영업일 기준 3-5일 정도 소요됩니다. 무통장 입금은 신청하신 당일 바로 입금해 드리려 노력하고 있습니다." }
               ].map((item, idx) => (
-                <div key={idx} className="group bg-white border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all">
+                <div key={idx} className="group bg-white border border-border/50 rounded-2xl p-6 hover:border-primary/30 transition-all shadow-sm hover:shadow-md">
                   <h5 className="font-bold text-foreground text-lg mb-4 flex items-center gap-4">
                     <span className="w-8 h-8 bg-primary/10 text-primary rounded-xl flex items-center justify-center text-xs font-black flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-colors">Q</span>
                     {item.q}
                   </h5>
-                  <div className="pl-12 text-muted-foreground font-medium leading-relaxed">
+                  <div className="pl-12 text-muted-foreground font-medium leading-relaxed font-pretendard">
                     {item.a}
                   </div>
                 </div>

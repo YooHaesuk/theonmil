@@ -67,26 +67,26 @@ const ShoppingSection = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <button
           onClick={() => setSelectedFilter('all')}
-          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'all' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50 hover:border-primary/30'}`}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'all' ? 'border-primary ring-2 ring-primary/10 bg-primary/5' : 'border-border/50 hover:border-primary/30'}`}
         >
-          <div className="text-sm text-muted-foreground mb-2 font-pretendard">총 주문 내역</div>
-          <div className="text-3xl font-bold text-foreground">{loading ? '...' : `${totalOrders}건`}</div>
+          <div className="text-xs text-primary/70 mb-2 font-bold font-pretendard uppercase tracking-tighter">TOTAL ORDERS</div>
+          <div className={`text-4xl font-black transition-colors ${selectedFilter === 'all' ? 'text-primary' : 'text-foreground'}`}>{loading ? '...' : `${totalOrders}건`}</div>
         </button>
 
         <button
           onClick={() => setSelectedFilter('shipping')}
-          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'shipping' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50 hover:border-primary/30'}`}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'shipping' ? 'border-amber-500 ring-2 ring-amber-500/10 bg-amber-50/30' : 'border-border/50 hover:border-amber-500/30'}`}
         >
-          <div className="text-sm text-muted-foreground mb-2 font-pretendard">배송 중</div>
-          <div className="text-3xl font-bold text-primary">{loading ? '...' : `${shippingOrders}건`}</div>
+          <div className="text-xs text-amber-600 mb-2 font-bold font-pretendard uppercase tracking-tighter">SHIPPING</div>
+          <div className={`text-4xl font-black transition-colors ${selectedFilter === 'shipping' ? 'text-amber-600' : 'text-foreground'}`}>{loading ? '...' : `${shippingOrders}건`}</div>
         </button>
 
         <button
           onClick={() => setSelectedFilter('delivered')}
-          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'delivered' ? 'border-accent ring-1 ring-accent/20' : 'border-border/50 hover:border-accent/30'}`}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'delivered' ? 'border-accent ring-2 ring-accent/10 bg-accent/5' : 'border-border/50 hover:border-accent/30'}`}
         >
-          <div className="text-sm text-muted-foreground mb-2 font-pretendard">총 구매 금액</div>
-          <div className="text-3xl font-bold text-accent">{loading ? '...' : `${totalAmount.toLocaleString()}원`}</div>
+          <div className="text-xs text-accent mb-2 font-bold font-pretendard uppercase tracking-tighter">TOTAL AMOUNT</div>
+          <div className={`text-4xl font-black transition-colors ${selectedFilter === 'delivered' ? 'text-accent' : 'text-foreground'}`}>{loading ? '...' : `${totalAmount.toLocaleString()}원`}</div>
         </button>
       </div>
 
@@ -136,7 +136,7 @@ const ShoppingSection = () => {
                 </div>
                 <div className="text-right">
                   <div className="text-lg font-bold text-foreground mb-1">{order.total.toLocaleString()}원</div>
-                  <div className="text-[10px] text-primary font-bold group-hover:underline">상세보기 ></div>
+                  <div className="text-[10px] text-primary font-bold group-hover:underline">상세보기 &gt;</div>
                 </div>
               </div>
             ))}

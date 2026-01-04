@@ -1,4 +1,5 @@
 import { User, Mail, Phone, MapPin, CreditCard, Bell, Settings, Calendar, Plus, Trash2, Star, Eye, EyeOff } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
 import { useState, useEffect } from 'react';
@@ -168,27 +169,51 @@ const ProfileSection = () => {
       </div>
 
       {/* 실적 요약 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         <button
           onClick={() => setActiveTab('personal')}
-          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'personal' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+          className={`bg-white border rounded-2xl p-5 sm:p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'personal' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50 hover:border-primary/30'}`}
         >
           <div className="flex items-center gap-3 mb-3">
             <User className="w-5 h-5 text-primary" />
-            <div className="text-xs text-muted-foreground font-pretendard uppercase tracking-wider font-bold">PROFILE</div>
+            <div className="text-[10px] text-primary/70 font-pretendard uppercase tracking-wider font-bold">INFO</div>
           </div>
-          <div className="text-xl font-bold text-foreground font-pretendard">내 정보 수정</div>
+          <div className={`text-lg sm:text-xl font-bold font-pretendard transition-colors ${activeTab === 'personal' ? 'text-primary' : 'text-foreground'}`}>내 정보 수정</div>
         </button>
 
         <button
           onClick={() => setActiveTab('address')}
-          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'address' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+          className={`bg-white border rounded-2xl p-5 sm:p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'address' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50 hover:border-primary/30'}`}
         >
           <div className="flex items-center gap-3 mb-3">
             <MapPin className="w-5 h-5 text-primary" />
-            <div className="text-xs text-muted-foreground font-pretendard uppercase tracking-wider font-bold">ADDRESS</div>
+            <div className="text-[10px] text-primary/70 font-pretendard uppercase tracking-wider font-bold">LOCATION</div>
           </div>
-          <div className="text-xl font-bold text-foreground font-pretendard">배송지 설정 <span className="text-primary ml-1">({totalAddresses})</span></div>
+          <div className={`text-lg sm:text-xl font-bold font-pretendard transition-colors ${activeTab === 'address' ? 'text-primary' : 'text-foreground'}`}>
+            배송지 설정 <span className="text-primary/70 ml-1">({totalAddresses})</span>
+          </div>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('payment')}
+          className={`bg-white border rounded-2xl p-5 sm:p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'payment' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50 hover:border-primary/30'}`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <CreditCard className="w-5 h-5 text-primary" />
+            <div className="text-[10px] text-primary/70 font-pretendard uppercase tracking-wider font-bold">PAY</div>
+          </div>
+          <div className={`text-lg sm:text-xl font-bold font-pretendard transition-colors ${activeTab === 'payment' ? 'text-primary' : 'text-foreground'}`}>결제수단</div>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('notifications')}
+          className={`bg-white border rounded-2xl p-5 sm:p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'notifications' ? 'border-primary ring-1 ring-primary/20 bg-primary/5' : 'border-border/50 hover:border-primary/30'}`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <Bell className="w-5 h-5 text-primary" />
+            <div className="text-[10px] text-primary/70 font-pretendard uppercase tracking-wider font-bold">ALARM</div>
+          </div>
+          <div className={`text-lg sm:text-xl font-bold font-pretendard transition-colors ${activeTab === 'notifications' ? 'text-primary' : 'text-foreground'}`}>알림 설정</div>
         </button>
       </div>
 
@@ -197,7 +222,7 @@ const ProfileSection = () => {
         {activeTab === 'personal' && (
           <div className="max-w-xl space-y-8 font-pretendard">
             <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
-              <div className="w-2 h-6 bg-primary rounded-full"></div>
+              <div className="w-2 h-6 bg-primary rounded-full shadow-sm shadow-primary/20"></div>
               기본 정보 설정
             </h4>
             <div className="space-y-6">
