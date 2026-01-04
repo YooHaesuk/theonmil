@@ -1,41 +1,41 @@
-/**
- * Environment variable utility for cross-platform compatibility (Node.js & Cloudflare Workers/Pages)
- */
+import { config } from "dotenv";
 
 let runtimeEnv: any = null;
 
-// Ensure process.env is polyfilled globally for libraries that expect it
-if (typeof process === 'undefined') {
-    (globalThis as any).process = { env: {} };
-}
-
-export const setRuntimeEnv = (env: any) => {
+/**
+ * Injects Cloudflare runtime environment variables into our utility and process.env.
+ * This is critical for Edge compatibility with libraries that expect process.env.
+ */
+export function setRuntimeEnv(env: any) {
     runtimeEnv = env;
 
-    // Sync with process.env polyfill
-    if (typeof process !== 'undefined' && process.env) {
-        Object.assign(process.env, env);
-    }
-};
-
-export const getEnv = (key: string): string => {
-    // Try provided runtime env (Cloudflare Pages c.env)
-    if (runtimeEnv && runtimeEnv[key]) {
-        return runtimeEnv[key];
+    // Ensure process.env global exists in Edge runtime
+    if (typeof process === 'undefined') {
+        (globalThis as any).process = { env: {} };
+    } else if (!process.env) {
+        (process as any).env = {};
     }
 
-    // Try process.env (Node.js or polyfilled)
-    if (typeof process !== 'undefined' && process.env && process.env[key]) {
-        return process.env[key] as string;
+    // Synchronize runtime variables into process.env defensively
+    if (env && process.env) {
+        for (const [key, value] of Object.entries(env)) {
+            try {
+                // Only set if not already set or if it's a critical auth var
+                if (!process.env[key] || key.startsWith('BETTER_AUTH') || key.includes('CLIENT_')) {
+                    (process.env as any)[key] = value;
+                }
+            } catch (e) {
+                // Silently fail for read-only environment variables in some runtimes
+            }
+        }
     }
+}
 
-    // Try global context (Cloudflare Pages/Workers)
-    // @ts-ignore
-    if (typeof globalThis !== 'undefined' && (globalThis as any)[key]) {
-        // @ts-ignore
-        return (globalThis as any)[key] as string;
-    }
-
-    // Fallback to empty string
-    return "";
-};
+/**
+ * Get an environment variable from either Cloudflare runtime context or process.env.
+ */
+export function getEnv(key: string): string | undefined {
+    // Priority: 1. Runtime Env (Cloudflare), 2. process.env (Node/Polyfill)
+    const value = runtimeEnv?.[key] || process.env[key];
+    return value;
+}

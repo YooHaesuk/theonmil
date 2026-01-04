@@ -14,9 +14,9 @@ export const getAuth = () => {
   if (!_auth) {
     let baseURL = getEnv("BETTER_AUTH_URL") || getEnv("URL") || "";
 
-    // Ensure baseURL has a protocol for Cloudflare
+    // Cloudflare Pages compatibility: ensure protocol and valid host
     if (baseURL && !baseURL.startsWith('http')) {
-      baseURL = `https://${baseURL}`;
+      baseURL = `https://${baseURL.replace(/\/$/, '')}`;
     }
 
     const secret = getEnv("BETTER_AUTH_SECRET") || "fallback-secret-at-least-thirty-two-chars-long";
@@ -50,9 +50,8 @@ export const getAuth = () => {
         },
       },
       advanced: {
-        // Use 'as any' to avoid lint errors with specific better-auth versions
-        // trustProxy is often needed behind Cloudflare
-        trustProxy: true
+        // trustHost is the correct flag for better-auth v1.x on Cloudflare
+        trustHost: true
       } as any,
       onUserCreated: async (user) => {
         console.log("New user created via social:", user.email);
