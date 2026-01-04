@@ -70,18 +70,12 @@ const ProductManagement = () => {
   const fetchProducts = async () => {
     try {
       console.log('📦 관리자: 상품 목록 가져오는 중...');
-      const { getAllProducts } = await import('@/lib/firestore');
-      const data = await getAllProducts();
+      const response = await fetch('/api/products');
+      if (!response.ok) throw new Error('Failed to fetch products');
+      const data = await response.json();
 
-      // Firestore 데이터를 클라이언트 형식으로 변환
-      const formattedProducts = data.map(product => ({
-        ...product,
-        createdAt: product.createdAt?.toDate?.()?.toISOString() || product.createdAt,
-        updatedAt: product.updatedAt?.toDate?.()?.toISOString() || product.updatedAt
-      }));
-
-      setProducts(formattedProducts);
-      console.log('✅ 관리자: 상품 목록 가져오기 성공:', formattedProducts.length, '개');
+      setProducts(data);
+      console.log('✅ 관리자: 상품 목록 가져오기 성공:', data.length, '개');
     } catch (error) {
       console.error('❌ 관리자: 상품 목록 가져오기 오류:', error);
       toast({
@@ -143,11 +137,11 @@ const ProductManagement = () => {
     setUploadedGalleryImages(
       Array.isArray(product.images)
         ? product.images.map((url: string) => ({
-            public_id: extractPublicIdFromUrl(url),
-            secure_url: url,
-            width: 0,
-            height: 0
-          }))
+          public_id: extractPublicIdFromUrl(url),
+          secure_url: url,
+          width: 0,
+          height: 0
+        }))
         : []
     );
     setUploadedDetailImage(product.detailImage ? {
@@ -206,7 +200,7 @@ const ProductManagement = () => {
       if (result.success) {
         setUploadedImage(result.data);
         setFormData(prev => ({ ...prev, image: result.data.secure_url }));
-        
+
         toast({
           title: "성공",
           description: "이미지가 성공적으로 업로드되었습니다.",
@@ -540,40 +534,48 @@ const ProductManagement = () => {
 
       if (isEdit) {
         // 상품 수정
-        const { updateProduct } = await import('@/lib/firestore');
-        await updateProduct(selectedProduct.id, {
-          name: formData.name,
-          nameKorean: formData.nameKorean,
-          description: formData.description,
-          price: formData.price,
-          category: formData.category as any,
-          tags: formData.tags,
-          image: formData.image,
-          images: formData.images,
-          detailImage: formData.detailImage,
-          detailContent: formData.detailContent,
-          isBestseller: false,
-          isNew: false,
-          isPopular: false
+        const response = await fetch(`/api/products/${selectedProduct.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            nameKorean: formData.nameKorean,
+            description: formData.description,
+            price: formData.price,
+            category: formData.category,
+            tags: formData.tags,
+            image: formData.image,
+            images: formData.images,
+            detailImage: formData.detailImage,
+            detailContent: formData.detailContent,
+            isBestseller: false,
+            isNew: false,
+            isPopular: false
+          })
         });
+        if (!response.ok) throw new Error('Failed to update product');
       } else {
         // 상품 등록
-        const { createProduct } = await import('@/lib/firestore');
-        await createProduct({
-          name: formData.name,
-          nameKorean: formData.nameKorean,
-          description: formData.description,
-          price: formData.price,
-          category: formData.category as any,
-          tags: formData.tags,
-          image: formData.image,
-          images: formData.images,
-          detailImage: formData.detailImage,
-          detailContent: formData.detailContent,
-          isBestseller: false,
-          isNew: false,
-          isPopular: false
+        const response = await fetch('/api/products', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            nameKorean: formData.nameKorean,
+            description: formData.description,
+            price: formData.price,
+            category: formData.category,
+            tags: formData.tags,
+            image: formData.image,
+            images: formData.images,
+            detailImage: formData.detailImage,
+            detailContent: formData.detailContent,
+            isBestseller: false,
+            isNew: false,
+            isPopular: false
+          })
         });
+        if (!response.ok) throw new Error('Failed to create product');
       }
 
       toast({
@@ -687,338 +689,333 @@ const ProductManagement = () => {
               {mode === 'create' ? '상품 등록' : '상품 수정'}
             </h2>
           </div>
-      
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* 이미지 업로드 */}
-        <motion.div variants={slideInFromBottom} className="space-y-4">
-          <label className="block text-sm font-medium text-gray-300">
-            대표 이미지 *
-          </label>
-          
-          {uploadedImage ? (
-            <div className="relative">
-              <img
-                src={uploadedImage.secure_url}
-                alt="업로드된 이미지"
-                className="w-full max-w-md h-64 object-cover rounded-lg"
-              />
-              <button
-                type="button"
-                onClick={handleImageDelete}
-                className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
-              >
-                <i className="fa-solid fa-trash text-sm"></i>
-              </button>
-              <div className="mt-2 text-sm text-gray-400">
-                크기: {uploadedImage.width} × {uploadedImage.height}px
-              </div>
-            </div>
-          ) : (
-            <div className="border-2 border-dashed border-[#333333] rounded-lg p-8 text-center">
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                className="hidden"
-              />
-              <button
-                type="button"
-                onClick={() => fileInputRef.current?.click()}
-                disabled={uploading}
-                className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
-              >
-                {uploading ? (
-                  <>
-                    <i className="fa-solid fa-spinner fa-spin mr-2"></i>
-                    업로드 중...
-                  </>
-                ) : (
-                  <>
-                    <i className="fa-solid fa-cloud-upload-alt mr-2"></i>
-                    이미지 선택
-                  </>
-                )}
-              </button>
-              <p className="text-gray-400 text-sm mt-2">
-                JPG, PNG, GIF 파일 (최대 5MB)
-              </p>
-            </div>
-          )}
-        </motion.div>
 
-        {/* 🖼️ 상품 이미지 업로드 */}
-        <motion.div variants={slideInFromBottom}>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            상품 이미지
-            <span className="text-xs text-gray-500 ml-2">
-              (선택사항 - 상품 상세페이지 썸네일용, 최대 4개)
-            </span>
-          </label>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* 이미지 업로드 */}
+            <motion.div variants={slideInFromBottom} className="space-y-4">
+              <label className="block text-sm font-medium text-gray-300">
+                대표 이미지 *
+              </label>
 
-          {/* 상품 이미지 목록 */}
-          {uploadedGalleryImages.length > 0 && (
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-              {uploadedGalleryImages.map((image, index) => (
-                <div key={index} className="relative group">
+              {uploadedImage ? (
+                <div className="relative">
                   <img
-                    src={image.secure_url}
-                    alt={`상품 이미지 ${index + 1}`}
-                    className="w-full h-24 object-cover rounded-lg border border-[#333333]"
+                    src={uploadedImage.secure_url}
+                    alt="업로드된 이미지"
+                    className="w-full max-w-md h-64 object-cover rounded-lg"
                   />
                   <button
                     type="button"
-                    onClick={() => handleGalleryImageDelete(index)}
-                    className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white w-6 h-6 rounded-full flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100"
-                    title="이미지 삭제"
+                    onClick={handleImageDelete}
+                    className="absolute top-2 right-2 bg-red-600 hover:bg-red-700 text-white p-2 rounded-full transition-colors"
                   >
-                    <i className="fa-solid fa-times text-xs"></i>
+                    <i className="fa-solid fa-trash text-sm"></i>
                   </button>
+                  <div className="mt-2 text-sm text-gray-400">
+                    크기: {uploadedImage.width} × {uploadedImage.height}px
+                  </div>
                 </div>
-              ))}
-            </div>
-          )}
+              ) : (
+                <div className="border-2 border-dashed border-[#333333] rounded-lg p-8 text-center">
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                    className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-6 py-3 rounded-lg transition-colors"
+                  >
+                    {uploading ? (
+                      <>
+                        <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+                        업로드 중...
+                      </>
+                    ) : (
+                      <>
+                        <i className="fa-solid fa-cloud-upload-alt mr-2"></i>
+                        이미지 선택
+                      </>
+                    )}
+                  </button>
+                  <p className="text-gray-400 text-sm mt-2">
+                    JPG, PNG, GIF 파일 (최대 5MB)
+                  </p>
+                </div>
+              )}
+            </motion.div>
 
-          {/* 상품 이미지 업로드 버튼 */}
-          {uploadedGalleryImages.length < 4 && (
-            <div className="border-2 border-dashed border-[#333333] rounded-lg p-6 text-center hover:border-[#555555] transition-colors">
-              <input
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleGalleryImageUpload}
-                className="hidden"
-                id="gallery-upload-input"
-              />
-              <div className="space-y-2">
-                <i className="fa-solid fa-images text-4xl text-gray-500"></i>
-                <p className="text-gray-400">
-                  상품 이미지를 업로드하세요 ({uploadedGalleryImages.length}/4)
-                </p>
-                <p className="text-xs text-gray-500">
-                  여러 파일 선택 가능 | 각 파일 최대 5MB
-                </p>
-                <button
-                  type="button"
-                  onClick={() => document.getElementById('gallery-upload-input')?.click()}
-                  disabled={uploadingGallery}
-                  className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
-                >
-                  {uploadingGallery ? (
-                    <>
-                      <i className="fa-solid fa-spinner fa-spin mr-2"></i>
-                      업로드 중...
-                    </>
-                  ) : (
-                    <>
-                      <i className="fa-solid fa-upload mr-2"></i>
-                      상품 이미지 선택
-                    </>
-                  )}
-                </button>
+            {/* 🖼️ 상품 이미지 업로드 */}
+            <motion.div variants={slideInFromBottom}>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                상품 이미지
+                <span className="text-xs text-gray-500 ml-2">
+                  (선택사항 - 상품 상세페이지 썸네일용, 최대 4개)
+                </span>
+              </label>
+
+              {/* 상품 이미지 목록 */}
+              {uploadedGalleryImages.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                  {uploadedGalleryImages.map((image, index) => (
+                    <div key={index} className="relative group">
+                      <img
+                        src={image.secure_url}
+                        alt={`상품 이미지 ${index + 1}`}
+                        className="w-full h-24 object-cover rounded-lg border border-[#333333]"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => handleGalleryImageDelete(index)}
+                        className="absolute -top-2 -right-2 bg-red-600 hover:bg-red-700 text-white w-6 h-6 rounded-full flex items-center justify-center transition-colors opacity-0 group-hover:opacity-100"
+                        title="이미지 삭제"
+                      >
+                        <i className="fa-solid fa-times text-xs"></i>
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* 상품 이미지 업로드 버튼 */}
+              {uploadedGalleryImages.length < 4 && (
+                <div className="border-2 border-dashed border-[#333333] rounded-lg p-6 text-center hover:border-[#555555] transition-colors">
+                  <input
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    onChange={handleGalleryImageUpload}
+                    className="hidden"
+                    id="gallery-upload-input"
+                  />
+                  <div className="space-y-2">
+                    <i className="fa-solid fa-images text-4xl text-gray-500"></i>
+                    <p className="text-gray-400">
+                      상품 이미지를 업로드하세요 ({uploadedGalleryImages.length}/4)
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      여러 파일 선택 가능 | 각 파일 최대 5MB
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById('gallery-upload-input')?.click()}
+                      disabled={uploadingGallery}
+                      className="bg-purple-600 hover:bg-purple-700 disabled:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+                    >
+                      {uploadingGallery ? (
+                        <>
+                          <i className="fa-solid fa-spinner fa-spin mr-2"></i>
+                          업로드 중...
+                        </>
+                      ) : (
+                        <>
+                          <i className="fa-solid fa-upload mr-2"></i>
+                          상품 이미지 선택
+                        </>
+                      )}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </motion.div>
+
+            {/* 상품 정보 입력 필드들 */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  영문명
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
+                  className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
+                  placeholder="Classic Croissant"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  한글명 *
+                </label>
+                <input
+                  type="text"
+                  value={formData.nameKorean}
+                  onChange={(e) => setFormData(prev => ({ ...prev, nameKorean: e.target.value }))}
+                  className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
+                  placeholder="클래식 크로와상"
+                  required
+                />
               </div>
             </div>
-          )}
-        </motion.div>
 
-        {/* 상품 정보 입력 필드들 */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              영문명
-            </label>
-            <input
-              type="text"
-              value={formData.name}
-              onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
-              placeholder="Classic Croissant"
-            />
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                상품 설명 *
+                <span className="text-xs text-gray-500 ml-2">
+                  ({formData.description.length}/80자 - 간단하고 명확하게 작성해주세요)
+                </span>
+              </label>
+              <input
+                type="text"
+                value={formData.description}
+                onChange={(e) => {
+                  if (e.target.value.length <= 80) {
+                    setFormData(prev => ({ ...prev, description: e.target.value }));
+                  }
+                }}
+                className={`w-full bg-[#1A1A1A] border rounded-lg px-4 py-3 text-white focus:outline-none transition-colors ${formData.description.length > 70
+                    ? 'border-yellow-500 focus:border-yellow-400'
+                    : formData.description.length > 60
+                      ? 'border-orange-500 focus:border-orange-400'
+                      : 'border-[#333333] focus:border-purple-500'
+                  }`}
+                placeholder="예: 72시간 저온 발효로 완성한 바삭한 겉면과 부드러운 속 (80자 이내)"
+                required
+              />
+              {formData.description.length > 60 && (
+                <p className={`text-xs mt-1 ${formData.description.length > 70 ? 'text-yellow-400' : 'text-orange-400'
+                  }`}>
+                  {formData.description.length > 70
+                    ? '⚠️ 거의 다 찼습니다! 간결하게 작성해주세요.'
+                    : '💡 조금 더 간결하게 작성하면 좋겠어요.'}
+                </p>
+              )}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              한글명 *
-            </label>
-            <input
-              type="text"
-              value={formData.nameKorean}
-              onChange={(e) => setFormData(prev => ({ ...prev, nameKorean: e.target.value }))}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
-              placeholder="클래식 크로와상"
-              required
-            />
-          </div>
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  가격 (원) *
+                </label>
+                <input
+                  type="number"
+                  value={formData.price}
+                  onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
+                  className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
+                  placeholder="4800"
+                  min="0"
+                  required
+                />
+              </div>
 
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            상품 설명 *
-            <span className="text-xs text-gray-500 ml-2">
-              ({formData.description.length}/80자 - 간단하고 명확하게 작성해주세요)
-            </span>
-          </label>
-          <input
-            type="text"
-            value={formData.description}
-            onChange={(e) => {
-              if (e.target.value.length <= 80) {
-                setFormData(prev => ({ ...prev, description: e.target.value }));
-              }
-            }}
-            className={`w-full bg-[#1A1A1A] border rounded-lg px-4 py-3 text-white focus:outline-none transition-colors ${
-              formData.description.length > 70
-                ? 'border-yellow-500 focus:border-yellow-400'
-                : formData.description.length > 60
-                ? 'border-orange-500 focus:border-orange-400'
-                : 'border-[#333333] focus:border-purple-500'
-            }`}
-            placeholder="예: 72시간 저온 발효로 완성한 바삭한 겉면과 부드러운 속 (80자 이내)"
-            required
-          />
-          {formData.description.length > 60 && (
-            <p className={`text-xs mt-1 ${
-              formData.description.length > 70 ? 'text-yellow-400' : 'text-orange-400'
-            }`}>
-              {formData.description.length > 70
-                ? '⚠️ 거의 다 찼습니다! 간결하게 작성해주세요.'
-                : '💡 조금 더 간결하게 작성하면 좋겠어요.'}
-            </p>
-          )}
-        </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-300 mb-2">
+                  카테고리 *
+                </label>
+                <select
+                  value={formData.category}
+                  onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as any }))}
+                  className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
+                  required
+                >
+                  <option value="regular">상시 운영 제품</option>
+                  <option value="custom">주문 제작 제품</option>
+                  <option value="gift">기념일 선물 세트</option>
+                </select>
+              </div>
+            </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              가격 (원) *
-            </label>
-            <input
-              type="number"
-              value={formData.price}
-              onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
-              placeholder="4800"
-              min="0"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">
-              카테고리 *
-            </label>
-            <select
-              value={formData.category}
-              onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value as any }))}
-              className="w-full bg-[#1A1A1A] border border-[#333333] rounded-lg px-4 py-3 text-white focus:border-purple-500 focus:outline-none"
-              required
-            >
-              <option value="regular">상시 운영 제품</option>
-              <option value="custom">주문 제작 제품</option>
-              <option value="gift">기념일 선물 세트</option>
-            </select>
-          </div>
-        </div>
-
-        {/* 태그 입력 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            태그
-            <span className="text-xs text-gray-500 ml-2">
-              ({formData.tags.length}/5개 - 상품의 특징을 간단히 표현해주세요)
-            </span>
-          </label>
-          <div className="flex gap-2 mb-2">
-            <input
-              type="text"
-              value={tagInput}
-              onChange={(e) => setTagInput(e.target.value)}
-              onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
-              disabled={formData.tags.length >= 5}
-              className={`flex-1 bg-[#1A1A1A] border rounded-lg px-4 py-2 text-white focus:outline-none transition-colors ${
-                formData.tags.length >= 5
-                  ? 'border-gray-600 bg-gray-800 cursor-not-allowed'
-                  : formData.tags.length >= 4
-                  ? 'border-yellow-500 focus:border-yellow-400'
-                  : 'border-[#333333] focus:border-purple-500'
-              }`}
-              placeholder={formData.tags.length >= 5 ? "태그가 가득 찼습니다" : "예: 바삭함, 부드러움, 아침식사 (엔터로 추가)"}
-            />
-            <button
-              type="button"
-              onClick={addTag}
-              disabled={formData.tags.length >= 5 || !tagInput.trim()}
-              className={`px-4 py-2 rounded-lg transition-colors ${
-                formData.tags.length >= 5 || !tagInput.trim()
-                  ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
-                  : 'bg-purple-600 hover:bg-purple-700 text-white'
-              }`}
-            >
-              추가
-            </button>
-          </div>
-
-          {/* 태그 개수 안내 */}
-          {formData.tags.length >= 4 && (
-            <p className={`text-xs mb-2 ${
-              formData.tags.length >= 5 ? 'text-red-400' : 'text-yellow-400'
-            }`}>
-              {formData.tags.length >= 5
-                ? '🚫 태그가 가득 찼습니다. 기존 태그를 삭제하고 새로 추가하세요.'
-                : '⚠️ 태그를 1개 더 추가할 수 있습니다.'}
-            </p>
-          )}
-
-          <div className="flex flex-wrap gap-2">
-            {formData.tags.map((tag, index) => (
-              <span
-                key={index}
-                className="bg-[#333333] hover:bg-[#444444] text-white px-3 py-1 rounded-full text-sm flex items-center gap-2 transition-colors"
-              >
-                {tag}
+            {/* 태그 입력 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                태그
+                <span className="text-xs text-gray-500 ml-2">
+                  ({formData.tags.length}/5개 - 상품의 특징을 간단히 표현해주세요)
+                </span>
+              </label>
+              <div className="flex gap-2 mb-2">
+                <input
+                  type="text"
+                  value={tagInput}
+                  onChange={(e) => setTagInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && (e.preventDefault(), addTag())}
+                  disabled={formData.tags.length >= 5}
+                  className={`flex-1 bg-[#1A1A1A] border rounded-lg px-4 py-2 text-white focus:outline-none transition-colors ${formData.tags.length >= 5
+                      ? 'border-gray-600 bg-gray-800 cursor-not-allowed'
+                      : formData.tags.length >= 4
+                        ? 'border-yellow-500 focus:border-yellow-400'
+                        : 'border-[#333333] focus:border-purple-500'
+                    }`}
+                  placeholder={formData.tags.length >= 5 ? "태그가 가득 찼습니다" : "예: 바삭함, 부드러움, 아침식사 (엔터로 추가)"}
+                />
                 <button
                   type="button"
-                  onClick={() => removeTag(tag)}
-                  className="text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-full w-4 h-4 flex items-center justify-center text-xs"
-                  title="태그 삭제"
+                  onClick={addTag}
+                  disabled={formData.tags.length >= 5 || !tagInput.trim()}
+                  className={`px-4 py-2 rounded-lg transition-colors ${formData.tags.length >= 5 || !tagInput.trim()
+                      ? 'bg-gray-600 text-gray-400 cursor-not-allowed'
+                      : 'bg-purple-600 hover:bg-purple-700 text-white'
+                    }`}
                 >
-                  ×
+                  추가
                 </button>
-              </span>
-            ))}
-          </div>
-        </div>
+              </div>
 
-        {/* 📄 상세페이지 콘텐츠 에디터 */}
-        <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">
-            상세페이지 콘텐츠
-            <span className="text-xs text-gray-500 ml-2">
-              (선택사항 - 상품 상세페이지에 표시될 내용)
-            </span>
-            <div className="text-xs text-green-400 mt-1 bg-green-400/10 p-2 rounded border border-green-400/20">
-              🚀 <strong>강화된 에디터:</strong> 텍스트와 이미지를 자유롭게 편집하여 상세페이지를 구성하세요
+              {/* 태그 개수 안내 */}
+              {formData.tags.length >= 4 && (
+                <p className={`text-xs mb-2 ${formData.tags.length >= 5 ? 'text-red-400' : 'text-yellow-400'
+                  }`}>
+                  {formData.tags.length >= 5
+                    ? '🚫 태그가 가득 찼습니다. 기존 태그를 삭제하고 새로 추가하세요.'
+                    : '⚠️ 태그를 1개 더 추가할 수 있습니다.'}
+                </p>
+              )}
+
+              <div className="flex flex-wrap gap-2">
+                {formData.tags.map((tag, index) => (
+                  <span
+                    key={index}
+                    className="bg-[#333333] hover:bg-[#444444] text-white px-3 py-1 rounded-full text-sm flex items-center gap-2 transition-colors"
+                  >
+                    {tag}
+                    <button
+                      type="button"
+                      onClick={() => removeTag(tag)}
+                      className="text-red-400 hover:text-red-300 hover:bg-red-900/20 rounded-full w-4 h-4 flex items-center justify-center text-xs"
+                      title="태그 삭제"
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
             </div>
-          </label>
 
-          {/* 🚀 강화된 에디터 */}
-          <AlternativeEditor
-            value={formData.detailContent || ''}
-            onChange={(value) => setFormData(prev => ({ ...prev, detailContent: value }))}
-            placeholder="상품 상세 정보를 입력하세요. 툴바 버튼으로 스타일을 적용하거나 HTML을 직접 편집하세요."
-            height="500px"
-          />
-        </div>
+            {/* 📄 상세페이지 콘텐츠 에디터 */}
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2">
+                상세페이지 콘텐츠
+                <span className="text-xs text-gray-500 ml-2">
+                  (선택사항 - 상품 상세페이지에 표시될 내용)
+                </span>
+                <div className="text-xs text-green-400 mt-1 bg-green-400/10 p-2 rounded border border-green-400/20">
+                  🚀 <strong>강화된 에디터:</strong> 텍스트와 이미지를 자유롭게 편집하여 상세페이지를 구성하세요
+                </div>
+              </label>
 
-        {/* 제출 버튼 */}
-        <motion.button
-          type="submit"
-          variants={slideInFromBottom}
-          className="w-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/20 transition-all"
-        >
-          {mode === 'create' ? '상품 등록' : '상품 수정'}
-        </motion.button>
-      </form>
+              {/* 🚀 강화된 에디터 */}
+              <AlternativeEditor
+                value={formData.detailContent || ''}
+                onChange={(value) => setFormData(prev => ({ ...prev, detailContent: value }))}
+                placeholder="상품 상세 정보를 입력하세요. 툴바 버튼으로 스타일을 적용하거나 HTML을 직접 편집하세요."
+                height="500px"
+              />
+            </div>
+
+            {/* 제출 버튼 */}
+            <motion.button
+              type="submit"
+              variants={slideInFromBottom}
+              className="w-full bg-gradient-to-r from-[#A78BFA] to-[#EC4899] text-white py-3 rounded-lg font-semibold hover:shadow-lg hover:shadow-purple-500/20 transition-all"
+            >
+              {mode === 'create' ? '상품 등록' : '상품 수정'}
+            </motion.button>
+          </form>
         </div>
       )}
     </motion.div>

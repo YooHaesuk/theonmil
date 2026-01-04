@@ -95,11 +95,31 @@ export function registerRoutes(app: Express): Server {
     }
   });
 
+  // Admin routes
+  app.get("/api/users", async (req, res) => {
+    try {
+      const users = await storage.getUsers();
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to fetch users" });
+    }
+  });
+
+  app.patch("/api/users/:id/role", async (req, res) => {
+    try {
+      const { role } = req.body;
+      const user = await storage.updateUserRole(req.params.id, role);
+      res.json(user);
+    } catch (error) {
+      res.status(500).json({ error: "Failed to update user role" });
+    }
+  });
+
   // User routes
   app.post("/api/users/register", async (req, res) => {
     try {
       const parsedData = insertUserSchema.parse(req.body);
-      const user = await storage.insertUser(parsedData as InsertUser);
+      const user = await storage.createUser(parsedData as any);
       res.json(user);
     } catch (error: any) {
       res.status(500).json({ error: "Failed to create user" });
@@ -119,7 +139,7 @@ export function registerRoutes(app: Express): Server {
   app.post("/api/reviews", async (req, res) => {
     try {
       const parsedData = insertReviewSchema.parse(req.body);
-      const review = await storage.insertReview(parsedData as InsertReview);
+      const review = await storage.createReview(parsedData as any);
       res.json(review);
     } catch (error) {
       res.status(500).json({ error: "Failed to create review" });
@@ -128,7 +148,7 @@ export function registerRoutes(app: Express): Server {
 
   app.get("/api/reviews", async (req, res) => {
     try {
-      const reviews = await storage.getReviews();
+      const reviews = await storage.getAllReviews();
       res.json(reviews);
     } catch (error) {
       res.status(500).json({ error: "Failed to fetch reviews" });

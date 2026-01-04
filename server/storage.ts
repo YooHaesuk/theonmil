@@ -13,7 +13,9 @@ import {
 export interface IStorage {
   // User operations
   getUser(id: string): Promise<User | undefined>;
+  getUsers(): Promise<User[]>;
   updateUser(id: string, data: Partial<InsertUser>): Promise<User>;
+  updateUserRole(id: string, role: string): Promise<User>;
   getUserByUsername(username: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
 
@@ -32,7 +34,7 @@ export interface IStorage {
   removeFromCart(id: number): Promise<void>;
 
   // Order operations
-  createOrder(order: InsertOrder, items: InsertOrderItem[]): Promise<Order>;
+  createOrder(orderData: InsertOrder, itemsData: InsertOrderItem[]): Promise<Order>;
   getOrdersByUser(userId: string): Promise<Order[]>;
   getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined>;
 
@@ -47,11 +49,6 @@ export interface IStorage {
   updateAddress(id: number, address: Partial<InsertUserAddress>): Promise<UserAddress>;
   deleteAddress(id: number): Promise<void>;
 
-  // Aliases for routes.ts compatibility
-  insertUser(user: InsertUser): Promise<User>;
-  getUsers(): Promise<User[]>;
-  insertReview(review: InsertReview): Promise<Review>;
-  getReviews(): Promise<any[]>;
   getStores(): Promise<any[]>;
 }
 
@@ -60,6 +57,10 @@ export class DatabaseStorage implements IStorage {
   async getUser(id: string): Promise<User | undefined> {
     const [user] = await db.select().from(users).where(eq(users.id, id));
     return user;
+  }
+
+  async getUsers(): Promise<User[]> {
+    return await db.select().from(users);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
@@ -77,12 +78,9 @@ export class DatabaseStorage implements IStorage {
     return updatedUser;
   }
 
-  async insertUser(user: InsertUser): Promise<User> {
-    return this.createUser(user);
-  }
-
-  async getUsers(): Promise<User[]> {
-    return await db.select().from(users);
+  async updateUserRole(id: string, role: string): Promise<User> {
+    const [updatedUser] = await db.update(users).set({ role } as any).where(eq(users.id, id)).returning();
+    return updatedUser;
   }
 
   // Product operations
@@ -106,7 +104,7 @@ export class DatabaseStorage implements IStorage {
 
   async updateProduct(id: number, product: Partial<InsertProduct>): Promise<Product> {
     const [updatedItem] = await db.update(products)
-      .set({ ...product, updatedAt: new Date() })
+      .set({ ...product, updatedAt: new Date() } as any)
       .where(eq(products.id, id))
       .returning();
     return updatedItem;
@@ -134,7 +132,7 @@ export class DatabaseStorage implements IStorage {
       userId,
       productId,
       quantity
-    } as InsertCartItem).returning();
+    } as any).returning();
     return item;
   }
 
@@ -162,9 +160,7 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getOrdersByUser(userId: string): Promise<Order[]> {
-    return await db.select().from(orders)
-      .where(eq(orders.userId, userId))
-      .orderBy(desc(orders.createdAt));
+    return await db.select().from(orders).where(eq(orders.userId, userId)).orderBy(desc(orders.createdAt));
   }
 
   async getOrderById(id: number): Promise<(Order & { items: (OrderItem & { product: Product })[] }) | undefined> {
@@ -199,14 +195,6 @@ export class DatabaseStorage implements IStorage {
   async createReview(reviewData: InsertReview): Promise<Review> {
     const [review] = await db.insert(reviews).values(reviewData).returning();
     return review;
-  }
-
-  async insertReview(review: InsertReview): Promise<Review> {
-    return this.createReview(review);
-  }
-
-  async getReviews(): Promise<any[]> {
-    return this.getAllReviews();
   }
 
   // Address operations
