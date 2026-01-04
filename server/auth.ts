@@ -45,6 +45,8 @@ export const getAuth = (env?: any) => {
       kakao: {
         clientId: getEnv("KAKAO_CLIENT_ID", env),
         clientSecret: getEnv("KAKAO_CLIENT_SECRET", env),
+        // Explicitly set scope to avoid requesting unauthorized profile_image/nickname
+        scope: ["account_email"]
       },
     },
     advanced: {
