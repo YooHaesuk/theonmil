@@ -1,3 +1,8 @@
+// Process polyfill for Cloudflare Edge
+if (typeof process === 'undefined') {
+    (globalThis as any).process = { env: {} };
+}
+
 import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
 import { auth } from "../../server/auth";

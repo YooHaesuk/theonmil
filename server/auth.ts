@@ -2,6 +2,7 @@ import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { db } from "./db";
 import * as schema from "@shared/schema";
+import { getEnv } from "./lib/env";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -10,24 +11,23 @@ export const auth = betterAuth({
       ...schema
     }
   }),
+  secret: getEnv("BETTER_AUTH_SECRET"),
+  baseURL: getEnv("BETTER_AUTH_URL"),
   socialProviders: {
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+      clientId: getEnv("GOOGLE_CLIENT_ID"),
+      clientSecret: getEnv("GOOGLE_CLIENT_SECRET"),
     },
     naver: {
-      clientId: process.env.NAVER_CLIENT_ID!,
-      clientSecret: process.env.NAVER_CLIENT_SECRET!,
+      clientId: getEnv("NAVER_CLIENT_ID"),
+      clientSecret: getEnv("NAVER_CLIENT_SECRET"),
     },
     kakao: {
-      clientId: process.env.KAKAO_CLIENT_ID!,
-      clientSecret: process.env.KAKAO_CLIENT_SECRET!,
+      clientId: getEnv("KAKAO_CLIENT_ID"),
+      clientSecret: getEnv("KAKAO_CLIENT_SECRET"),
     },
   },
-  // Registration success redirect logic can be handled on the client side 
-  // by checking if the user is new after a successful sign-in.
   onUserCreated: async (user) => {
-    // You could theoretically add metadata or initial state here
     console.log("New user created:", user.email);
   }
 });
