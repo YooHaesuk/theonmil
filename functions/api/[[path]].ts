@@ -179,6 +179,51 @@ app.get("/products/:id", async (c) => {
     return c.json(product);
 });
 
+app.post("/products", async (c) => {
+    try {
+        const body = await c.req.json();
+        const product = await storage.insertProduct(body, c.env);
+        return c.json({
+            success: true,
+            message: "상품이 성공적으로 등록되었습니다.",
+            product
+        });
+    } catch (error: any) {
+        return c.json({
+            error: "상품 등록에 실패했습니다.",
+            message: error.message
+        }, 500);
+    }
+});
+
+app.put("/products/:id", async (c) => {
+    try {
+        const id = parseInt(c.req.param("id"));
+        const body = await c.req.json();
+        const product = await storage.updateProduct(id, body, c.env);
+        return c.json({
+            success: true,
+            message: "상품이 성공적으로 수정되었습니다.",
+            product
+        });
+    } catch (error: any) {
+        return c.json({
+            error: "상품 수정에 실패했습니다.",
+            message: error.message
+        }, 500);
+    }
+});
+
+app.delete("/products/:id", async (c) => {
+    try {
+        const id = parseInt(c.req.param("id"));
+        await storage.deleteProduct(id, c.env);
+        return c.json({ success: true, message: "상품이 삭제되었습니다." });
+    } catch (error: any) {
+        return c.json({ error: "Failed to delete product" }, 500);
+    }
+});
+
 // --- Stores ---
 
 app.get("/stores", async (c) => {

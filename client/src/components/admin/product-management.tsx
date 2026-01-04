@@ -831,8 +831,8 @@ const ProductManagement = () => {
                 <div className="relative">
                   <input
                     type="number"
-                    value={formData.price}
-                    onChange={(e) => setFormData(prev => ({ ...prev, price: Number(e.target.value) }))}
+                    value={formData.price === 0 ? '' : formData.price}
+                    onChange={(e) => setFormData(prev => ({ ...prev, price: e.target.value === '' ? 0 : Number(e.target.value) }))}
                     className="w-full bg-white border border-border/80 rounded-[1.25rem] px-6 py-5 text-primary font-black text-2xl focus:border-primary focus:ring-4 focus:ring-primary/5 focus:outline-none transition-all shadow-sm"
                     placeholder="4800"
                     min="0"
