@@ -30,6 +30,11 @@ app.use(session({
   }
 }));
 
+import { auth } from "./auth";
+import { toNodeHandler } from "better-auth/node";
+
+app.all("/api/auth/*", toNodeHandler(auth));
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;

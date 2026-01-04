@@ -71,6 +71,7 @@ import MyPage from "@/pages/mypage";
 import MyPageTest from "@/pages/mypage-test";
 import OrderDetail from "@/pages/order-detail";
 import Support from "@/pages/support";
+import WelcomePage from "@/pages/welcome";
 import { Header } from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
 import { AnimatePresence } from "framer-motion";
@@ -106,6 +107,7 @@ function Router() {
           <Route path="/privacy" component={Support} />
           <Route path="/terms" component={Support} />
           <Route path="/business-info" component={Support} />
+          <Route path="/welcome" component={WelcomePage} />
           <Route component={NotFound} />
         </Switch>
       </AnimatePresence>
