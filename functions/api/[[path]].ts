@@ -2,30 +2,27 @@ import { Hono } from "hono";
 import { handle } from "hono/cloudflare-pages";
 import { getAuth } from "../../server/auth";
 import { storage } from "../../server/storage";
-import { insertUserAddressSchema } from "../../shared/schema";
 import { setRuntimeEnv } from "../../server/lib/env";
 
 const app = new Hono().basePath("/api");
 
-// Middleware to inject environment variables for Edge compatibility
+// Global error handler - Move to top for maximum coverage
+app.onError((err, c) => {
+    console.error(`[Critical Edge Error]: ${err.message}`);
+    return c.text(`Global Edge Error:\nMessage: ${err.message}\nStack: ${err.stack}`, 500);
+});
+
+// Middleware to inject environment variables at the start of every request
 app.use("*", async (c, next) => {
-    // Inject c.env into our custom env utility and process.env polyfill
-    setRuntimeEnv(c.env);
+    try {
+        setRuntimeEnv(c.env);
+    } catch (e: any) {
+        console.error(`[Runtime Env Injection Failed]: ${e.message}`);
+    }
     await next();
 });
 
-// Error handling for better diagnostics in Cloudflare logs
-app.onError((err, c) => {
-    console.error(`[Edge API Error]: ${err.message}`);
-    console.error(err.stack);
-    return c.json({
-        error: "Internal Server Error",
-        message: err.message,
-        path: c.req.path
-    }, 500);
-});
-
-// Better Auth - Using getAuth() inside the handler call
+// Better Auth - Request-scoped initialization
 app.all("/auth/*", async (c) => {
     try {
         const authInstance = getAuth(c.env);
@@ -33,57 +30,33 @@ app.all("/auth/*", async (c) => {
         return res;
     } catch (error: any) {
         console.error(`[Edge Auth Error]: ${error.message}`);
-        // Diagnostic Mode: Return the stack trace to the browser to identify the exact cause of the crash
+        // Diagnostic Mode: Surfacing the error reveals the hidden reason for 1101
         return c.text(`Authentication Crash Diagnostic:\nMessage: ${error.message}\nStack: ${error.stack}`, 500);
     }
 });
 
 // User Profile & Addresses
-app.patch("/users/profile", async (c) => {
-    try {
-        const body = await c.req.json();
-        const { id, ...data } = body;
-        if (!id) return c.json({ error: "User ID required" }, 400);
-        const user = await storage.updateUser(id, data);
-        return c.json(user);
-    } catch (error) {
-        return c.json({ error: "Failed to update profile" }, 500);
-    }
-});
-
-app.get("/users/addresses/:userId", async (c) => {
-    const addresses = await storage.getUserAddresses(c.req.param("userId"));
+app.get("/user/addresses", async (c) => {
+    const session = await getAuth(c.env).api.getSession({ headers: c.req.raw.headers });
+    if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
+    const addresses = await storage.getUserAddresses(session.user.id);
     return c.json(addresses);
 });
 
-app.post("/users/addresses", async (c) => {
-    try {
-        const body = await c.req.json();
-        const parsedData = insertUserAddressSchema.parse(body);
-        const address = await storage.addAddress(parsedData);
-        return c.json(address);
-    } catch (error) {
-        return c.json({ error: "Failed to add address" }, 500);
-    }
+app.post("/user/addresses", async (c) => {
+    const session = await getAuth(c.env).api.getSession({ headers: c.req.raw.headers });
+    if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
+    const body = await c.req.json();
+    const address = await storage.addAddress({ ...body, userId: session.user.id });
+    return c.json(address);
 });
 
-app.delete("/users/addresses/:id", async (c) => {
+app.delete("/user/addresses/:id", async (c) => {
+    const session = await getAuth(c.env).api.getSession({ headers: c.req.raw.headers });
+    if (!session?.user) return c.json({ error: "Unauthorized" }, 401);
     const id = parseInt(c.req.param("id"));
     await storage.deleteAddress(id);
     return c.json({ success: true });
-});
-
-// Orders
-app.get("/orders/:id", async (c) => {
-    const id = parseInt(c.req.param("id"));
-    const order = await storage.getOrderById(id);
-    if (!order) return c.json({ error: "Order not found" }, 404);
-    return c.json(order);
-});
-
-app.get("/orders/user/:userId", async (c) => {
-    const orders = await storage.getOrdersByUser(c.req.param("userId"));
-    return c.json(orders);
 });
 
 // Products
@@ -99,22 +72,33 @@ app.get("/products/:id", async (c) => {
     return c.json(product);
 });
 
+// Stores
+app.get("/stores", async (c) => {
+    const stores = await storage.getStores();
+    return c.json(stores);
+});
+
 // Reviews
 app.get("/reviews", async (c) => {
     const reviews = await storage.getAllReviews();
     return c.json(reviews);
 });
 
-// Health
+app.post("/reviews", async (c) => {
+    const body = await c.req.json();
+    const review = await storage.createReview(body);
+    return c.json(review);
+});
+
+// Health Check - Verify database connection in production
 app.get("/health", async (c) => {
     try {
-        // Test database connection
-        const usersCount = await storage.getUsers();
+        const users = await storage.getUsers();
         return c.json({
             status: "ok",
             runtime: "cloudflare-pages",
             database: "connected",
-            userCount: usersCount.length,
+            userCount: users.length,
             timestamp: new Date().toISOString()
         });
     } catch (error: any) {
