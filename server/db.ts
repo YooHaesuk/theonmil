@@ -16,16 +16,28 @@ let _pool: Pool | null = null;
 /**
  * Get the initialized Drizzle database instance.
  * Initializes the connection on the first call.
+ * 
+ * Per Gemini 1.5 Pro advice: We ensure environment variables are captured 
+ * at the moment of initialization within the request context.
  */
-export const getDb = () => {
+export const getDb = (contextEnv?: any) => {
     if (!_db) {
-        const databaseUrl = getEnv("DATABASE_URL");
+        const databaseUrl = getEnv("DATABASE_URL", contextEnv);
+
         if (!databaseUrl) {
-            console.error("DATABASE_URL is missing in runtime environment!");
-            throw new Error("DATABASE_URL is required but was not found.");
+            const errorMsg = "DATABASE_URL is missing! Please check Cloudflare environment variables.";
+            console.error(errorMsg);
+            throw new Error(errorMsg);
         }
-        _pool = new Pool({ connectionString: databaseUrl });
-        _db = drizzle(_pool, { schema });
+
+        try {
+            _pool = new Pool({ connectionString: databaseUrl });
+            _db = drizzle(_pool, { schema });
+            console.log("Database connection initialized successfully.");
+        } catch (e: any) {
+            console.error("Failed to initialize database connection:", e.message);
+            throw e;
+        }
     }
     return _db;
 };

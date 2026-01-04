@@ -22,7 +22,7 @@ export const getAuth = (env?: any) => {
   const secret = getEnv("BETTER_AUTH_SECRET", env) || "fallback-secret-at-least-thirty-two-chars-long";
 
   return betterAuth({
-    database: drizzleAdapter(getDb(), {
+    database: drizzleAdapter(getDb(env), {
       provider: "pg",
       schema: {
         user: schema.users,
@@ -45,8 +45,6 @@ export const getAuth = (env?: any) => {
       kakao: {
         clientId: getEnv("KAKAO_CLIENT_ID", env),
         clientSecret: getEnv("KAKAO_CLIENT_SECRET", env),
-        // Explicitly set scope to avoid requesting unauthorized profile_image/nickname
-        scope: ["account_email"]
       },
     },
     advanced: {
