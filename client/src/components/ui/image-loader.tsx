@@ -8,6 +8,7 @@ interface ImageLoaderProps {
   width?: number;
   height?: number;
   sizes?: string;
+  objectFit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down';
 }
 
 const ImageLoader = ({
@@ -16,7 +17,8 @@ const ImageLoader = ({
   className = '',
   width,
   height,
-  sizes
+  sizes,
+  objectFit = 'cover'
 }: ImageLoaderProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState('');
@@ -44,11 +46,11 @@ const ImageLoader = ({
       {!isLoaded && (
         <div className="absolute inset-0 bg-gray-800 animate-pulse"></div>
       )}
-      
+
       <picture>
         {/* WebP 형식 지원 (더 작은 파일 크기) */}
         <source srcSet={generateSrcSet(src)} type="image/webp" />
-        
+
         {/* 원본 이미지 */}
         <img
           src={imageSrc || getOptimizedImageUrl(src, 640)}
@@ -57,7 +59,7 @@ const ImageLoader = ({
           width={width}
           height={height}
           sizes={sizes || "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"}
-          className={`w-full h-full object-cover transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
+          className={`w-full h-full object-${objectFit} transition-opacity duration-300 ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
           onLoad={() => setIsLoaded(true)}
         />
       </picture>

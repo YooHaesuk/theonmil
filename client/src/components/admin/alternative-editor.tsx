@@ -34,7 +34,9 @@ const AlternativeEditor = ({
           let width = img.width;
           let height = img.height;
 
-          // 최대 1200px 제한 (화질 유지하며 리사이징)
+          // 상세페이지용: 강제 리사이징 로직 제거 (원본 크기 유지)
+          // WebP 변환만으로도 용량은 충분히 줄어듭니다.
+          /*
           const MAX_WIDTH = 1200;
           const MAX_HEIGHT = 1200;
 
@@ -49,6 +51,7 @@ const AlternativeEditor = ({
               height = MAX_HEIGHT;
             }
           }
+          */
 
           canvas.width = width;
           canvas.height = height;
@@ -110,7 +113,8 @@ const AlternativeEditor = ({
 
       if (result.success && result.data?.secure_url) {
         const imageUrl = result.data.secure_url;
-        const imageHtml = `<img src="${imageUrl}" alt="상품 이미지" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;" />`;
+        // 이미지를 P 태그로 감싸서 정렬(text-align)이 먹히도록 수정 + 기본 가운데 정렬
+        const imageHtml = `<p style="text-align: center;"><img src="${imageUrl}" alt="상품 이미지" style="max-width: 100%; height: auto; border-radius: 8px; margin: 10px 0;" /></p>`;
 
         // WYSIWYG 에디터에 이미지 삽입
         insertElement(imageHtml);

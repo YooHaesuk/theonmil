@@ -120,11 +120,11 @@ const ProductDetail = () => {
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Product Images */}
           <motion.div variants={fadeIn} className="lg:w-1/2">
-            <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden mb-4 border border-border">
+            <div className="relative h-96 md:h-[500px] rounded-lg overflow-hidden mb-4 border border-border bg-secondary/10">
               <img
                 src={productImages[selectedImageIndex]}
                 alt={product.nameKorean}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
               />
               {product.isBestseller && (
                 <span className="absolute top-4 left-4 bg-gradient-to-r from-primary to-accent text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
@@ -147,12 +147,12 @@ const ProductDetail = () => {
                 <button
                   key={index}
                   onClick={() => setSelectedImageIndex(index)}
-                  className={`w-24 h-24 rounded-md overflow-hidden border ${selectedImageIndex === index ? 'border-primary' : 'border-border'}`}
+                  className={`w-24 h-24 rounded-md overflow-hidden border bg-secondary/10 ${selectedImageIndex === index ? 'border-primary' : 'border-border'}`}
                 >
                   <img
                     src={image}
                     alt={`${product.nameKorean} 이미지 ${index + 1}`}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-contain"
                   />
                 </button>
               ))}

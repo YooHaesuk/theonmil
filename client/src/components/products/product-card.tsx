@@ -30,11 +30,12 @@ const ProductCard = ({ product }: ProductCardProps) => {
       whileHover={{ y: -5, transition: { duration: 0.3 } }}
     >
       <Link href={`/products/${product.id}`}>
-        <div className="relative h-64 overflow-hidden">
+        <div className="relative h-64 overflow-hidden bg-secondary/10">
           <ImageLoader
             src={product.image}
             alt={product.nameKorean}
             className="w-full h-full"
+            objectFit="contain"
           />
           {product.isBestseller && (
             <span className="absolute top-4 left-4 bg-gradient-to-r from-primary to-accent text-white text-xs font-bold uppercase px-3 py-1 rounded-full">
