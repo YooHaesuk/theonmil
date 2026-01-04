@@ -26,12 +26,13 @@ app.use("*", async (c, next) => {
 app.all("/auth/*", async (c) => {
     try {
         const authInstance = getAuth(c.env);
+        console.log(`[Edge Auth Request]: ${c.req.method} ${c.req.path}`);
         const res = await authInstance.handler(c.req.raw);
         return res;
     } catch (error: any) {
-        console.error(`[Edge Auth Error]: ${error.message}`);
-        // Diagnostic Mode: Surfacing the error reveals the hidden reason for 1101
-        return c.text(`Authentication Crash Diagnostic:\nMessage: ${error.message}\nStack: ${error.stack}`, 500);
+        console.error(`[Edge Auth Error]: ${error.message}\nStack: ${error.stack}`);
+        // Diagnostic Mode: Return clear error text to bypass Hono's default behavior
+        return c.text(`CRITICAL AUTH ERROR (Diagnostic Mode):\nMessage: ${error.message}\nStack: ${error.stack}`, 500);
     }
 });
 
