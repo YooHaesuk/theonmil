@@ -15,23 +15,26 @@ const TARGET_DIRS = [
 ];
 
 async function optimize() {
-    console.log("🚀 Starting image optimization...");
+    console.log("🚀 Starting deep recursive image optimization...");
 
     for (const dir of TARGET_DIRS) {
-        const fullPath = path.resolve(dir);
-        if (!fs.existsSync(fullPath)) {
-            console.log(`Skipping ${dir}, not found.`);
-            continue;
-        }
+        await scanAndProcess(path.resolve(dir));
+    }
+    console.log("✅ Deep optimization complete!");
+}
 
-        const files = fs.readdirSync(fullPath);
-        for (const file of files) {
-            if (file.match(/\.(jpg|jpeg|png)$/i)) {
-                await processFile(fullPath, file);
-            }
+async function scanAndProcess(dirPath) {
+    if (!fs.existsSync(dirPath)) return;
+
+    const entries = fs.readdirSync(dirPath, { withFileTypes: true });
+    for (const entry of entries) {
+        const fullPath = path.join(dirPath, entry.name);
+        if (entry.isDirectory()) {
+            await scanAndProcess(fullPath);
+        } else if (entry.isFile() && entry.name.match(/\.(jpg|jpeg|png)$/i)) {
+            await processFile(dirPath, entry.name);
         }
     }
-    console.log("✅ Optimization complete!");
 }
 
 async function processFile(dir, file) {
