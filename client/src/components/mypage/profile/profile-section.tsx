@@ -59,7 +59,7 @@ const ProfileSection = () => {
       }
     };
     loadData();
-  }, [user]);
+  }, [user?.id]);
 
   // 통계 계산
   const totalAddresses = addresses.length;
@@ -82,9 +82,9 @@ const ProfileSection = () => {
         name: '', recipient: '', phone: '', zipCode: '', address: '', detailAddress: '', isDefault: false
       });
       setShowAddressForm(false);
-      toast({ title: "배송지가 추가되었습니다!" });
+      toast({ title: "새로운 배송지가 등록되었습니다! ✨" });
     } catch (error) {
-      toast({ title: "배송지 추가 실패", variant: "destructive" });
+      toast({ title: "배송지 등록 실패", variant: "destructive" });
     }
   };
 
@@ -102,7 +102,7 @@ const ProfileSection = () => {
     try {
       if (!user?.id) return;
       await updateProfile(user.id, { phone });
-      toast({ title: "전화번호가 저장되었습니다" });
+      toast({ title: "연락처 정보가 수정되었습니다 👍" });
     } catch (error) {
       toast({ title: "저장 실패", variant: "destructive" });
     }
@@ -124,171 +124,223 @@ const ProfileSection = () => {
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#10B981]"></div>
+      <div className="flex flex-col items-center justify-center py-24 bg-background/50 rounded-3xl border border-dashed border-border/50">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+        <p className="mt-4 text-muted-foreground font-pretendard">회원님 정보를 확인하고 있어요...</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       {/* 헤더 */}
       <div className="flex items-center gap-3">
-        <User className="w-8 h-8 text-[#10B981]" />
-        <h2 className="text-2xl font-bold text-white">MY 정보</h2>
+        <User className="w-8 h-8 text-primary" />
+        <h2 className="text-2xl font-bold text-foreground">MY 정보</h2>
       </div>
 
       {/* 프로필 요약 카드 */}
-      <div className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6">
-        <div className="flex items-center gap-4 mb-6">
-          <div className="w-20 h-20 bg-gradient-to-r from-[#10B981] to-[#059669] rounded-full flex items-center justify-center overflow-hidden">
-            {user?.image ? (
-              <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
-            ) : (
-              <User className="w-10 h-10 text-white" />
-            )}
+      <div className="bg-white border border-border/50 rounded-3xl p-8 shadow-sm overflow-hidden relative group">
+        <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 group-hover:scale-110 transition-transform duration-500"></div>
+        <div className="flex flex-col md:flex-row items-center gap-6 relative z-10">
+          <div className="w-24 h-24 bg-gradient-to-br from-primary to-accent rounded-full p-1 shadow-lg shadow-primary/20">
+            <div className="w-full h-full bg-white rounded-full flex items-center justify-center overflow-hidden">
+              {user?.image ? (
+                <img src={user.image} alt={user.name} className="w-full h-full object-cover" />
+              ) : (
+                <User className="w-12 h-12 text-primary/30" />
+              )}
+            </div>
           </div>
-          <div className="flex-1">
-            <h3 className="text-xl font-bold text-white">{user?.name}</h3>
-            <p className="text-gray-400">{user?.email}</p>
-            <div className="flex items-center gap-2 mt-2">
-              <div className="px-2 py-1 bg-[#10B981]/20 text-[#10B981] text-xs rounded-full">
-                {user?.provider?.toUpperCase() || '일반'} 계정
-              </div>
-              <div className="px-2 py-1 bg-blue-500/20 text-blue-400 text-xs rounded-full">
-                가입 {membershipDays}일차
-              </div>
+          <div className="flex-1 text-center md:text-left">
+            <h3 className="text-2xl font-bold text-foreground mb-1 font-pretendard">{user?.name}님</h3>
+            <p className="text-muted-foreground font-pretendard">{user?.email}</p>
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 mt-4">
+              <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-bold rounded-full font-pretendard uppercase">
+                {user?.provider || 'GENERAL'} 회원
+              </span>
+              <span className="px-3 py-1 bg-accent/10 text-accent text-xs font-bold rounded-full font-pretendard">
+                더 온밀 가입 {membershipDays}일차 ✨
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <button onClick={() => setActiveTab('personal')} className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6 text-left hover:border-[#10B981] transition-all group">
-          <div className="flex items-center gap-3 mb-2">
-            <User className="w-5 h-5 text-[#10B981]" />
-            <div className="text-sm text-gray-400">개인정보</div>
+      {/* 실적 요약 카드 */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <button
+          onClick={() => setActiveTab('personal')}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'personal' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <User className="w-5 h-5 text-primary" />
+            <div className="text-xs text-muted-foreground font-pretendard uppercase tracking-wider font-bold">PROFILE</div>
           </div>
-          <div className="text-2xl font-bold text-white">{user?.name}</div>
+          <div className="text-xl font-bold text-foreground font-pretendard">내 정보 수정</div>
         </button>
 
-        <button onClick={() => setActiveTab('address')} className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6 text-left hover:border-blue-500 transition-all group">
-          <div className="flex items-center gap-3 mb-2">
-            <MapPin className="w-5 h-5 text-blue-500" />
-            <div className="text-sm text-gray-400">배송지</div>
+        <button
+          onClick={() => setActiveTab('address')}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${activeTab === 'address' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
+        >
+          <div className="flex items-center gap-3 mb-3">
+            <MapPin className="w-5 h-5 text-primary" />
+            <div className="text-xs text-muted-foreground font-pretendard uppercase tracking-wider font-bold">ADDRESS</div>
           </div>
-          <div className="text-2xl font-bold text-white">{totalAddresses}개</div>
+          <div className="text-xl font-bold text-foreground font-pretendard">배송지 설정 <span className="text-primary ml-1">({totalAddresses})</span></div>
         </button>
-        {/* ... Other stats as placeholders ... */}
-      </div>
-
-      {/* 탭 네비게이션 */}
-      <div className="flex gap-2 border-b border-[#333]">
-        {['personal', 'address', 'payment', 'notifications'].map((tab) => (
-          <button
-            key={tab}
-            onClick={() => setActiveTab(tab as any)}
-            className={`px-4 py-3 font-medium transition-all border-b-2 capitalize ${activeTab === tab
-              ? 'text-[#10B981] border-[#10B981]'
-              : 'text-gray-400 border-transparent hover:text-white'
-              }`}
-          >
-            {tab}
-          </button>
-        ))}
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div className="min-h-[400px]">
+      <div className="bg-white border border-border/50 rounded-3xl p-6 sm:p-10 shadow-sm">
         {activeTab === 'personal' && (
-          <div className="space-y-6">
-            <div className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6">
-              <h4 className="text-lg font-semibold text-white mb-4">기본 정보</h4>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">이름</label>
-                  <input type="text" value={user?.name || ''} readOnly className="w-full p-3 bg-[#1A1A1A] border border-[#333] rounded-lg text-gray-500 cursor-not-allowed" />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">이메일</label>
-                  <input type="email" value={user?.email || ''} readOnly className="w-full p-3 bg-[#1A1A1A] border border-[#333] rounded-lg text-gray-500 cursor-not-allowed" />
-                </div>
-                <div>
-                  <label className="block text-sm text-gray-400 mb-2">전화번호</label>
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="전화번호를 입력하세요"
-                    className="w-full p-3 bg-[#1A1A1A] border border-[#333] rounded-lg text-white focus:border-[#10B981] focus:outline-none"
-                  />
-                </div>
+          <div className="max-w-xl space-y-8 font-pretendard">
+            <h4 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+              <div className="w-2 h-6 bg-primary rounded-full"></div>
+              기본 정보 설정
+            </h4>
+            <div className="space-y-6">
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-muted-foreground ml-1">성함</label>
+                <input
+                  type="text"
+                  value={user?.name || ''}
+                  readOnly
+                  className="w-full p-4 bg-secondary/30 border border-border/50 rounded-2xl text-muted-foreground cursor-not-allowed font-medium"
+                />
               </div>
-              <button
-                onClick={handleSavePhone}
-                className="w-full mt-4 bg-[#10B981] hover:bg-[#059669] text-white py-3 rounded-lg font-medium transition-colors"
-              >
-                저장하기
-              </button>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-muted-foreground ml-1">이메일 계정</label>
+                <input
+                  type="email"
+                  value={user?.email || ''}
+                  readOnly
+                  className="w-full p-4 bg-secondary/30 border border-border/50 rounded-2xl text-muted-foreground cursor-not-allowed font-medium"
+                />
+              </div>
+              <div className="space-y-2">
+                <label className="text-sm font-bold text-muted-foreground ml-1">휴대폰 번호</label>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="010-0000-0000"
+                  className="w-full p-4 bg-white border border-border-primary/20 rounded-2xl text-foreground focus:border-primary focus:ring-4 focus:ring-primary/5 outline-none transition-all font-medium placeholder:text-muted-foreground/30 shadow-inner"
+                />
+              </div>
             </div>
+            <button
+              onClick={handleSavePhone}
+              className="w-full bg-primary hover:bg-primary/90 text-white py-5 rounded-2xl font-bold transition-all shadow-lg shadow-primary/20 transform active:scale-[0.98] mt-4"
+            >
+              회원 정보 수정하기
+            </button>
           </div>
         )}
 
         {activeTab === 'address' && (
-          <div className="space-y-6">
-            <div className="flex justify-between items-center">
-              <h3 className="text-white font-bold">배송지 관리 ({totalAddresses})</h3>
+          <div className="space-y-8 font-pretendard">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+              <h4 className="text-xl font-bold text-foreground flex items-center gap-2">
+                <div className="w-2 h-6 bg-primary rounded-full"></div>
+                배송지 관리 <span className="text-primary ml-1">({totalAddresses})</span>
+              </h4>
               <button
                 onClick={() => setShowAddressForm(!showAddressForm)}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                className={`w-full sm:w-auto px-6 py-3 rounded-xl font-bold transition-all ${showAddressForm ? 'bg-secondary text-foreground' : 'bg-primary text-white shadow-lg shadow-primary/10'}`}
               >
-                {showAddressForm ? '취소' : '+ 새 배송지 추가'}
+                {showAddressForm ? '취소하기' : '+ 새 배송지 추가'}
               </button>
             </div>
 
             {showAddressForm && (
-              <div className="bg-[#0A0A0A] border border-[#333] rounded-lg p-6 space-y-4">
-                <input
-                  placeholder="배송지명 (예: 집)"
-                  value={newAddress.name}
-                  onChange={e => setNewAddress({ ...newAddress, name: e.target.value })}
-                  className="w-full p-2 bg-[#1A1A1A] border border-[#333] rounded text-white"
-                />
-                <input
-                  placeholder="수령인"
-                  value={newAddress.recipient}
-                  onChange={e => setNewAddress({ ...newAddress, recipient: e.target.value })}
-                  className="w-full p-2 bg-[#1A1A1A] border border-[#333] rounded text-white"
-                />
-                <div className="flex gap-2">
-                  <input placeholder="우편번호" value={newAddress.zipCode} readOnly className="flex-1 p-2 bg-[#1A1A1A] border border-[#333] rounded text-white" />
-                  <button onClick={handleAddressSearch} className="bg-gray-600 px-4 rounded">검색</button>
+              <motion.div
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-secondary/20 border border-primary/20 rounded-3xl p-6 sm:p-8 space-y-5"
+              >
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input
+                    placeholder="배송지 별명 (예: 우리집)"
+                    value={newAddress.name}
+                    onChange={e => setNewAddress({ ...newAddress, name: e.target.value })}
+                    className="w-full p-4 bg-white border border-border/50 rounded-2xl outline-none focus:border-primary transition-all font-medium"
+                  />
+                  <input
+                    placeholder="수령인 성함"
+                    value={newAddress.recipient}
+                    onChange={e => setNewAddress({ ...newAddress, recipient: e.target.value })}
+                    className="w-full p-4 bg-white border border-border/50 rounded-2xl outline-none focus:border-primary transition-all font-medium"
+                  />
                 </div>
-                <input placeholder="주소" value={newAddress.address} readOnly className="w-full p-2 bg-[#1A1A1A] border border-[#333] rounded text-white" />
-                <input
-                  placeholder="상세주소"
-                  value={newAddress.detailAddress}
-                  onChange={e => setNewAddress({ ...newAddress, detailAddress: e.target.value })}
-                  className="w-full p-2 bg-[#1A1A1A] border border-[#333] rounded text-white"
-                />
-                <button onClick={handleAddNewAddress} className="w-full bg-blue-500 py-2 rounded text-white">등록하기</button>
-              </div>
-            )}
-
-            <div className="space-y-4">
-              {addresses.map(addr => (
-                <div key={addr.id} className="bg-[#0A0A0A] border border-[#333] rounded-lg p-4 flex justify-between items-start">
-                  <div>
-                    <div className="font-bold text-white">{addr.name} {addr.isDefault && <span className="text-xs text-blue-400 border border-blue-400 px-1 rounded ml-2">기본</span>}</div>
-                    <div className="text-gray-400 text-sm">{addr.recipient} | {addr.phone}</div>
-                    <div className="text-gray-400 text-sm">({addr.zipCode}) {addr.address} {addr.detailAddress}</div>
-                  </div>
-                  <button onClick={() => handleRemoveAddress(addr.id)} className="text-red-400 hover:text-red-300">
-                    <Trash2 className="w-4 h-4" />
+                <div className="flex gap-2">
+                  <input
+                    placeholder="우편번호"
+                    value={newAddress.zipCode}
+                    readOnly
+                    className="flex-1 p-4 bg-white border border-border/50 rounded-2xl outline-none font-medium"
+                  />
+                  <button
+                    onClick={handleAddressSearch}
+                    className="bg-accent hover:bg-accent/90 text-white px-6 rounded-2xl font-bold transition-all shadow-md shadow-accent/10"
+                  >
+                    주소 검색
                   </button>
                 </div>
-              ))}
+                <input
+                  placeholder="기본 주소"
+                  value={newAddress.address}
+                  readOnly
+                  className="w-full p-4 bg-white border border-border/50 rounded-2xl outline-none font-medium"
+                />
+                <input
+                  placeholder="상세 주소를 입력해주세요"
+                  value={newAddress.detailAddress}
+                  onChange={e => setNewAddress({ ...newAddress, detailAddress: e.target.value })}
+                  className="w-full p-4 bg-white border border-border/50 rounded-2xl outline-none focus:border-primary transition-all font-medium"
+                />
+                <button
+                  onClick={handleAddNewAddress}
+                  className="w-full bg-primary hover:bg-primary/90 text-white py-5 rounded-2xl font-bold transition-all shadow-lg shadow-primary/20"
+                >
+                  기본 배송지로 등록
+                </button>
+              </motion.div>
+            )}
+
+            <div className="grid gap-4">
+              {addresses.length === 0 ? (
+                <div className="py-20 text-center bg-secondary/10 rounded-3xl border border-dashed border-border/50">
+                  <MapPin className="w-12 h-12 text-muted-foreground/20 mx-auto mb-4" />
+                  <p className="text-muted-foreground font-pretendard">등록된 배송지가 없습니다.</p>
+                </div>
+              ) : (
+                addresses.map(addr => (
+                  <div key={addr.id} className="group bg-white border border-border/50 rounded-2xl p-6 flex justify-between items-center hover:border-primary/30 hover:shadow-lg hover:shadow-primary/5 transition-all">
+                    <div>
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="font-bold text-lg text-foreground">{addr.name}</span>
+                        {addr.isDefault && (
+                          <span className="text-[10px] font-bold px-2 py-0.5 bg-primary/10 text-primary rounded-full uppercase">기본 배송지</span>
+                        )}
+                      </div>
+                      <div className="text-sm text-muted-foreground font-medium mb-1">
+                        {addr.recipient} <span className="mx-1 text-border">|</span> {addr.phone}
+                      </div>
+                      <div className="text-sm text-foreground/70">
+                        <span className="text-xs text-muted-foreground mr-1 font-mono">[{addr.zipCode}]</span> {addr.address} {addr.detailAddress}
+                      </div>
+                    </div>
+                    <button
+                      onClick={() => handleRemoveAddress(addr.id)}
+                      className="w-10 h-10 flex items-center justify-center rounded-xl text-muted-foreground/30 hover:text-red-500 hover:bg-red-50 transition-all"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  </div>
+                ))
+              )}
             </div>
           </div>
         )}

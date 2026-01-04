@@ -46,8 +46,8 @@ const MyPage = () => {
   if (loading) {
     console.log('🔄 로딩 중...');
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     );
   }
@@ -55,12 +55,12 @@ const MyPage = () => {
   if (!user) {
     console.log('❌ 사용자 없음, 로그인 페이지로 리다이렉트');
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <p className="text-gray-600 mb-4">로그인이 필요합니다.</p>
+      <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
+        <div className="text-center p-8 bg-card rounded-2xl border border-border/50 shadow-xl">
+          <p className="text-muted-foreground mb-6 font-pretendard">로그인이 필요합니다.</p>
           <button
             onClick={() => setLocation('/login')}
-            className="bg-purple-500 text-white px-4 py-2 rounded"
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-full font-medium transition-all shadow-lg shadow-primary/20"
           >
             로그인하러 가기
           </button>
@@ -73,19 +73,15 @@ const MyPage = () => {
   const renderTabContent = () => {
     console.log('🎯 renderTabContent 호출됨! activeTab:', activeTab);
 
-    // MY 쇼핑 - 원래 컴포넌트 복구
     if (activeTab === 'shopping') {
       try {
         return <ShoppingSection />;
       } catch (error) {
         console.error('🛒 ShoppingSection 에러:', error);
         return (
-          <div className="min-h-[400px] bg-red-500 p-8 text-white">
-            <h1 className="text-4xl font-bold mb-4">🛒 MY 쇼핑 에러</h1>
-            <p className="text-xl">ShoppingSection에서 에러 발생!</p>
-            <div className="mt-4 bg-white text-black p-4 rounded">
-              <p>에러: {error?.toString()}</p>
-            </div>
+          <div className="min-h-[400px] bg-red-50 p-8 rounded-xl border border-red-100 text-red-600">
+            <h1 className="text-2xl font-bold mb-4">🛒 MY 쇼핑 에러</h1>
+            <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
           </div>
         );
       }
@@ -97,12 +93,9 @@ const MyPage = () => {
       } catch (error) {
         console.error('❤️ ActivitySection 에러:', error);
         return (
-          <div className="min-h-[400px] bg-red-500 p-8 text-white">
-            <h1 className="text-4xl font-bold mb-4">❤️ MY 활동 에러</h1>
-            <p className="text-xl">ActivitySection에서 에러 발생!</p>
-            <div className="mt-4 bg-white text-black p-4 rounded">
-              <p>에러: {error?.toString()}</p>
-            </div>
+          <div className="min-h-[400px] bg-red-50 p-8 rounded-xl border border-red-100 text-red-600">
+            <h1 className="text-2xl font-bold mb-4">❤️ MY 활동 에러</h1>
+            <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
           </div>
         );
       }
@@ -114,12 +107,9 @@ const MyPage = () => {
       } catch (error) {
         console.error('👤 ProfileSection 에러:', error);
         return (
-          <div className="min-h-[400px] bg-red-500 p-8 text-white">
-            <h1 className="text-4xl font-bold mb-4">👤 MY 정보 에러</h1>
-            <p className="text-xl">ProfileSection에서 에러 발생!</p>
-            <div className="mt-4 bg-white text-black p-4 rounded">
-              <p>에러: {error?.toString()}</p>
-            </div>
+          <div className="min-h-[400px] bg-red-50 p-8 rounded-xl border border-red-100 text-red-600">
+            <h1 className="text-2xl font-bold mb-4">👤 MY 정보 에러</h1>
+            <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
           </div>
         );
       }
@@ -131,29 +121,22 @@ const MyPage = () => {
       } catch (error) {
         console.error('🎧 SupportSection 에러:', error);
         return (
-          <div className="min-h-[400px] bg-red-500 p-8 text-white">
-            <h1 className="text-4xl font-bold mb-4">🎧 고객지원 에러</h1>
-            <p className="text-xl">SupportSection에서 에러 발생!</p>
-            <div className="mt-4 bg-white text-black p-4 rounded">
-              <p>에러: {error?.toString()}</p>
-            </div>
+          <div className="min-h-[400px] bg-red-50 p-8 rounded-xl border border-red-100 text-red-600">
+            <h1 className="text-2xl font-bold mb-4">🎧 고객지원 에러</h1>
+            <p>데이터를 불러오는 중 문제가 발생했습니다.</p>
           </div>
         );
       }
     }
 
-    // 기본값
     return (
-      <div className="min-h-[400px] bg-yellow-500 p-8 text-black">
-        <h1 className="text-4xl font-bold">⚠️ 기본 테스트</h1>
-        <p>노란 박스 - 기본 상태</p>
+      <div className="min-h-[400px] bg-background p-8 text-muted-foreground flex items-center justify-center">
+        <p>선택된 탭이 없습니다.</p>
       </div>
     );
   };
 
   console.log('🎨 마이페이지 렌더링 시작');
-  console.log('🔍 사용자 정보:', user);
-  console.log('🔍 활성 탭:', activeTab);
 
   return (
     <motion.div
@@ -161,27 +144,27 @@ const MyPage = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen bg-background text-foreground pt-20"
+      className="min-h-screen bg-background text-foreground pt-24 pb-20"
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
-        <motion.div variants={fadeIn} className="mb-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div variants={fadeIn} className="mb-10 text-center md:text-left">
           <h1 className={`${headingClasses} text-4xl mb-4 text-foreground`}>
             마이<span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">페이지</span>
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground font-pretendard">
             안녕하세요, <span className="font-semibold text-primary">{user?.name || '사용자'}</span>님!
-            더 온밀에서 따뜻한 하루 보내세요 🍞
+            오늘도 더 온밀과 함께 기분 좋은 하루 보내세요 ✨
           </p>
 
           {/* 탭 네비게이션 */}
-          <div className="mt-6">
-            {/* 데스크톱 탭 네비게이션 */}
-            <div className="hidden md:flex flex-wrap gap-4">
+          <div className="mt-8">
+            {/* 데스크톱 상단 탭 */}
+            <div className="hidden md:flex flex-wrap gap-2 p-1 bg-secondary/30 rounded-2xl w-fit">
               <button
                 onClick={() => handleTabChange('shopping')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'shopping'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-sm ${activeTab === 'shopping'
+                  ? 'bg-white text-primary shadow-md transform scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
                   }`}
               >
                 <i className="fa-solid fa-shopping-bag mr-2"></i>
@@ -189,9 +172,9 @@ const MyPage = () => {
               </button>
               <button
                 onClick={() => handleTabChange('activity')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'activity'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-sm ${activeTab === 'activity'
+                  ? 'bg-white text-primary shadow-md transform scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
                   }`}
               >
                 <i className="fa-solid fa-heart mr-2"></i>
@@ -199,9 +182,9 @@ const MyPage = () => {
               </button>
               <button
                 onClick={() => handleTabChange('profile')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'profile'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-sm ${activeTab === 'profile'
+                  ? 'bg-white text-primary shadow-md transform scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
                   }`}
               >
                 <i className="fa-solid fa-user mr-2"></i>
@@ -209,9 +192,9 @@ const MyPage = () => {
               </button>
               <button
                 onClick={() => handleTabChange('support')}
-                className={`px-6 py-3 rounded-lg font-semibold transition-all ${activeTab === 'support'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-8 py-3 rounded-xl font-semibold transition-all duration-300 shadow-sm ${activeTab === 'support'
+                  ? 'bg-white text-primary shadow-md transform scale-[1.02]'
+                  : 'text-muted-foreground hover:text-foreground hover:bg-white/50'
                   }`}
               >
                 <i className="fa-solid fa-headset mr-2"></i>
@@ -219,46 +202,46 @@ const MyPage = () => {
               </button>
             </div>
 
-            {/* 모바일 탭 네비게이션 */}
-            <div className="md:hidden grid grid-cols-2 gap-3">
+            {/* 모바일 하단 탭 느낌의 그리드 */}
+            <div className="md:hidden grid grid-cols-2 gap-3 mt-4">
               <button
                 onClick={() => handleTabChange('shopping')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'shopping'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-4 py-4 rounded-2xl font-bold transition-all text-sm shadow-sm flex flex-col items-center gap-2 ${activeTab === 'shopping'
+                  ? 'bg-white text-primary ring-1 ring-primary/20'
+                  : 'bg-card text-muted-foreground'
                   }`}
               >
-                <i className="fa-solid fa-shopping-bag mr-1"></i>
+                <i className="fa-solid fa-shopping-bag text-lg"></i>
                 MY 쇼핑
               </button>
               <button
                 onClick={() => handleTabChange('activity')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'activity'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-4 py-4 rounded-2xl font-bold transition-all text-sm shadow-sm flex flex-col items-center gap-2 ${activeTab === 'activity'
+                  ? 'bg-white text-primary ring-1 ring-primary/20'
+                  : 'bg-card text-muted-foreground'
                   }`}
               >
-                <i className="fa-solid fa-heart mr-1"></i>
+                <i className="fa-solid fa-heart text-lg"></i>
                 MY 활동
               </button>
               <button
                 onClick={() => handleTabChange('profile')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'profile'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-4 py-4 rounded-2xl font-bold transition-all text-sm shadow-sm flex flex-col items-center gap-2 ${activeTab === 'profile'
+                  ? 'bg-white text-primary ring-1 ring-primary/20'
+                  : 'bg-card text-muted-foreground'
                   }`}
               >
-                <i className="fa-solid fa-user mr-1"></i>
+                <i className="fa-solid fa-user text-lg"></i>
                 MY 정보
               </button>
               <button
                 onClick={() => handleTabChange('support')}
-                className={`px-4 py-3 rounded-lg font-medium transition-all text-sm ${activeTab === 'support'
-                  ? 'bg-gradient-to-r from-primary to-accent text-white'
-                  : 'bg-secondary text-muted-foreground hover:text-foreground hover:bg-muted/10'
+                className={`px-4 py-4 rounded-2xl font-bold transition-all text-sm shadow-sm flex flex-col items-center gap-2 ${activeTab === 'support'
+                  ? 'bg-white text-primary ring-1 ring-primary/20'
+                  : 'bg-card text-muted-foreground'
                   }`}
               >
-                <i className="fa-solid fa-headset mr-1"></i>
+                <i className="fa-solid fa-headset text-lg"></i>
                 고객지원
               </button>
             </div>
@@ -266,7 +249,7 @@ const MyPage = () => {
         </motion.div>
 
         {/* 탭 컨텐츠 */}
-        <motion.div variants={slideInFromBottom} className="bg-secondary rounded-lg border border-border p-4 sm:p-6 md:p-8">
+        <motion.div variants={slideInFromBottom} className="bg-card rounded-3xl border border-border/50 p-4 sm:p-6 md:p-10 shadow-2xl shadow-primary/5">
           {renderTabContent()}
         </motion.div>
       </div>

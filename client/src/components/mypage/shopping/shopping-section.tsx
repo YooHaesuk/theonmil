@@ -58,52 +58,85 @@ const ShoppingSection = () => {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex items-center gap-3">
-        <Package className="w-8 h-8 text-[#A78BFA]" />
-        <h2 className="text-2xl font-bold text-white">MY 쇼핑</h2>
+        <Package className="w-8 h-8 text-primary" />
+        <h2 className="text-2xl font-bold text-foreground">MY 쇼핑</h2>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <button onClick={() => setSelectedFilter('all')} className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#A78BFA] transition-all">
-          <div className="text-sm text-gray-400 mb-2">총 주문</div>
-          <div className="text-2xl font-bold text-white">{loading ? '...' : `${totalOrders}건`}</div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <button
+          onClick={() => setSelectedFilter('all')}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'all' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50 hover:border-primary/30'}`}
+        >
+          <div className="text-sm text-muted-foreground mb-2 font-pretendard">총 주문 내역</div>
+          <div className="text-3xl font-bold text-foreground">{loading ? '...' : `${totalOrders}건`}</div>
         </button>
-        <button onClick={() => setSelectedFilter('shipping')} className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#A78BFA] transition-all">
-          <div className="text-sm text-gray-400 mb-2">배송 중</div>
-          <div className="text-2xl font-bold text-[#A78BFA]">{loading ? '...' : `${shippingOrders}건`}</div>
+
+        <button
+          onClick={() => setSelectedFilter('shipping')}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'shipping' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50 hover:border-primary/30'}`}
+        >
+          <div className="text-sm text-muted-foreground mb-2 font-pretendard">배송 중</div>
+          <div className="text-3xl font-bold text-primary">{loading ? '...' : `${shippingOrders}건`}</div>
         </button>
-        <button onClick={() => setSelectedFilter('delivered')} className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 text-left hover:border-[#10B981] transition-all">
-          <div className="text-sm text-gray-400 mb-2">총 구매금액</div>
-          <div className="text-2xl font-bold text-[#10B981]">{loading ? '...' : `${totalAmount.toLocaleString()}원`}</div>
+
+        <button
+          onClick={() => setSelectedFilter('delivered')}
+          className={`bg-white border rounded-2xl p-6 text-left transition-all duration-300 shadow-sm hover:shadow-md ${selectedFilter === 'delivered' ? 'border-accent ring-1 ring-accent/20' : 'border-border/50 hover:border-accent/30'}`}
+        >
+          <div className="text-sm text-muted-foreground mb-2 font-pretendard">총 구매 금액</div>
+          <div className="text-3xl font-bold text-accent">{loading ? '...' : `${totalAmount.toLocaleString()}원`}</div>
         </button>
       </div>
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#A78BFA] mx-auto"></div>
+        <div className="text-center py-20 bg-background/50 rounded-3xl border border-dashed border-border/50">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-muted-foreground font-pretendard">주문 내역을 불러오고 있어요...</p>
         </div>
       ) : orders.length === 0 ? (
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-12 text-center">
-          <Package className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-          <h3 className="text-xl font-semibold text-white mb-4">주문 내역이 없습니다</h3>
-          <button onClick={handleGoToProducts} className="bg-[#A78BFA] text-white px-6 py-3 rounded-lg">상품 둘러보기</button>
+        <div className="bg-white border border-border/50 rounded-3xl p-16 text-center shadow-sm">
+          <div className="w-20 h-20 bg-secondary/50 rounded-full flex items-center justify-center mx-auto mb-6">
+            <Package className="w-10 h-10 text-muted-foreground/30" />
+          </div>
+          <h3 className="text-xl font-bold text-foreground mb-2">아직 주문 내역이 없어요</h3>
+          <p className="text-muted-foreground mb-8 font-pretendard">맛있고 따뜻한 빵들을 구경하러 가보실까요?</p>
+          <button
+            onClick={handleGoToProducts}
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold transition-all shadow-lg shadow-primary/20"
+          >
+            인기 상품 구경하기
+          </button>
         </div>
       ) : (
-        <div className="space-y-4">
+        <div className="grid gap-4">
+          <h4 className="font-bold text-foreground mb-2 px-2">최근 주문 내역</h4>
           {orders
             .filter(order => {
               if (selectedFilter === 'all') return true;
               return order.status === selectedFilter;
             })
             .map(order => (
-              <div key={order.id} onClick={() => handleOrderClick(order.id)} className="bg-[#1A1A1A] border border-[#333] rounded-lg p-4 hover:border-[#A78BFA] cursor-pointer">
-                <div className="flex justify-between items-center mb-2">
-                  <span className="text-white font-medium">주문 #{order.id}</span>
-                  <span className="text-white font-bold">{order.total.toLocaleString()}원</span>
+              <div
+                key={order.id}
+                onClick={() => handleOrderClick(order.id)}
+                className="group bg-white border border-border/50 rounded-2xl p-5 hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all cursor-pointer flex justify-between items-center"
+              >
+                <div>
+                  <div className="flex items-center gap-3 mb-1">
+                    <span className="text-sm font-bold text-primary font-pretendard">주문번호 #{order.id}</span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold uppercase ${order.status === 'delivered' ? 'bg-accent/10 text-accent' : 'bg-primary/10 text-primary'}`}>
+                      {order.status === 'delivered' ? '배송 완료' : '배송 준비중'}
+                    </span>
+                  </div>
+                  <div className="text-xs text-muted-foreground font-pretendard">
+                    {new Date(order.createdAt).toLocaleDateString()} 주문
+                  </div>
                 </div>
-                <div className="text-sm text-gray-400">
-                  {new Date(order.createdAt).toLocaleDateString()} | {order.status}
+                <div className="text-right">
+                  <div className="text-lg font-bold text-foreground mb-1">{order.total.toLocaleString()}원</div>
+                  <div className="text-[10px] text-primary font-bold group-hover:underline">상세보기 ></div>
                 </div>
               </div>
             ))}

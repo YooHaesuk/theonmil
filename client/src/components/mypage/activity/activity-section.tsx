@@ -18,122 +18,115 @@ const ActivitySection = () => {
 
   if (loading) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-8">
         <div className="flex items-center gap-3">
-          <Heart className="w-8 h-8 text-[#EC4899]" />
-          <h2 className="text-2xl font-bold text-white">MY 활동</h2>
+          <Heart className="w-8 h-8 text-primary" />
+          <h2 className="text-2xl font-bold text-foreground">MY 활동</h2>
         </div>
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-12 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#EC4899] mx-auto mb-4"></div>
-          <p className="text-gray-400">활동 내역을 불러오는 중...</p>
+        <div className="bg-white border border-border/50 rounded-3xl p-20 text-center shadow-sm">
+          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto mb-6"></div>
+          <p className="text-muted-foreground font-pretendard">활동 내역을 불러오는 중입니다...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* 헤더 */}
       <div className="flex items-center gap-3">
-        <Heart className="w-8 h-8 text-[#EC4899]" />
-        <h2 className="text-2xl font-bold text-white">MY 활동</h2>
+        <Heart className="w-8 h-8 text-primary" />
+        <h2 className="text-2xl font-bold text-foreground">MY 활동</h2>
       </div>
 
       {/* 통계 카드 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 hover:border-[#EC4899] transition-colors cursor-pointer">
-          <div className="flex items-center gap-3 mb-2">
-            <Heart className="w-6 h-6 text-[#EC4899]" />
-            <h3 className="font-semibold text-white">찜한 상품</h3>
-          </div>
-          <p className="text-2xl font-bold text-[#EC4899]">2</p>
-          <p className="text-gray-400 text-sm">개</p>
-        </div>
-
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 hover:border-[#F59E0B] transition-colors cursor-pointer">
-          <div className="flex items-center gap-3 mb-2">
-            <Star className="w-6 h-6 text-[#F59E0B]" />
-            <h3 className="font-semibold text-white">작성한 리뷰</h3>
-          </div>
-          <p className="text-2xl font-bold text-[#F59E0B]">2</p>
-          <p className="text-gray-400 text-sm">개</p>
-        </div>
-
-        <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6 hover:border-[#10B981] transition-colors cursor-pointer">
-          <div className="flex items-center gap-3 mb-2">
-            <Gift className="w-6 h-6 text-[#10B981]" />
-            <h3 className="font-semibold text-white">보유 쿠폰</h3>
-          </div>
-          <p className="text-2xl font-bold text-[#10B981]">2</p>
-          <p className="text-gray-400 text-sm">장</p>
-        </div>
-      </div>
-
-      {/* 탭 메뉴 */}
-      <div className="flex gap-2 border-b border-[#333]">
-        <button
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div
           onClick={() => setActiveTab('wishlist')}
-          className={`px-4 py-2 font-medium transition-colors ${
-            activeTab === 'wishlist'
-              ? 'text-[#EC4899] border-b-2 border-[#EC4899]'
-              : 'text-gray-400 hover:text-white'
-          }`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'wishlist' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
         >
-          찜한 상품
-        </button>
-        <button
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+              <Heart className="w-5 h-5 text-primary group-hover:text-white" />
+            </div>
+            <h3 className="font-bold text-foreground">찜한 상품</h3>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <p className="text-3xl font-bold text-primary">2</p>
+            <p className="text-muted-foreground text-sm font-pretendard">개</p>
+          </div>
+        </div>
+
+        <div
           onClick={() => setActiveTab('reviews')}
-          className={`px-4 py-2 font-medium transition-colors ${
-            activeTab === 'reviews'
-              ? 'text-[#F59E0B] border-b-2 border-[#F59E0B]'
-              : 'text-gray-400 hover:text-white'
-          }`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'reviews' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
         >
-          작성한 리뷰
-        </button>
-        <button
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center group-hover:bg-accent group-hover:text-white transition-colors">
+              <Star className="w-5 h-5 text-accent group-hover:text-white" />
+            </div>
+            <h3 className="font-bold text-foreground">작성한 리뷰</h3>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <p className="text-3xl font-bold text-accent">2</p>
+            <p className="text-muted-foreground text-sm font-pretendard">개</p>
+          </div>
+        </div>
+
+        <div
           onClick={() => setActiveTab('coupons')}
-          className={`px-4 py-2 font-medium transition-colors ${
-            activeTab === 'coupons'
-              ? 'text-[#10B981] border-b-2 border-[#10B981]'
-              : 'text-gray-400 hover:text-white'
-          }`}
+          className={`bg-white border rounded-2xl p-6 hover:shadow-md transition-all cursor-pointer group ${activeTab === 'coupons' ? 'border-primary ring-1 ring-primary/20' : 'border-border/50'}`}
         >
-          보유 쿠폰
-        </button>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-10 h-10 bg-emerald-100 rounded-full flex items-center justify-center group-hover:bg-emerald-500 group-hover:text-white transition-colors">
+              <Gift className="w-5 h-5 text-emerald-600 group-hover:text-white" />
+            </div>
+            <h3 className="font-bold text-foreground">보유 쿠폰</h3>
+          </div>
+          <div className="flex items-baseline gap-1">
+            <p className="text-3xl font-bold text-emerald-600">2</p>
+            <p className="text-muted-foreground text-sm font-pretendard">장</p>
+          </div>
+        </div>
       </div>
 
       {/* 탭 컨텐츠 */}
-      <div className="bg-[#1A1A1A] border border-[#333] rounded-lg p-6">
+      <div className="bg-white border border-border/50 rounded-3xl p-8 sm:p-12 shadow-sm">
         {activeTab === 'wishlist' && (
-          <div className="text-center py-8">
-            <Heart className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">찜한 상품이 없습니다</h3>
-            <p className="text-gray-400 mb-6">마음에 드는 상품을 찜해보세요!</p>
-            <button className="bg-[#EC4899] hover:bg-[#DB2777] text-white px-6 py-3 rounded-lg font-medium transition-colors">
-              상품 둘러보기
+          <div className="text-center py-10">
+            <div className="w-20 h-20 bg-primary/5 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Heart className="w-10 h-10 text-primary/20" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2 font-pretendard">찜한 상품이 없습니다</h3>
+            <p className="text-muted-foreground mb-8 font-pretendard">마음에 드는 상품을 하트 버튼으로 찜해보세요!</p>
+            <button className="bg-primary hover:bg-primary/90 text-white px-10 py-4 rounded-full font-bold transition-all shadow-lg shadow-primary/20">
+              인기 상품 둘러보기
             </button>
           </div>
         )}
 
         {activeTab === 'reviews' && (
-          <div className="text-center py-8">
-            <Star className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">작성한 리뷰가 없습니다</h3>
-            <p className="text-gray-400 mb-6">구매한 상품에 대한 리뷰를 작성해보세요!</p>
-            <button className="bg-[#F59E0B] hover:bg-[#D97706] text-white px-6 py-3 rounded-lg font-medium transition-colors">
-              주문 내역 보기
+          <div className="text-center py-10">
+            <div className="w-20 h-20 bg-accent/5 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Star className="w-10 h-10 text-accent/20" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2 font-pretendard">작성한 리뷰가 없습니다</h3>
+            <p className="text-muted-foreground mb-8 font-pretendard">구매하신 상품의 맛과 경험을 다른 분들과 나누어보세요!</p>
+            <button className="border-2 border-accent text-accent hover:bg-accent hover:text-white px-10 py-4 rounded-full font-bold transition-all">
+              주문 내역에서 리뷰 작성하기
             </button>
           </div>
         )}
 
         {activeTab === 'coupons' && (
-          <div className="text-center py-8">
-            <Gift className="w-16 h-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">사용 가능한 쿠폰이 없습니다</h3>
-            <p className="text-gray-400 mb-6">이벤트나 구매를 통해 쿠폰을 받아보세요!</p>
-            <button className="bg-[#10B981] hover:bg-[#059669] text-white px-6 py-3 rounded-lg font-medium transition-colors">
-              상품 둘러보기
+          <div className="text-center py-10">
+            <div className="w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center mx-auto mb-6">
+              <Gift className="w-10 h-10 text-emerald-200" />
+            </div>
+            <h3 className="text-xl font-bold text-foreground mb-2 font-pretendard">보유하신 쿠폰이 없습니다</h3>
+            <p className="text-muted-foreground mb-8 font-pretendard">이벤트 참여와 구매를 통해 더 많은 혜택을 받아보세요!</p>
+            <button className="bg-emerald-500 hover:bg-emerald-600 text-white px-10 py-4 rounded-full font-bold transition-all shadow-lg shadow-emerald-200">
+              진행 중인 이벤트 보기
             </button>
           </div>
         )}
