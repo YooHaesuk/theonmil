@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'wouter';
-import logoImage from '@/assets/images/theonmil-logo.png';
+import logoImage from '@/assets/images/theonmil-logo.webp';
 
 const Footer = () => {
   return (

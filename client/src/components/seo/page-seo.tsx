@@ -13,7 +13,7 @@ export function PageSEO({
   title,
   description,
   keywords,
-  ogImage = 'https://theonmil.com/images/theonmil-logo.png',
+  ogImage = 'https://theonmil.com/images/theonmil-logo.webp',
   canonical,
   noindex = false,
 }: PageSEOProps) {

@@ -3,7 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/use-auth';
-import logoImage from '@/assets/images/theonmil-logo.png';
+import logoImage from '@/assets/images/theonmil-logo.webp';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
