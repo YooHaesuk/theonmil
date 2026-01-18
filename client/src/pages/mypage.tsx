@@ -9,6 +9,8 @@ import ShoppingSection from '@/components/mypage/shopping/shopping-section';
 import ActivitySection from '@/components/mypage/activity/activity-section';
 import ProfileSection from '@/components/mypage/profile/profile-section';
 import SupportSection from '@/components/mypage/support/support-section';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 const MyPage = () => {
   const { user, loading } = useAuth();
@@ -139,13 +141,20 @@ const MyPage = () => {
   console.log('🎨 마이페이지 렌더링 시작');
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageTransition}
-      className="min-h-screen bg-background text-foreground pt-24 pb-20"
-    >
+    <>
+      <PageSEO
+        title={seoData.mypage.title}
+        description={seoData.mypage.description}
+        keywords={seoData.mypage.keywords}
+        noindex={seoData.mypage.noindex}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageTransition}
+        className="min-h-screen bg-background text-foreground pt-40 pb-20"
+      >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div variants={fadeIn} className="mb-10 text-center md:text-left">
           <h1 className={`${headingClasses} text-4xl mb-4 text-foreground`}>
@@ -254,6 +263,7 @@ const MyPage = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 // 로컬 이미지 임포트
 import gangnamImg from '@/assets/images/stores/gangnam-store.webp';
@@ -67,12 +69,18 @@ const Stores = () => {
     : stores.filter(store => store.address.includes(selectedRegion));
 
   return (
-    <motion.div
+    <>
+      <PageSEO
+        title={seoData.stores.title}
+        description={seoData.stores.description}
+        keywords={seoData.stores.keywords}
+      />
+      <motion.div
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
+      className="min-h-screen pt-40 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -156,6 +164,7 @@ const Stores = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

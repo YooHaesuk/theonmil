@@ -3,6 +3,7 @@ import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/use-auth';
+import logoImage from '@/assets/images/theonmil-logo.png';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -62,9 +63,15 @@ export function Header() {
       >
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <div className="text-2xl md:text-3xl font-bold font-montserrat">
-              <span className="text-[#CEB372]">더 온밀</span>
+          <Link href="/" className="flex items-center gap-3">
+            <img
+              src={logoImage}
+              alt="더 온밀 로고"
+              className="h-14 md:h-16 w-auto object-contain"
+            />
+            <div className="flex flex-col">
+              <span className="text-xl md:text-2xl font-bold font-pretendard text-[#CEB372]">더 온밀</span>
+              <span className="text-xs md:text-sm font-montserrat text-[#CEB372]/80">The Onmil</span>
             </div>
           </Link>
 

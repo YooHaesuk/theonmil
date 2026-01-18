@@ -5,6 +5,8 @@ import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { formatPrice } from '@/lib/products';
 import { useToast } from '@/hooks/use-toast';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 // Sample cart data for checkout
 const cartItems = [
@@ -76,13 +78,20 @@ const Checkout = () => {
   };
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
-    >
+    <>
+      <PageSEO
+        title={seoData.checkout.title}
+        description={seoData.checkout.description}
+        keywords={seoData.checkout.keywords}
+        noindex={seoData.checkout.noindex}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageTransition}
+        className="min-h-screen pt-40 pb-20 bg-background"
+      >
       <div className="container mx-auto px-4">
         <motion.h1 variants={fadeIn} className="text-4xl font-bold font-montserrat mb-8 text-center text-foreground">
           <span className="bg-gradient-to-r from-primary to-accent text-transparent bg-clip-text">주문 결제</span>
@@ -474,6 +483,7 @@ const Checkout = () => {
         </div>
       </div>
     </motion.div>
+    </>
   );
 };
 

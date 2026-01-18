@@ -5,6 +5,8 @@ import { pageTransition, fadeIn, staggerContainer } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 // 리뷰 이미지 가져오기
 import reviewImage1 from '@/assets/images/reviews/review_image1.webp';
@@ -117,12 +119,18 @@ const Reviews = () => {
     : reviews;
 
   return (
-    <motion.div
+    <>
+      <PageSEO
+        title={seoData.reviews.title}
+        description={seoData.reviews.description}
+        keywords={seoData.reviews.keywords}
+      />
+      <motion.div
       initial="initial"
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
+      className="min-h-screen pt-40 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -225,6 +233,7 @@ const Reviews = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

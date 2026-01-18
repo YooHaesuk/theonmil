@@ -3,16 +3,24 @@ import { motion } from 'framer-motion';
 import { Link } from 'wouter';
 import { pageTransition, fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
 import { headingClasses, buttonClasses } from '@/lib/fonts';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 const Brand = () => {
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
-    >
+    <>
+      <PageSEO
+        title={seoData.brand.title}
+        description={seoData.brand.description}
+        keywords={seoData.brand.keywords}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageTransition}
+        className="min-h-screen pt-40 pb-20 bg-background"
+      >
       <div className="container mx-auto px-4">
         {/* Hero Section */}
         <div className="flex flex-col items-center text-center mb-16">
@@ -215,6 +223,7 @@ const Brand = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

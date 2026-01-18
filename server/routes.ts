@@ -2,13 +2,13 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertUserSchema, insertReviewSchema, type InsertUser, type InsertReview, insertProductSchema, insertUserAddressSchema } from "@shared/schema";
-import { checkCloudinaryConfig, uploadImage, deleteImage, getImageUrl } from "./cloudinary";
+import { uploadImage, deleteImage, getImageUrl } from "./cloudinary";
 import multer from 'multer';
 import nodemailer from 'nodemailer';
 
 export function registerRoutes(app: Express): Server {
-  // Cloudinary 설정 확인
-  checkCloudinaryConfig();
+  // 이미지 저장소: Cloudflare R2 (배포) / Cloudinary (로컬 개발)
+  console.log('📦 이미지 저장소: Cloudinary (로컬 개발용)');
 
   // Multer 설정 (메모리 저장)
   const upload = multer({

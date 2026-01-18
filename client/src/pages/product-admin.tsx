@@ -11,7 +11,7 @@ const ProductAdminPage = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen bg-[#0A0A0A] text-white pt-20"
+      className="min-h-screen bg-[#0A0A0A] text-white pt-40"
     >
       <div className="container mx-auto px-4 py-8">
         <motion.div variants={fadeIn} className="mb-8">

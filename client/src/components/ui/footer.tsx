@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'wouter';
+import logoImage from '@/assets/images/theonmil-logo.png';
 
 const Footer = () => {
   return (
@@ -8,9 +9,17 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
           {/* Brand */}
           <div>
-            <h3 className="text-2xl font-bold font-montserrat mb-6">
-              <span className="text-[#CEB372]">더 온밀</span>
-            </h3>
+            <div className="flex items-center gap-3 mb-6">
+              <img
+                src={logoImage}
+                alt="더 온밀 로고"
+                className="h-16 w-auto object-contain"
+              />
+              <div className="flex flex-col">
+                <span className="text-2xl font-bold font-pretendard text-[#CEB372]">더 온밀</span>
+                <span className="text-sm font-montserrat text-[#CEB372]/80">The Onmil</span>
+              </div>
+            </div>
             <p className="font-pretendard text-white/70 mb-6">온전한 밀의 맛, 더 온밀.<br />정직한 공정, 현장 기반 신뢰를 약속합니다.</p>
             <div className="flex space-x-4">
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">

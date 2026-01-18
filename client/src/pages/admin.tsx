@@ -130,7 +130,7 @@ const AdminDashboard = () => {
 
   if (!isAdmin) {
     return (
-      <div className="min-h-screen bg-background text-foreground pt-20 flex items-center justify-center font-pretendard">
+      <div className="min-h-screen bg-background text-foreground pt-40 flex items-center justify-center font-pretendard">
         <div className="bg-card p-10 rounded-3xl border border-border shadow-2xl text-center">
           <h1 className="text-2xl font-bold mb-4">접근 거부</h1>
           <p className="text-muted-foreground">관리자 권한이 필요합니다.</p>
@@ -145,7 +145,7 @@ const AdminDashboard = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen bg-background text-foreground pt-24 pb-20 font-pretendard"
+      className="min-h-screen bg-background text-foreground pt-40 pb-20 font-pretendard"
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-10">

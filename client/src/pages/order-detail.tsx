@@ -106,7 +106,7 @@ const OrderDetail = () => {
 
   return (
     <motion.div
-      className="min-h-screen bg-[#0A0A0A] pt-32 pb-12"
+      className="min-h-screen bg-[#0A0A0A] pt-40 pb-12"
       variants={pageTransition}
       initial="initial"
       animate="animate"

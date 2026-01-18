@@ -8,12 +8,19 @@ cloudinary.config({
   api_secret: getEnv("CLOUDINARY_API_SECRET"),
 });
 
-// 설정 확인 함수
+// 설정 확인 함수 (선택적)
 export const checkCloudinaryConfig = () => {
-  console.log('🔍 Cloudinary 설정 확인:');
-  console.log('- Cloud Name:', getEnv("CLOUDINARY_CLOUD_NAME") ? '✅ 설정됨' : '❌ 없음');
-  console.log('- API Key:', getEnv("CLOUDINARY_API_KEY") ? '✅ 설정됨' : '❌ 없음');
-  console.log('- API Secret:', getEnv("CLOUDINARY_API_SECRET") ? '✅ 설정됨' : '❌ 없음');
+  const cloudName = getEnv("CLOUDINARY_CLOUD_NAME");
+  const apiKey = getEnv("CLOUDINARY_API_KEY");
+  const apiSecret = getEnv("CLOUDINARY_API_SECRET");
+
+  if (!cloudName || !apiKey || !apiSecret) {
+    console.log('⚠️  Cloudinary 미설정 (로컬 개발 시 필요 시 설정)');
+    return false;
+  }
+
+  console.log('✅ Cloudinary 설정 완료');
+  return true;
 };
 
 // 이미지 업로드 함수

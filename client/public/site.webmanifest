@@ -1,0 +1,29 @@
+{
+  "name": "더 온밀 - 프리미엄 베이커리",
+  "short_name": "더 온밀",
+  "description": "온전한 밀의 맛, 더 온밀. 정직한 공정, 현장 기반 신뢰를 약속합니다.",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "theme_color": "#CEB372",
+  "background_color": "#3B1A0F",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "orientation": "portrait-primary",
+  "lang": "ko-KR",
+  "dir": "ltr",
+  "categories": ["food", "shopping", "lifestyle"]
+}
+

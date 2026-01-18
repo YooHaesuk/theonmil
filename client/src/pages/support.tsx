@@ -2,6 +2,8 @@ import { useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { fadeIn } from "@/lib/animations";
 import { useEffect } from "react";
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 const Support = () => {
     const [location] = useLocation();
@@ -270,8 +272,34 @@ const Support = () => {
 
     const { title, subtitle, content } = getContent();
 
+    // SEO 데이터 선택
+    const getSEOData = () => {
+        switch (location) {
+            case "/faq":
+                return seoData.faq;
+            case "/shipping":
+                return seoData.shipping;
+            case "/returns":
+                return seoData.returns;
+            case "/privacy":
+                return seoData.privacy;
+            case "/terms":
+                return seoData.terms;
+            default:
+                return seoData.faq;
+        }
+    };
+
+    const seo = getSEOData();
+
     return (
-        <div className="pt-24 pb-20 bg-background min-h-screen">
+        <>
+            <PageSEO
+                title={seo.title}
+                description={seo.description}
+                keywords={seo.keywords}
+            />
+            <div className="pt-40 pb-20 bg-background min-h-screen">
             <div className="container mx-auto px-4 max-w-4xl">
                 <motion.div
                     variants={fadeIn}
@@ -294,6 +322,7 @@ const Support = () => {
                 </motion.div>
             </div>
         </div>
+        </>
     );
 };
 

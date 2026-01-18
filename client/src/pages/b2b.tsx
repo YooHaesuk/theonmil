@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, slideInFromLeft, slideInFromRight } from '@/lib/animations';
 import { headingClasses } from '@/lib/fonts';
 import { useToast } from '@/hooks/use-toast';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 // 기업 제휴 이미지 임포트
 import partnershipImg from '@/assets/images/about/partnership.webp';
@@ -123,12 +125,18 @@ const B2B = () => {
   };
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
+    <>
+      <PageSEO
+        title={seoData.b2b.title}
+        description={seoData.b2b.description}
+        keywords={seoData.b2b.keywords}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
+      className="min-h-screen pt-40 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
@@ -327,6 +335,7 @@ const B2B = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

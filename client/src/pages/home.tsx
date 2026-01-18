@@ -11,26 +11,35 @@ import GiftSection from '@/components/home/gift-section';
 import B2BSection from '@/components/home/b2b-section';
 import StoresSection from '@/components/home/stores-section';
 import NewsletterSection from '@/components/home/newsletter-section';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 const Home = () => {
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageTransition}
-    >
-      <BakeryHeroGeometric />
-      <FeaturedProducts />
-      <AboutSection />
-      <ProductCategories />
-      <ProcessSection />
-      <ReviewsSection />
-      <GiftSection />
-      <B2BSection />
-      <StoresSection />
-      <NewsletterSection />
-    </motion.div>
+    <>
+      <PageSEO
+        title={seoData.home.title}
+        description={seoData.home.description}
+        keywords={seoData.home.keywords}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageTransition}
+      >
+        <BakeryHeroGeometric />
+        <FeaturedProducts />
+        <AboutSection />
+        <ProductCategories />
+        <ProcessSection />
+        <ReviewsSection />
+        <GiftSection />
+        <B2BSection />
+        <StoresSection />
+        <NewsletterSection />
+      </motion.div>
+    </>
   );
 };
 

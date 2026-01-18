@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { pageTransition, fadeIn, slideInFromBottom } from '@/lib/animations';
 import { useAuth } from '@/hooks/use-auth';
 import { useToast } from '@/hooks/use-toast';
+import { PageSEO } from '@/components/seo/page-seo';
+import { seoData } from '@/lib/seo-data';
 
 const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -33,13 +35,20 @@ const Login = () => {
   };
 
   return (
-    <motion.div
-      initial="initial"
-      animate="animate"
-      exit="exit"
-      variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 flex items-center justify-center bg-background"
-    >
+    <>
+      <PageSEO
+        title={seoData.login.title}
+        description={seoData.login.description}
+        keywords={seoData.login.keywords}
+        noindex={seoData.login.noindex}
+      />
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageTransition}
+        className="min-h-screen pt-40 pb-20 flex items-center justify-center bg-background"
+      >
       <div className="container mx-auto px-4 max-w-md">
         <motion.div variants={fadeIn} className="text-center mb-8">
           <h1 className="text-4xl font-bold font-montserrat mb-2 text-foreground">
@@ -112,6 +121,7 @@ const Login = () => {
         </motion.div>
       </div>
     </motion.div>
+    </>
   );
 };
 

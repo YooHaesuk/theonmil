@@ -79,7 +79,7 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 pb-20 flex items-center justify-center bg-background">
+      <div className="min-h-screen pt-40 pb-20 flex items-center justify-center bg-background">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
           <p className="text-muted-foreground">상품 정보를 불러오는 중...</p>
@@ -90,7 +90,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-screen pt-24 pb-20 flex items-center justify-center bg-background">
+      <div className="min-h-screen pt-40 pb-20 flex items-center justify-center bg-background">
         <div className="text-center">
           <h1 className={headingClasses.h2 + " text-foreground font-montserrat"}>제품을 찾을 수 없습니다</h1>
           <p className="mt-4 mb-6 text-muted-foreground font-pretendard">요청하신 제품이 존재하지 않거나 삭제되었을 수 있습니다.</p>
@@ -114,7 +114,7 @@ const ProductDetail = () => {
       animate="animate"
       exit="exit"
       variants={pageTransition}
-      className="min-h-screen pt-24 pb-20 bg-background"
+      className="min-h-screen pt-40 pb-20 bg-background"
     >
       <div className="container mx-auto px-4">
         <div className="flex flex-col lg:flex-row gap-12">
