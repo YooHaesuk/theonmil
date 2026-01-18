@@ -1,0 +1,28 @@
+# 더 온밀 (The Onmil) - Robots.txt
+# 모든 검색엔진 크롤러 허용
+
+User-agent: *
+Allow: /
+
+# 크롤링 제외 경로
+Disallow: /api/
+Disallow: /admin/
+Disallow: /_next/
+Disallow: /private/
+
+# 특정 검색엔진 최적화
+User-agent: Googlebot
+Allow: /
+
+User-agent: Yeti
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# 사이트맵 위치
+Sitemap: https://theonmil.com/sitemap.xml
+
+# 크롤링 속도 조절 (초 단위)
+Crawl-delay: 1
+
