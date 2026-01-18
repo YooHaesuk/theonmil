@@ -20,9 +20,8 @@ export const useAuth = () => {
   const loginWithSocial = async (provider: 'google' | 'naver' | 'kakao') => {
     await signIn.social({
       provider,
-      callbackURL: "/welcome" // We will refine this to only go to welcome for new users if possible, 
-      // but user specifically asked for "signup completion" to go there.
-      // For now, let's follow the user's request for the signup/login flow.
+      callbackURL: "/",              // 기존 회원 → 홈으로
+      newUserCallbackURL: "/welcome" // 신규 회원 → 환영 페이지로
     });
   };
 
