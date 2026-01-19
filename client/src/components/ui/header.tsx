@@ -68,6 +68,9 @@ export function Header() {
               src={logoImage}
               alt="더 온밀 로고"
               className="h-14 md:h-16 w-auto object-contain"
+              fetchPriority="high"
+              loading="eager"
+              decoding="sync"
             />
             <div className="flex flex-col">
               <span className="text-xl md:text-2xl font-bold font-pretendard text-[#CEB372]">더 온밀</span>
