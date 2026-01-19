@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'wouter';
-import logoImage from '@/assets/images/theonmil-logo-v2.webp';
+// 로고 이미지는 public 폴더에서 직접 서빙
+const logoImage = '/images/theonmil-logo.webp';
 
 const Footer = () => {
   return (

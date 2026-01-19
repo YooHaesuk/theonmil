@@ -3,7 +3,8 @@ import { Link, useLocation } from 'wouter';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useMediaQuery } from '@/hooks/use-mobile';
 import { useAuth } from '@/hooks/use-auth';
-import logoImage from '@/assets/images/theonmil-logo-v2.webp';
+// 로고 이미지는 public 폴더에서 직접 서빙
+const logoImage = '/images/theonmil-logo.webp';
 
 export function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
