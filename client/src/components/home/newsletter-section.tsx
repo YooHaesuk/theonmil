@@ -50,6 +50,9 @@ const NewsletterSection = () => {
           >
             <input
               type="email"
+              id="newsletterEmail"
+              name="newsletterEmail"
+              autoComplete="email"
               placeholder="이메일 주소를 입력하세요"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
