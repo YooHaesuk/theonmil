@@ -49,6 +49,9 @@ const ProductFilter = ({
           <div className="relative">
             <input
               type="text"
+              id="productSearch"
+              name="productSearch"
+              autoComplete="off"
               placeholder="제품명 또는 키워드로 검색"
               value={tempSearchQuery}
               onChange={(e) => setTempSearchQuery(e.target.value)}

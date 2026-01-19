@@ -127,6 +127,7 @@ const Checkout = () => {
                         type="text"
                         id="recipientName"
                         name="recipientName"
+                        autoComplete="name"
                         value={formData.recipientName}
                         onChange={handleChange}
                         required
@@ -141,6 +142,7 @@ const Checkout = () => {
                         type="tel"
                         id="phone"
                         name="phone"
+                        autoComplete="tel"
                         value={formData.phone}
                         onChange={handleChange}
                         required
@@ -150,13 +152,14 @@ const Checkout = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-1">
+                    <label htmlFor="checkoutEmail" className="block text-sm font-medium text-muted-foreground mb-1">
                       이메일
                     </label>
                     <input
                       type="email"
-                      id="email"
+                      id="checkoutEmail"
                       name="email"
+                      autoComplete="email"
                       value={formData.email}
                       onChange={handleChange}
                       required
@@ -174,6 +177,7 @@ const Checkout = () => {
                           type="text"
                           id="zipCode"
                           name="zipCode"
+                          autoComplete="postal-code"
                           value={formData.zipCode}
                           onChange={handleChange}
                           required
@@ -197,6 +201,7 @@ const Checkout = () => {
                       type="text"
                       id="address"
                       name="address"
+                      autoComplete="street-address"
                       value={formData.address}
                       onChange={handleChange}
                       required
@@ -212,6 +217,7 @@ const Checkout = () => {
                       type="text"
                       id="detailAddress"
                       name="detailAddress"
+                      autoComplete="address-line2"
                       value={formData.detailAddress}
                       onChange={handleChange}
                       required
@@ -220,12 +226,13 @@ const Checkout = () => {
                   </div>
 
                   <div>
-                    <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-1">
+                    <label htmlFor="deliveryMessage" className="block text-sm font-medium text-muted-foreground mb-1">
                       배송 메시지
                     </label>
                     <textarea
-                      id="message"
+                      id="deliveryMessage"
                       name="message"
+                      autoComplete="off"
                       value={formData.message}
                       onChange={handleChange}
                       rows={3}

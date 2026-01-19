@@ -100,6 +100,8 @@ const B2BSection = () => {
                   <input
                     type="text"
                     id="companyName"
+                    name="companyName"
+                    autoComplete="organization"
                     required
                     className="w-full rounded-full bg-secondary border-border text-foreground focus:ring-primary"
                   />
@@ -109,24 +111,30 @@ const B2BSection = () => {
                   <input
                     type="text"
                     id="contactName"
+                    name="contactName"
+                    autoComplete="name"
                     required
                     className="w-full rounded-full bg-secondary border-border text-foreground focus:ring-primary"
                   />
                 </div>
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-1">이메일</label>
+                <label htmlFor="b2bEmail" className="block text-sm font-medium text-muted-foreground mb-1">이메일</label>
                 <input
                   type="email"
-                  id="email"
+                  id="b2bEmail"
+                  name="email"
+                  autoComplete="email"
                   required
                   className="w-full rounded-full bg-secondary border-border text-foreground focus:ring-primary"
                 />
               </div>
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-1">문의 내용</label>
+                <label htmlFor="b2bMessage" className="block text-sm font-medium text-muted-foreground mb-1">문의 내용</label>
                 <textarea
-                  id="message"
+                  id="b2bMessage"
+                  name="message"
+                  autoComplete="off"
                   rows={4}
                   required
                   className="w-full rounded-xl bg-secondary border-border text-foreground focus:ring-primary"

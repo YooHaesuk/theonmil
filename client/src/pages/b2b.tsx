@@ -236,11 +236,12 @@ const B2B = () => {
           <form onSubmit={handleSubmit} className="max-w-3xl mx-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label htmlFor="companyName" className="block text-sm font-medium text-muted-foreground mb-1">회사명</label>
+                <label htmlFor="b2bPageCompanyName" className="block text-sm font-medium text-muted-foreground mb-1">회사명</label>
                 <input
                   type="text"
-                  id="companyName"
+                  id="b2bPageCompanyName"
                   name="companyName"
+                  autoComplete="organization"
                   value={formData.companyName}
                   onChange={handleChange}
                   required
@@ -248,11 +249,12 @@ const B2B = () => {
                 />
               </div>
               <div>
-                <label htmlFor="contactName" className="block text-sm font-medium text-muted-foreground mb-1">담당자명</label>
+                <label htmlFor="b2bPageContactName" className="block text-sm font-medium text-muted-foreground mb-1">담당자명</label>
                 <input
                   type="text"
-                  id="contactName"
+                  id="b2bPageContactName"
                   name="contactName"
+                  autoComplete="name"
                   value={formData.contactName}
                   onChange={handleChange}
                   required
@@ -263,11 +265,12 @@ const B2B = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-muted-foreground mb-1">이메일</label>
+                <label htmlFor="b2bPageEmail" className="block text-sm font-medium text-muted-foreground mb-1">이메일</label>
                 <input
                   type="email"
-                  id="email"
+                  id="b2bPageEmail"
                   name="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   required
@@ -275,11 +278,12 @@ const B2B = () => {
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-muted-foreground mb-1">연락처</label>
+                <label htmlFor="b2bPagePhone" className="block text-sm font-medium text-muted-foreground mb-1">연락처</label>
                 <input
                   type="tel"
-                  id="phone"
+                  id="b2bPagePhone"
                   name="phone"
+                  autoComplete="tel"
                   value={formData.phone}
                   onChange={handleChange}
                   required
@@ -289,10 +293,11 @@ const B2B = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="employees" className="block text-sm font-medium text-muted-foreground mb-1">임직원 수</label>
+              <label htmlFor="b2bPageEmployees" className="block text-sm font-medium text-muted-foreground mb-1">임직원 수</label>
               <select
-                id="employees"
+                id="b2bPageEmployees"
                 name="employees"
+                autoComplete="off"
                 value={formData.employees}
                 onChange={handleChange}
                 className="w-full rounded-full bg-background border border-border text-foreground px-4 py-2 focus:outline-none focus:ring-2 focus:ring-primary appearance-none"
@@ -306,10 +311,11 @@ const B2B = () => {
             </div>
 
             <div className="mb-6">
-              <label htmlFor="message" className="block text-sm font-medium text-muted-foreground mb-1">문의 내용</label>
+              <label htmlFor="b2bPageMessage" className="block text-sm font-medium text-muted-foreground mb-1">문의 내용</label>
               <textarea
-                id="message"
+                id="b2bPageMessage"
                 name="message"
+                autoComplete="off"
                 value={formData.message}
                 onChange={handleChange}
                 rows={4}
